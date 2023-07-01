@@ -1,0 +1,55 @@
+.shocontainername {
+    font-size: 20px;
+    font-weight: Bold;
+    background-color: rgba(255, 255, 255, 0);
+    z-index: 1;
+    position: absolute;
+    font-family: Inter;
+    top: 3%;
+}
+
+.text-block {
+    display: inline;
+    position: absolute;
+    z-index: 0;
+    top: 10%;
+    left: 7%;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid black;
+    width: 230px;
+    height: 30px;
+    white-space: nowrap;
+  }
+
+  .cpu-block {
+    display: subgrid;
+    position: absolute;
+    z-index: 0;
+    bottom: 70%;
+    left: 10%;
+    padding: 10px;
+    background-color: white;
+    width: 300px;
+    height: 200px;
+  }
+
+  .log-block {
+    
+  }
+
+  .memory-block {
+    
+  }
+
+  .disk-block {
+    
+  }
+
+  .networkin-block {
+    
+  }
+
+  .networkout-block {
+    
+  }

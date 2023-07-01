@@ -1,0 +1,49 @@
+.flogo {
+    width: 300px;
+    position: absolute;
+    transform: translate(-50%, 40%) rotate(180deg);
+}
+
+.fhomebtn {
+    width: 200px;
+    height: 50px;
+    background-color: gray;
+    opacity: 1;
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    color: white;
+    font-family: Inter;
+    font-weight: Bold;
+    font-size: 35px;
+    text-align: center;
+    border-radius:20px;
+    transform: translate(-50%, 0%);
+    border: none;
+}
+p {
+    background-color: rgba(255, 255, 255, 0);
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    font-family: Inter;
+  }
+.fmessage {
+    font-size: 60px;
+    font-weight: Bold;
+    bottom: 30%;
+}
+.fdone {
+    font-size: 30px;
+    font-weight: Bold;
+    bottom: 25%;
+    color: gray;
+}
+
+.fcheck {
+    font-size: 30px;
+    font-weight: Bold;
+    bottom: 18%;
+    color: gray;
+}

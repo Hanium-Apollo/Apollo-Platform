@@ -1,0 +1,29 @@
+
+
+.logoname {
+    width: 650px;
+    position: absolute;
+    transform: translate(-50%, 30%);
+}
+
+.login {
+    width: 400px;
+    height: 100px;
+    background-color: black;
+    opacity: 1;
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: Inter;
+    font-weight: Bold;
+    font-size: 35px;
+    text-align: center;
+    border-radius:20px;
+}
+
+.github {
+    width: 50px;
+    margin-right: 20px;
+}

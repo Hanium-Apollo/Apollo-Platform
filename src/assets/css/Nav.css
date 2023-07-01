@@ -1,0 +1,25 @@
+.navbar {
+    width: 100%;
+    background-color: white;
+    padding: 15px 0px;
+    text-align: right;
+}
+
+.navbar_logo {
+    height: 46px;
+    margin-left: 10px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .navbar_logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+.navbar_name {
+    font-family: Exo 2;
+    font-weight: Regular;
+    font-size: 22px;
+    opacity: 1;
+    margin-right:10px 
+  }

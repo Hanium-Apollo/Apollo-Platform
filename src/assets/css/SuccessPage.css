@@ -1,0 +1,66 @@
+.slogo {
+    width: 300px;
+    position: absolute;
+    transform: translate(-50%, 40%);
+}
+
+.shomebtn {
+    width: 200px;
+    height: 50px;
+    background-color: gray;
+    opacity: 1;
+    position: absolute;
+    bottom: 10%;
+    left: 35%;
+    color: white;
+    font-family: Inter;
+    font-weight: Bold;
+    font-size: 35px;
+    text-align: center;
+    border-radius:20px;
+    border: none;
+}
+
+.smonitorbtn {
+    width: 200px;
+    height: 50px;
+    background-color: gray;
+    opacity: 1;
+    position: absolute;
+    bottom: 10%;
+    right: 35%;
+    color: white;
+    font-family: Inter;
+    font-weight: Bold;
+    font-size: 35px;
+    text-align: center;
+    border-radius:20px;
+    border: none;
+
+}
+p {
+    background-color: rgba(255, 255, 255, 0);
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    font-family: Inter;
+  }
+.smessage {
+    font-size: 60px;
+    font-weight: Bold;
+    bottom: 30%;
+}
+.sdone {
+    font-size: 30px;
+    font-weight: Bold;
+    bottom: 25%;
+    color: gray;
+}
+
+.scheck {
+    font-size: 30px;
+    font-weight: Bold;
+    bottom: 18%;
+    color: gray;
+}

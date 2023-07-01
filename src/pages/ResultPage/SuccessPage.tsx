@@ -13,7 +13,7 @@ function Success() {
         navigate("/");
     };
     const goToMonitoring = () => {
-        navigate("/");
+        navigate("/monitor");
     };
     return (
         <div>

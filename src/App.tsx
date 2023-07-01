@@ -4,6 +4,7 @@ import Main from './pages/MainPage/MainPage';
 import Success from './pages/ResultPage/SuccessPage';
 import Fail from './pages/ResultPage/FailPage';
 import Nav from './pages/Nav/Nav'
+import Monitor from './pages/Monitoring/Monitor';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NightSky from './pages/MainPage/NightSky';
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Main />}></Route>
           <Route path="/success" element={<Success />}></Route>
           <Route path="/fail" element={<Fail />}></Route>
+          <Route path="/monitor" element={<Monitor />}></Route>
         </Routes>
         <NightSky />
       </BrowserRouter>

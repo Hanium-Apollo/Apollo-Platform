@@ -1,4 +1,4 @@
-.shocontainername {
+.container-name {
     font-size: 20px;
     font-weight: Bold;
     background-color: rgba(255, 255, 255, 0);
@@ -12,10 +12,9 @@
     display: inline;
     position: absolute;
     z-index: 0;
-    top: 10%;
-    left: 7%;
-    padding: 10px;
-    background-color: white;
+    top: 9%;
+    left: 6%;
+    background-color: whitesmoke;
     border: 1px solid black;
     width: 230px;
     height: 30px;
@@ -23,33 +22,128 @@
   }
 
   .cpu-block {
-    display: subgrid;
+    display: block;
     position: absolute;
     z-index: 0;
-    bottom: 70%;
-    left: 10%;
-    padding: 10px;
-    background-color: white;
-    width: 300px;
-    height: 200px;
+    bottom: 53%;
+    left: 9%;
+    background-color: whitesmoke;
+    width: 25%;
+    height: 30%;
   }
 
   .log-block {
-    
+    display: block;
+    position: absolute;
+    z-index: 0;
+    bottom: 53%;
+    left: 39%;
+    background-color: whitesmoke;
+    width: 25%;
+    height: 30%;
   }
 
   .memory-block {
-    
+    display: block;
+    position: absolute;
+    z-index: 0;
+    bottom: 53%;
+    left: 69%;
+    background-color: whitesmoke;
+    width: 25%;
+    height: 30%;
   }
 
   .disk-block {
-    
+    display: block;
+    position: absolute;
+    z-index: 0;
+    bottom: 15%;
+    left: 9%;
+    background-color: whitesmoke;
+    width: 25%;
+    height: 30%;
   }
 
   .networkin-block {
-    
+    display: block;
+    position: absolute;
+    z-index: 0;
+    bottom: 15%;
+    left: 39%;
+    background-color: whitesmoke;
+    width: 25%;
+    height: 30%;
   }
 
   .networkout-block {
-    
+    display: block;
+    position: absolute;
+    z-index: 0;
+    bottom: 15%;
+    left: 69%;
+    background-color: whitesmoke;
+    width: 25%;
+    height: 30%;
+  }
+
+  .NameBlock {
+    display: block;
+    position: absolute;
+    z-index: 0;
+    background-color: gray;
+    width: 100%;
+    height: 15%;
+  }
+
+  .back-button {
+    width: 15%;
+    height: 7%;
+    background-color: gray;
+    opacity: 1;
+    position: absolute;
+    left: 33%;
+    bottom: 2%;
+    color: white;
+    font-family: Inter;
+    font-weight: Bold;
+    text-align: center;
+    border: none;
+    border-radius: 1000px;
+  }
+
+  .home-button {
+    width: 15%;
+    height: 7%;
+    background-color: gray;
+    opacity: 1;
+    position: absolute;
+    left: 53%;
+    bottom: 2%;
+    color: white;
+    font-family: Inter;
+    font-weight: Bold;
+    text-align: center;
+    border: none;
+    border-radius: 1000px;
+  }
+
+  .text-match {
+    font-size: 1.5vw;
+    font-weight: Bold;
+    color: white;
+    z-index: 1;
+    position: absolute;
+    font-family: Acne;
+    top: 10%;
+  }
+
+  .button-text {
+    font-size: 2vw;
+    font-weight: Bold;
+    background-color: rgba(255, 255, 255, 0);
+    z-index: 1;
+    position: absolute;
+    font-family: Inter;
+    top: 15%;
   }

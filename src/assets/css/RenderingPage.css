@@ -1,0 +1,32 @@
+
+.rmessage {
+    font-size: 4vw;
+    font-weight: Bold;
+    top: 30%;
+}
+
+.loading-container {
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .moving-image {
+    width: 100px;
+    height: 100px;
+    background-image: url("../../assets/images/logo.png");
+    background-size: cover;
+    position: absolute;
+    left: 50%;
+    bottom: 30%;
+    animation: moveImage 3s linear infinite;
+  }
+  
+  @keyframes moveImage {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: calc(100% - 10%);
+    }
+  }
+  

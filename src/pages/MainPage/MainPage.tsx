@@ -2,6 +2,8 @@ import React, {useState, useEffect} from "react";
 import logoname from '../../assets/images/logoname.png';
 import github from '../../assets/images/github_logo.png';
 import '../../assets/css/MainPage.css';
+import { useNavigate } from "react-router-dom";
+
 
 export function handleLogout() {
     localStorage.removeItem("isLogin");
@@ -9,8 +11,13 @@ export function handleLogout() {
 }
 
 function Main() {
+    const navigate = useNavigate();
     const [inputValue1, setInputValue1] = useState('');
     const [inputValue2, setInputValue2] = useState('');
+
+    const goToRendering = () => {
+        navigate("/rendering");
+    };
 
 
     const handleLogin = () => {
@@ -53,7 +60,7 @@ function Main() {
                 <form onSubmit={handleLogin}>
                 <input className="inputname" type="text" value={inputValue1} onChange={handleInputChange1} placeholder="서비스 이름을 입력해주세요"/>
                 <input className="inputURL" type="text" value={inputValue2} onChange={handleInputChange2} placeholder="Github URL을 입력해주세요"/>
-                <button className="startbtn" type="submit">start</button>
+                <button className="startbtn" type="submit" onClick={goToRendering}>start</button>
                 </form>
             ) : (
                 <button className="login" onClick={handleLogin}>

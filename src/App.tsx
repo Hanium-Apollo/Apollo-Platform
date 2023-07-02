@@ -7,6 +7,7 @@ import Nav from './pages/Nav/Nav'
 import Monitor from './pages/Monitoring/Monitor';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NightSky from './pages/MainPage/NightSky';
+import Rendering from './pages/RenderingPage/RenderingPage';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/success" element={<Success />}></Route>
           <Route path="/fail" element={<Fail />}></Route>
           <Route path="/monitor" element={<Monitor />}></Route>
+          <Route path="/rendering" element={<Rendering />}></Route>
         </Routes>
         <NightSky />
       </BrowserRouter>

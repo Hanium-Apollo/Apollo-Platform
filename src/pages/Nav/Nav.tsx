@@ -5,7 +5,6 @@ import '../../assets/css/Nav.css';
 import { handleLogout } from '../MainPage/MainPage';
 
 function Nav(){
-    const [isLogin, setIsLogin] = useState(false);
 
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
@@ -33,15 +32,16 @@ function Nav(){
             <img src={logo} className="navbar_logo" alt="logo" />
             </Link>
             <div className='dropdown'>
-                <button className="dropdown-toggle" onClick={toggleDropdown}>
+                {localStorage.getItem("isLogin") && <button className="dropdown-toggle" onClick={toggleDropdown}>
                 닉네임
-                </button>
+                </button>}
+                
                 {isOpen && (
                     <ul className="dropdown-menu">
                         <li onClick={GotoMain} style={{ cursor: 'pointer' }}>Home</li>
                         <li onClick={GotoFail} style={{ cursor: 'pointer' }}>Fail</li>
                         <li onClick={GotoSuccess} style={{ cursor: 'pointer' }}>Success</li>
-                        <li onClick={() => handleLogout(setIsLogin)} style={{ cursor: 'pointer' }}>Logout</li>
+                        <li onClick={() => handleLogout()} style={{ cursor: 'pointer' }}>Logout</li>
                     </ul>
                 )}
             </div>

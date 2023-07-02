@@ -3,31 +3,22 @@ import logoname from '../../assets/images/logoname.png';
 import github from '../../assets/images/github_logo.png';
 import '../../assets/css/MainPage.css';
 
-export function handleLogout(setIsLogin: React.Dispatch<React.SetStateAction<boolean>>) {
-    setIsLogin(false);
+export function handleLogout() {
     localStorage.removeItem("isLogin");
     window.location.href = "/";
 }
 
 function Main() {
-    const [isLogin, setIsLogin] = useState(false);
     const [inputValue1, setInputValue1] = useState('');
-  const [inputValue2, setInputValue2] = useState('');
+    const [inputValue2, setInputValue2] = useState('');
 
-  useEffect(() => {
-    const storedIsLogin = localStorage.getItem("isLogin");
-    if (storedIsLogin) {
-      setIsLogin(JSON.parse(storedIsLogin));
-    }
-  }, []);
 
-  const handleLogin = () => {
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=eb98b73d98c77c524840&redirect_uri=http://localhost:3000/`;
-    window.location.href = githubAuthUrl;
-    setIsLogin(true);
-    localStorage.setItem("isLogin", JSON.stringify(true));
-  };
-  const [accessToken, setAccessToken] = useState('');
+    const handleLogin = () => {
+        const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=eb98b73d98c77c524840&redirect_uri=http://localhost:3000/`;
+        window.location.href = githubAuthUrl;
+        localStorage.setItem("isLogin", JSON.stringify(true));
+    };
+    const [accessToken, setAccessToken] = useState('');
     const handleCallback = () => {
         const urlParams = new URLSearchParams(window.location.search);
 
@@ -58,7 +49,7 @@ function Main() {
     return (
         <div>
             <img src={logoname} className="logoname" alt="logoname" />
-            {isLogin ? (
+            {localStorage.getItem("isLogin") ? (
                 <form onSubmit={handleLogin}>
                 <input className="inputname" type="text" value={inputValue1} onChange={handleInputChange1} placeholder="서비스 이름을 입력해주세요"/>
                 <input className="inputURL" type="text" value={inputValue2} onChange={handleInputChange2} placeholder="Github URL을 입력해주세요"/>

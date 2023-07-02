@@ -1,22 +1,44 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import logoname from '../../assets/images/logoname.png';
 import github from '../../assets/images/github_logo.png';
 import '../../assets/css/MainPage.css';
 
-
+export function handleLogout(setIsLogin: React.Dispatch<React.SetStateAction<boolean>>) {
+    setIsLogin(false);
+    localStorage.removeItem("isLogin");
+    window.location.href = "/";
+}
 
 function Main() {
     const [isLogin, setIsLogin] = useState(false);
     const [inputValue1, setInputValue1] = useState('');
   const [inputValue2, setInputValue2] = useState('');
 
-  const handleLogin = () => {
-    // 깃허브 OAuth 인증 URL
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=eb98b73d98c77c524840&redirect_uri=http://localhost:3000/success`;
+  useEffect(() => {
+    const storedIsLogin = localStorage.getItem("isLogin");
+    if (storedIsLogin) {
+      setIsLogin(JSON.parse(storedIsLogin));
+    }
+  }, []);
 
-    // 깃허브 OAuth 인증 페이지로 리다이렉트
+  const handleLogin = () => {
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=eb98b73d98c77c524840&redirect_uri=http://localhost:3000/`;
     window.location.href = githubAuthUrl;
+    setIsLogin(true);
+    localStorage.setItem("isLogin", JSON.stringify(true));
   };
+  const [accessToken, setAccessToken] = useState('');
+    const handleCallback = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        const code = urlParams.get('code');
+        if (code) {
+          setAccessToken(code);
+          console.log(code);
+        } else {
+          console.log('Error: No access code found.');
+        }
+      };
 
   const handleInputChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue1(event.target.value);

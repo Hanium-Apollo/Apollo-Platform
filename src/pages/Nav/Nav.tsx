@@ -2,7 +2,7 @@ import React, {useState}  from 'react';
 import { useNavigate, Link} from 'react-router-dom';
 import logo from '../../assets/images/logoname.png';
 import '../../assets/css/Nav.css';
-
+import { handleLogout } from '../MainPage/MainPage';
 
 function Nav(){
     const [isLogin, setIsLogin] = useState(false);
@@ -25,6 +25,7 @@ function Nav(){
     const toggleDropdown = () => {
     setIsOpen(!isOpen);
     };
+    
 
     return (
         <nav className='navbar'>
@@ -40,6 +41,7 @@ function Nav(){
                         <li onClick={GotoMain} style={{ cursor: 'pointer' }}>Home</li>
                         <li onClick={GotoFail} style={{ cursor: 'pointer' }}>Fail</li>
                         <li onClick={GotoSuccess} style={{ cursor: 'pointer' }}>Success</li>
+                        <li onClick={() => handleLogout(setIsLogin)} style={{ cursor: 'pointer' }}>Logout</li>
                     </ul>
                 )}
             </div>

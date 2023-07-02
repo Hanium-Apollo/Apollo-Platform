@@ -8,18 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 function Success() {
     const navigate = useNavigate();
-    const [accessToken, setAccessToken] = useState('');
-    const handleCallback = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-
-        const code = urlParams.get('code');
-        if (code) {
-          setAccessToken(code);
-          console.log(code);
-        } else {
-          console.log('Error: No access code found.');
-        }
-      };
     const goToMain = () => {
         navigate("/");
     };

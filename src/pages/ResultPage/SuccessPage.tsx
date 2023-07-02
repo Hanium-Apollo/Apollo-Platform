@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import logo from '../../assets/images/logo.png';
 import '../../assets/css/SuccessPage.css';
 import { useNavigate } from "react-router-dom";
@@ -8,12 +8,23 @@ import { useNavigate } from "react-router-dom";
 
 function Success() {
     const navigate = useNavigate();
+    const [accessToken, setAccessToken] = useState('');
+    const handleCallback = () => {
+        const urlParams = new URLSearchParams(window.location.search);
 
+        const code = urlParams.get('code');
+        if (code) {
+          setAccessToken(code);
+          console.log(code);
+        } else {
+          console.log('Error: No access code found.');
+        }
+      };
     const goToMain = () => {
         navigate("/");
     };
     const goToMonitoring = () => {
-        navigate("/monitor");
+        navigate("/");
     };
     return (
         <div>

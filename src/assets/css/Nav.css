@@ -1,7 +1,7 @@
 .navbar {
     width: 100%;
     background-color: white;
-    padding: 15px 0px;
+    padding: 10%;
     text-align: right;
 }
 
@@ -10,16 +10,42 @@
     margin-left: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .navbar_logo {
-      animation: App-logo-spin infinite 20s linear;
-    }
-}
-
-.navbar_name {
+  .dropdown {
+    position: relative;
+    display: inline-block;
     font-family: Exo 2;
     font-weight: Regular;
-    font-size: 22px;
+    font-size: 1.5vw;
     opacity: 1;
     margin-right:10px 
   }
+  
+  .dropdown-toggle {
+    background-color: white;
+    background-image: none;
+    border: none;
+    background-image: none !important;
+    padding-right: 0 !important;
+  }
+  
+  .dropdown-toggle::after {
+    display: none !important;
+  }
+  
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 10%;
+    background-color: #fff;
+  }
+  
+  .dropdown-menu li {
+    text-align: center;
+    list-style: none;
+    padding: 1%;
+  }
+  
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  

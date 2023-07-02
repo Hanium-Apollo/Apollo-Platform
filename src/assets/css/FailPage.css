@@ -1,12 +1,14 @@
 .flogo {
-    width: 300px;
+    width: 30%;
     position: absolute;
-    transform: translate(-50%, 40%) rotate(180deg);
-}
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+  }
 
 .fhomebtn {
-    width: 200px;
-    height: 50px;
+    width: 17%;
+    height: 7%;
     background-color: gray;
     opacity: 1;
     position: absolute;
@@ -15,9 +17,9 @@
     color: white;
     font-family: Inter;
     font-weight: Bold;
-    font-size: 35px;
+    font-size: 2vw;
     text-align: center;
-    border-radius:20px;
+    border-radius: 1000px;
     transform: translate(-50%, 0%);
     border: none;
 }
@@ -30,19 +32,19 @@ p {
     font-family: Inter;
   }
 .fmessage {
-    font-size: 60px;
+    font-size: 4vw;
     font-weight: Bold;
     bottom: 30%;
 }
 .fdone {
-    font-size: 30px;
+    font-size: 2vw;
     font-weight: Bold;
     bottom: 25%;
     color: gray;
 }
 
 .fcheck {
-    font-size: 30px;
+    font-size: 2vw;
     font-weight: Bold;
     bottom: 18%;
     color: gray;

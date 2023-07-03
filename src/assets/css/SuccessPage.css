@@ -43,6 +43,7 @@
   .smessage {
     font-size: 4vw;
     font-weight: bold;
+    color: white;
     bottom: 30%;
   }
   
@@ -50,13 +51,13 @@
     font-size: 2vw;
     font-weight: bold;
     bottom: 25%;
-    color: gray;
+    color: white;
   }
   
   .scheck {
     font-size: 2vw;
     font-weight: bold;
     bottom: 18%;
-    color: gray;
+    color: white;
   }
   

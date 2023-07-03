@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import starImage from '../../assets/images/logo.png'; // 별 이미지의 경로에 맞게 수정해야 함
 
 function NightSky() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -10,8 +9,7 @@ function NightSky() {
     const height = window.innerHeight;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff);
-
+    scene.background = new THREE.Color(0x333333); // 배경색을 검은색으로 설정
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     camera.position.z = 5;
 
@@ -19,23 +17,20 @@ function NightSky() {
     renderer.setSize(width, height);
 
     const starsGeometry = new THREE.BufferGeometry();
-    const starTexture = new THREE.TextureLoader().load(starImage); // 별 이미지의 경로에 맞게 수정해야 함
-    const starMaterial = new THREE.SpriteMaterial({ map: starTexture, color: 0xffffff });
+    const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.001 }); // 조정된 크기
 
-    const stars = new THREE.Group();
+    const starsPositions = new Float32Array(1000 * 3); // x, y, z positions for each star
 
-    for (let i = 0; i < 220; i++) {
-      const star = new THREE.Sprite(starMaterial);
-
-      star.position.x = THREE.MathUtils.randFloatSpread(15);
-      star.position.y = THREE.MathUtils.randFloatSpread(15);
-      star.position.z = THREE.MathUtils.randFloatSpread(15);
-
-      star.scale.set(0.2, 0.2, 1); // 별의 크기 조절
-
-      stars.add(star);
+    for (let i = 0; i < 3000; i++) {
+      const i3 = i * 3;
+      starsPositions[i3] = THREE.MathUtils.randFloatSpread(10);
+      starsPositions[i3 + 1] = THREE.MathUtils.randFloatSpread(10);
+      starsPositions[i3 + 2] = THREE.MathUtils.randFloatSpread(10);
     }
 
+    starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPositions, 3));
+
+    const stars = new THREE.Points(starsGeometry, starMaterial);
     scene.add(stars);
 
     function animate() {
@@ -52,7 +47,6 @@ function NightSky() {
     return () => {
       renderer.dispose();
       starsGeometry.dispose();
-      starTexture.dispose();
       starMaterial.dispose();
     };
   }, []);

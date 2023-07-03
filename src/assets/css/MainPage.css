@@ -40,6 +40,7 @@ input {
     font-weight: Bold;
     font-size: 1vw;
     opacity: 1;
+    text-indent: 2%;
 }
 
 .inputname {
@@ -59,14 +60,15 @@ input {
 .startbtn {
     width: 17%;
     height: 7%;
-    background-color: rgba(217,217,217,1);
+    background-color: gray;
     opacity: 1;
     position: absolute;
     bottom: 5%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: Inter;
-    font-weight: Semi Bold;
+    color: white;
+    font-weight: Bold;
     font-size: 2vw;
     opacity: 1;
     text-align: center;

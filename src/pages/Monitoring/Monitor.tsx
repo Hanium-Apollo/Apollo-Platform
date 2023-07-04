@@ -1,12 +1,12 @@
 import React from "react";
 import '../../assets/css/monitoringPage.css';
 import { useNavigate } from "react-router-dom";
-import CPUChart from "../../components/CpuChart";
-import LogChart from "../../components/LogChart";
-import MemoryChart from "../../components/MemoryChart";
-import DiskChart from "../../components/DiskChart";
-import NetworkInChart from "../../components/NetworkInChart";
-import NetworkOutChart from "../../components/NetworkOutChart";
+import CPUChart from "../../components/monitoringChart/CpuChart";
+import LogChart from "../../components/monitoringChart/LogChart";
+import MemoryChart from "../../components/monitoringChart/MemoryChart";
+import DiskChart from "../../components/monitoringChart/DiskChart";
+import NetworkInChart from "../../components/monitoringChart/NetworkInChart";
+import NetworkOutChart from "../../components/monitoringChart/NetworkOutChart";
 
 function Monitor() {
     const navigate = useNavigate();

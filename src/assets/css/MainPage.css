@@ -1,6 +1,9 @@
 @font-face {
-    font-family: 'Inter-Bold';
-    src: url(../fonts/Inter-Bold.ttf) format('truetype');
+    font-family: 'ONE-Mobile-Bold';
+    src: url(../fonts/ONE-Mobile-Bold.ttf) format('truetype');
+  
+    font-family: 'ONE-Mobile-Regular';
+    src: url(../fonts/ONE-Mobile-Regular.ttf) format('truetype');
   }
 
 
@@ -21,8 +24,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-family: Inter-Bold;
-    font-weight: Bold;
+    font-family: ONE-Mobile-Bold;
     font-size: 2.5vw;
     text-align: center;
     border-radius:20px;
@@ -40,8 +42,8 @@ input {
     border: none;
     width: 70%;
     height: 7%;
-    font-family: Inter-Bold;
-    font-weight: Bold;
+    font-family: ONE-Mobile-Bold;
+    font-weight: bold;
     font-size: 1vw;
     opacity: 1;
     text-indent: 2%;
@@ -70,9 +72,9 @@ input {
     bottom: 5%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-family: Inter-Bold;
+    font-family: ONE-Mobile-Bold;
+    font-weight: bold;
     color: white;
-    font-weight: Bold;
     font-size: 2vw;
     opacity: 1;
     text-align: center;

@@ -1,12 +1,13 @@
 @font-face {
-  font-family: 'Inter';
-  src: url(../fonts/Inter-Regular.ttf) format('truetype');
-
-  font-family: 'Inter-Bold';
-  src: url(../fonts/Inter-Bold.ttf) format('truetype');
-
   font-family: 'Acme';
   src: url(../fonts/Acme-Regular.ttf) format('truetype');
+
+  font-family: 'ONE-Mobile-Bold';
+  src: url(../fonts/ONE-Mobile-Bold.ttf) format('truetype');
+
+  font-family: 'ONE-Mobile-Regular';
+  src: url(../fonts/ONE-Mobile-Regular.ttf) format('truetype');
+
 }
 
 .container-name {
@@ -14,14 +15,14 @@
     background-color: rgba(255, 255, 255, 0);
     z-index: 1;
     position: absolute;
-    font-family: Inter-Bold;
-    font-weight: bold;
+    font-family: ONE-Mobile-Bold;
     opacity: 1;
 }
 
 .text-block {
     display: inline;
     position: absolute;
+    text-align: center;
     z-index: 0;
     top: 10%;
     left: 4%;
@@ -115,7 +116,7 @@
     width: 100%;
     height: 15%;
     opacity: 1;
-    
+    text-align: center;
   }
 
   .back-button {
@@ -127,7 +128,8 @@
     left: 33%;
     bottom: 2%;
     color: white;
-    font-family: Inter-Bold;
+    font-family: ONE-Mobile-Bold;
+    font-weight: bold;
     text-align: center;
     border: none;
     border-radius: 1000px;
@@ -142,7 +144,8 @@
     left: 53%;
     bottom: 2%;
     color: white;
-    font-family: Inter-Bold;
+    font-family: ONE-Mobile-Bold;
+    font-weight: bold;
     text-align: center;
     border: none;
     border-radius: 1000px;
@@ -150,11 +153,11 @@
 
   .text-match {
     font-size: 1.5vw;
-    font-weight: Bold;
     color: white;
     z-index: 1;
     position: absolute;
     font-family: Acme;
+    font-weight: bold;
     top: 10%;
   }
 
@@ -163,7 +166,7 @@
     background-color: rgba(255, 255, 255, 0);
     z-index: 1;
     position: absolute;
-    font-family: Inter-Bold;
+    font-family: ONE-Mobile-Bold;
     font-weight: bold;
     top: 15%;
   }

@@ -1,9 +1,9 @@
 @font-face {
-    font-family: 'Inter';
-    src: url(../fonts/Inter-Regular.ttf) format('truetype');
-
-    font-family: 'Inter-Bold';
-    src: url(../fonts/Inter-Bold.ttf) format('truetype');
+    font-family: 'ONE-Mobile-Bold';
+    src: url(../fonts/ONE-Mobile-Bold.ttf) format('truetype');
+  
+    font-family: 'ONE-Mobile-Regular';
+    src: url(../fonts/ONE-Mobile-Regular.ttf) format('truetype');
   }
 
 .flogo {
@@ -23,8 +23,7 @@
     bottom: 10%;
     left: 50%;
     color: white;
-    font-family: Inter-Bold;
-    font-weight: Bold;
+    font-family: ONE-Mobile-Bold;
     font-size: 2vw;
     text-align: center;
     border-radius: 1000px;
@@ -37,7 +36,7 @@ p {
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0%);
-    font-family: Inter;
+    font-family: ONE-Mobile-Regular;
   }
 .fmessage {
     font-size: 4vw;

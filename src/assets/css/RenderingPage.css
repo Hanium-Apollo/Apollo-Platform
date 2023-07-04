@@ -1,9 +1,14 @@
+@font-face {
+  font-family: 'Inter';
+  src: url(../fonts/Inter-Regular.ttf) format('truetype');
+}
 
 .rmessage {
     font-size: 4vw;
     font-weight: Bold;
     top: 30%;
     color: white;
+    font-family: Inter;
 }
 
 .loading-container {
@@ -12,13 +17,14 @@
   }
   
   .moving-image {
-    width: 100px;
-    height: 100px;
+    width: 10%;
+    height: 15%;
+    z-index: 1;
     background-image: url("../../assets/images/logo.png");
     background-size: cover;
     position: absolute;
     left: 50%;
-    bottom: 30%;
+    bottom: 35%;
     animation: moveImage 3s linear infinite;
   }
   

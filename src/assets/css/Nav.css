@@ -1,3 +1,14 @@
+@font-face {
+  font-family: 'ONE-Mobile-Bold';
+  src: url(../fonts/ONE-Mobile-Bold.ttf) format('truetype');
+
+  font-family: 'ONE-Mobile-Regular';
+  src: url(../fonts/ONE-Mobile-Regular.ttf) format('truetype');
+
+  font-family: 'Inter';
+  src: url(../fonts/Inter-Regular.ttf) format('truetype');
+}
+
 .navbar {
     width: 100%;
     background-color: white;
@@ -13,8 +24,7 @@
   .dropdown {
     position: relative;
     display: inline-block;
-    font-family: Exo 2;
-    font-weight: Regular;
+    font-family: 'Inter', ONE-Mobile-Regular;
     font-size: 1.5vw;
     opacity: 1;
     margin-right:10px 

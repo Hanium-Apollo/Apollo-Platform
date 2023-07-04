@@ -1,11 +1,21 @@
+@font-face {
+  font-family: 'Inter';
+  src: url(../fonts/Inter-Regular.ttf) format('truetype');
+
+  font-family: 'Inter-Bold';
+  src: url(../fonts/Inter-Bold.ttf) format('truetype');
+
+  font-family: 'Acme';
+  src: url(../fonts/Acme-Regular.ttf) format('truetype');
+}
+
 .container-name {
     font-size: 1.5vw;
-    font-weight: Bold;
     background-color: rgba(255, 255, 255, 0);
     z-index: 1;
     position: absolute;
-    font-family: Inter;
-    top: 3%;
+    font-family: Inter-Bold;
+    font-weight: bold;
     opacity: 1;
 }
 
@@ -117,8 +127,7 @@
     left: 33%;
     bottom: 2%;
     color: white;
-    font-family: Inter;
-    font-weight: Bold;
+    font-family: Inter-Bold;
     text-align: center;
     border: none;
     border-radius: 1000px;
@@ -133,8 +142,7 @@
     left: 53%;
     bottom: 2%;
     color: white;
-    font-family: Inter;
-    font-weight: Bold;
+    font-family: Inter-Bold;
     text-align: center;
     border: none;
     border-radius: 1000px;
@@ -146,16 +154,16 @@
     color: white;
     z-index: 1;
     position: absolute;
-    font-family: Acne;
+    font-family: Acme;
     top: 10%;
   }
 
   .button-text {
     font-size: 2vw;
-    font-weight: Bold;
     background-color: rgba(255, 255, 255, 0);
     z-index: 1;
     position: absolute;
-    font-family: Inter;
+    font-family: Inter-Bold;
+    font-weight: bold;
     top: 15%;
   }

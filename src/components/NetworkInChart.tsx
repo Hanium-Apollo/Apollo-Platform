@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import moment from 'moment'; // moment.js library
+import moment from 'moment';
 
-const MAX_DATA_POINTS = 10; // Maximum number of data points to display
+const MAX_DATA_POINTS = 5;
 
 const NetworkInChart = () => {
   const [data, setData] = useState([
@@ -11,17 +11,19 @@ const NetworkInChart = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const newData = [
-        ...data.slice(-MAX_DATA_POINTS + 1), // Keep only the latest MAX_DATA_POINTS - 1 data points
-        { name: moment().format('HH:mm:ss'), value: Math.floor(Math.random() * 100) },
-      ];
-      setData(newData);
-    }, 5000); // Update data every 5 seconds
+      setData(prevData => {
+        const newData = [
+          ...prevData.slice(-(MAX_DATA_POINTS - 1)),
+          { name: moment().format('HH:mm:ss'), value: Math.floor(Math.random() * 100) },
+        ];
+        return newData;
+      });
+    }, 5000);
 
     return () => {
-      clearInterval(interval); // Clear interval when the component unmounts
+      clearInterval(interval);
     };
-  }, [data]);
+  }, []);
 
   return (
     <div className='chart-container'>

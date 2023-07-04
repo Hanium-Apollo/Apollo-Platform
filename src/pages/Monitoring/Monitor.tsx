@@ -8,7 +8,6 @@ import DiskChart from "../../components/DiskChart";
 import NetworkInChart from "../../components/NetworkInChart";
 import NetworkOutChart from "../../components/NetworkOutChart";
 
-
 function Monitor() {
     const navigate = useNavigate();
 
@@ -23,7 +22,7 @@ function Monitor() {
     return (
         <div>
             <div className="text-block">
-                <p className="container-name">우와요기이츠라이더스</p>
+                <p className="container-name">Container Name</p>
             </div>
 
             <div className="cpu-block">

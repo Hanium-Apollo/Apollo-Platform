@@ -1,3 +1,7 @@
+@font-face {
+    font-family: 'Inter-Bold';
+    src: url(../fonts/Inter-Bold.ttf) format('truetype');
+  }
 
 
 .logoname {
@@ -17,7 +21,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-family: Inter;
+    font-family: Inter-Bold;
     font-weight: Bold;
     font-size: 2.5vw;
     text-align: center;
@@ -36,7 +40,7 @@ input {
     border: none;
     width: 70%;
     height: 7%;
-    font-family: Inter;
+    font-family: Inter-Bold;
     font-weight: Bold;
     font-size: 1vw;
     opacity: 1;
@@ -66,7 +70,7 @@ input {
     bottom: 5%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-family: Inter;
+    font-family: Inter-Bold;
     color: white;
     font-weight: Bold;
     font-size: 2vw;

@@ -1,13 +1,16 @@
 @font-face {
-  font-family: 'Acme';
-  src: url(../fonts/Acme-Regular.ttf) format('truetype');
+    font-family: 'Acme';
+    src: url(../fonts/Acme-Regular.ttf) format('truetype');
+}
 
-  font-family: 'ONE-Mobile-Bold';
-  src: url(../fonts/ONE-Mobile-Bold.ttf) format('truetype');
+@font-face {
+    font-family: 'ONE-Mobile-Bold';
+    src: url(../fonts/ONE-Mobile-Bold.ttf) format('truetype');
+}
 
-  font-family: 'ONE-Mobile-Regular';
-  src: url(../fonts/ONE-Mobile-Regular.ttf) format('truetype');
-
+@font-face {
+    font-family: 'ONE-Mobile-Regular';
+    src: url(../fonts/ONE-Mobile-Regular.ttf) format('truetype');
 }
 
 .container-name {
@@ -22,7 +25,6 @@
 .text-block {
     display: inline;
     position: absolute;
-    text-align: center;
     z-index: 0;
     top: 10%;
     left: 4%;

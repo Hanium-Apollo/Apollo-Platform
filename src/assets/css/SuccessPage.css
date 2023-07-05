@@ -1,18 +1,19 @@
 @font-face {
   font-family: 'ONE-Mobile-Bold';
   src: url(../fonts/ONE-Mobile-Bold.ttf) format('truetype');
+}
 
+@font-face {  
   font-family: 'ONE-Mobile-Regular';
   src: url(../fonts/ONE-Mobile-Regular.ttf) format('truetype');
 }
-
   
   .slogo {
     width: 30%;
     height: 55%;
     position: absolute;
     top: 35%;
-    left: 50%;
+    left: 51%;
     transform: translate(-50%, -50%);
   }
   

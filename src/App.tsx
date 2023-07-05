@@ -9,15 +9,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NightSky from "./pages/MainPage/NightSky";
 import Rendering from "./pages/RenderingPage/RenderingPage";
 
-function DIV(props: any) {
-  return <div>props.name props.age</div>;
-}
-
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <DIV name="hong" age="10" />
         <Nav />
         <Routes>
           <Route path="/" element={<Main />}></Route>

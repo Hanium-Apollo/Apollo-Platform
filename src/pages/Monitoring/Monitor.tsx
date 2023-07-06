@@ -1,12 +1,8 @@
 import React from "react";
 import '../../assets/css/monitoringPage.css';
 import { useNavigate } from "react-router-dom";
-import CPUChart from "../../components/monitoringChart/CpuChart";
-import LogChart from "../../components/monitoringChart/LogChart";
-import MemoryChart from "../../components/monitoringChart/MemoryChart";
-import DiskChart from "../../components/monitoringChart/DiskChart";
-import NetworkInChart from "../../components/monitoringChart/NetworkInChart";
-import NetworkOutChart from "../../components/monitoringChart/NetworkOutChart";
+import BarShapeChart from "../../components/monitoringChart/BarShapeChart";
+import LineShapeChart from "../../components/monitoringChart/LineShapeChart";
 
 function Monitor() {
     const navigate = useNavigate();
@@ -29,42 +25,42 @@ function Monitor() {
                 <div className="NameBlock">
                     <p className="text-match">CPU Utilization</p>
                 </div>
-                <CPUChart />
+                <LineShapeChart />
             </div>
 
             <div className="log-block">
                 <div className="NameBlock">
                     <p className="text-match">Log Check</p>
                 </div>
-                <LogChart />
+                <BarShapeChart />
             </div>
 
             <div className="memory-block">
                 <div className="NameBlock">
                     <p className="text-match">Memory</p>
                 </div>
-                <MemoryChart />
+                <LineShapeChart />
             </div>
 
             <div className="disk-block">
                 <div className="NameBlock">
                     <p className="text-match">Disk I/O</p>
                 </div>
-                <DiskChart />
+                <LineShapeChart />
             </div>
 
             <div className="networkin-block">
                 <div className="NameBlock">
                     <p className="text-match">Network In</p>
                 </div>
-                <NetworkInChart />
+                <LineShapeChart />
             </div>
 
             <div className="networkout-block">
                 <div className="NameBlock">
                     <p className="text-match">Network Out</p>
                 </div>
-                <NetworkOutChart />
+                <LineShapeChart />
             </div>
 
             <button className="home-button" onClick={goToMain}>

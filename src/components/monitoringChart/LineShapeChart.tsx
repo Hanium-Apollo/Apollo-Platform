@@ -4,14 +4,14 @@ import moment from 'moment';
 
 interface DataPoint {
   name: string;
-  value: number;
+  Bytes: number;
 }
 
 const MAX_DATA_POINTS = 5;
 
 const LineShapeChart: React.FC = () => {
   const [data, setData] = useState<DataPoint[]>([
-    { name: moment().format('HH:mm:ss'), value: Math.floor(Math.random() * 100) },
+    { name: moment().format('HH:mm'), Bytes: Math.floor(Math.random() * 100) },
   ]);
 
   const xAxisRef = useRef<SVGSVGElement>(null);
@@ -21,7 +21,7 @@ const LineShapeChart: React.FC = () => {
       setData(prevData => {
         const newData: DataPoint[] = [
           ...prevData.slice(-(MAX_DATA_POINTS - 1)),
-          { name: moment().format('HH:mm:ss'), value: Math.floor(Math.random() * 100) },
+          { name: moment().format('HH:mm'), Bytes: Math.floor(Math.random() * 100) },
         ];
         return newData;
       });
@@ -53,12 +53,12 @@ const LineShapeChart: React.FC = () => {
     <div className='chart-container'>
       <ResponsiveContainer>
         <LineChart data={data}>
-          <XAxis dataKey="name" ref={xAxisRef} />
-          <YAxis />
+          <XAxis dataKey="name" ref={xAxisRef} tick={{ dy: 8 }}/> 
+          <YAxis tick={{ dy: 8 }} />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
           <Legend />
-          <Line type="linear" dataKey="value" stroke="rgba(75,192,192,1)" strokeWidth={2} />
+          <Line type="linear" dataKey="Bytes" stroke="rgba(75,192,192,1)" strokeWidth={1} />
         </LineChart>
       </ResponsiveContainer>
     </div>

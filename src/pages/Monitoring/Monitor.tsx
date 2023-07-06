@@ -1,6 +1,5 @@
 import React from "react";
 import '../../assets/css/monitoringPage.css';
-import { useNavigate } from "react-router-dom";
 import BarShapeChart from "../../components/monitoringChart/BarShapeChart";
 import LineShapeChart from "../../components/monitoringChart/LineShapeChart";
 import Button from "../../components/button/Button";

@@ -23,7 +23,7 @@
 }
 
 .text-block {
-    display: inline;
+    display: flex;
     position: absolute;
     z-index: 0;
     top: 10%;
@@ -45,7 +45,7 @@
   }
 
   .cpu-block {
-    display: block;
+    display: flex;
     position: absolute;
     z-index: 0;
     bottom: 53%;
@@ -56,7 +56,7 @@
   }
 
   .log-block {
-    display: block;
+    display: flex;
     position: absolute;
     z-index: 0;
     bottom: 53%;
@@ -67,7 +67,7 @@
   }
 
   .memory-block {
-    display: block;
+    display: flex;
     position: absolute;
     z-index: 0;
     bottom: 53%;
@@ -78,7 +78,7 @@
   }
 
   .disk-block {
-    display: block;
+    display: flex;
     position: absolute;
     z-index: 0;
     bottom: 15%;
@@ -89,7 +89,7 @@
   }
 
   .networkin-block {
-    display: block;
+    display: flex;
     position: absolute;
     z-index: 0;
     bottom: 15%;

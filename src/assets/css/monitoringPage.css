@@ -17,9 +17,12 @@
     font-size: 1.5vw;
     background-color: rgba(255, 255, 255, 0);
     z-index: 1;
+    top: -7%;
     position: absolute;
     font-family: ONE-Mobile-Bold;
-    opacity: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .text-block {
@@ -32,7 +35,6 @@
     border: 1px solid black;
     width: 15%;
     height: 4%;
-    white-space: nowrap;
     opacity: 0.8;
   }
 
@@ -44,74 +46,50 @@
     position: relative;
   }
 
-  .cpu-block {
+  .cpu-block,
+  .log-block,
+  .memory-block,
+  .disk-block,
+  .networkin-block,
+  .networkout-block {
     display: flex;
     position: absolute;
     z-index: 0;
-    bottom: 53%;
-    left: 9%;
     background-color: #d0d0d0;
     width: 25%;
     height: 30%;
   }
-
+  .cpu-block {
+    bottom: 53%;
+    left: 9%;
+  }
   .log-block {
-    display: flex;
-    position: absolute;
-    z-index: 0;
     bottom: 53%;
     left: 39%;
-    background-color: #d0d0d0;
-    width: 25%;
-    height: 30%;
   }
 
   .memory-block {
-    display: flex;
-    position: absolute;
-    z-index: 0;
     bottom: 53%;
     left: 69%;
-    background-color: #d0d0d0;
-    width: 25%;
-    height: 30%;
   }
 
   .disk-block {
-    display: flex;
-    position: absolute;
-    z-index: 0;
     bottom: 15%;
     left: 9%;
-    background-color: #d0d0d0;
-    width: 25%;
-    height: 30%;
   }
 
   .networkin-block {
-    display: flex;
-    position: absolute;
-    z-index: 0;
     bottom: 15%;
     left: 39%;
-    background-color: #d0d0d0;
-    width: 25%;
-    height: 30%;
   }
 
   .networkout-block {
-    display: block;
-    position: absolute;
-    z-index: 0;
     bottom: 15%;
     left: 69%;
-    background-color: #d0d0d0;
-    width: 25%;
-    height: 30%;
   }
 
   .NameBlock {
-    display: block;
+    display: flex;
     position: absolute;
     z-index: 0;
     background-color: gray;
@@ -160,7 +138,7 @@
     position: absolute;
     font-family: Acme;
     font-weight: bold;
-    top: 10%;
+    top: 3%;
   }
 
   .button-text {
@@ -171,4 +149,58 @@
     font-family: ONE-Mobile-Bold;
     font-weight: bold;
     top: 15%;
+  }
+
+  @media (min-aspect-ratio: 0.5) {
+    .container-name {
+      font-size: 1.7vw;
+      left: 50%;
+      top: 17%;
+    }
+
+    .text-match {
+      top: 18%;
+      font-size: 1.9vw;
+    }
+  }
+
+  @media (min-aspect-ratio: 1.5) {
+    .container-name {
+      font-size: 1%;
+      left: 57%;
+      top: -25%;
+    }
+
+    .text-block {
+      top: 12%
+    }
+
+    .text-match {
+      font-size: 1.5vw;
+      top: -5%;
+    }
+  }
+
+  @media (min-aspect-ratio: 2.8) {
+    .container-name {
+      font-size: 0.3vw;
+      left: 50%;
+      top: -21%;
+    }
+
+    .text-block {
+      width: 8%;
+      top: 17.5%;
+    }
+
+    .cpu-block,
+    .log-block,
+    .memory-block{
+      bottom: 48%;
+    }
+
+    .text-match {
+      font-size: 0.8vw;
+      top: 1%;
+    }
   }

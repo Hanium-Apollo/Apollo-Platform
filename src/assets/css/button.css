@@ -1,0 +1,77 @@
+.fhomebtn {
+    width: 15%;
+    bottom: 10%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    height: 7%;
+    background-color: gray;
+    opacity: 1;
+    position: absolute;
+    color: white;
+    font-family: ONE-Mobile-Bold;
+    font-size: 2vw;
+    text-align: center;
+    border-radius: 1000px;
+    border: none;
+    overflow: hidden;
+}
+
+.shomebtn,
+.smonitorbtn {
+    width: 15%;
+    bottom: 10%;
+    height: 7%;
+    background-color: gray;
+    opacity: 1;
+    position: absolute;
+    color: white;
+    font-family: ONE-Mobile-Bold;
+    font-size: 2vw;
+    text-align: center;
+    border-radius: 1000px;
+    border: none;
+    overflow: hidden;
+}
+
+.mhomebtn,
+.mbackbtn {
+    width: 15%;
+    bottom: 2%;
+    height: 7%;
+    background-color: gray;
+    opacity: 1;
+    position: absolute;
+    color: white;
+    font-family: ONE-Mobile-Bold;
+    font-size: 2vw;
+    text-align: center;
+    border-radius: 1000px;
+    border: none;
+    overflow: hidden;
+}
+.smonitorbtn,
+.mbackbtn {
+  left: 33%;
+}
+.mhomebtn,
+.shomebtn {
+  right: 33%;
+}
+
+.startbtn {
+    width: 17%;
+    bottom: 5%;
+    left: 50%;
+    height: 7%;
+    background-color: gray;
+    opacity: 1;
+    position: absolute;
+    color: white;
+    font-family: ONE-Mobile-Bold;
+    font-size: 2vw;
+    text-align: center;
+    border-radius: 1000px;
+    border: none;
+    overflow: hidden;
+    transform: translate(-50%, -50%);
+}

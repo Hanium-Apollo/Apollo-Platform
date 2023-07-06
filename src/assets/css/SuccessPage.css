@@ -17,30 +17,6 @@
     transform: translate(-50%, -50%);
   }
   
-  .shomebtn,
-  .smonitorbtn {
-    width: 15%;
-    height: 7%;
-    background-color: gray;
-    opacity: 1;
-    position: absolute;
-    bottom: 10%;
-    color: white;
-    font-family: ONE-Mobile-Bold;
-    font-weight: bold;
-    font-size: 2vw;
-    text-align: center;
-    border-radius: 1000px;
-    border: none;
-  }
-  
-  .shomebtn {
-    left: 33%;
-  }
-  
-  .smonitorbtn {
-    right: 33%;
-  }
   
   p {
     background-color: rgba(255, 255, 255, 0);

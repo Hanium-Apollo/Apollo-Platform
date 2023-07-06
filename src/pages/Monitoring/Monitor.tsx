@@ -3,17 +3,9 @@ import '../../assets/css/monitoringPage.css';
 import { useNavigate } from "react-router-dom";
 import BarShapeChart from "../../components/monitoringChart/BarShapeChart";
 import LineShapeChart from "../../components/monitoringChart/LineShapeChart";
+import Button from "../../components/button/Button";
 
 function Monitor() {
-    const navigate = useNavigate();
-
-    const goToMain = () => {
-        navigate("/");
-    };
-
-    const goToBack = () => {
-        navigate(-1);
-    };
 
     return (
         <div>
@@ -62,15 +54,8 @@ function Monitor() {
                 </div>
                 <LineShapeChart />
             </div>
-
-            <button className="home-button" onClick={goToMain}>
-                <p className="button-text">홈으로</p>
-            </button>
-
-            <button className="back-button" onClick={goToBack}>
-                <p className="button-text">이전으로</p>
-            </button>
-
+            <Button css={"mhomebtn"} text={"home"}/>
+            <Button css={"mbackbtn"} text={"back"}/>
         </div>
       
     );

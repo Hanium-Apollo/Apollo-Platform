@@ -4,14 +4,14 @@ import moment from 'moment';
 
 interface DataPoint {
   name: string;
-  value: number;
+  Bytes: number;
 }
 
 const MAX_DATA_POINTS = 5;
 
 const BarShapeChart: React.FC = () => {
   const [data, setData] = useState<DataPoint[]>([
-    { name: moment().format('HH:mm:ss'), value: Math.floor(Math.random() * 100) },
+    { name: moment().format('HH:mm'), Bytes: Math.floor(Math.random() * 100) },
   ]);
   const [fontSize, setFontSize] = useState<number>(0);
 
@@ -20,7 +20,7 @@ const BarShapeChart: React.FC = () => {
       setData(prevData => {
         const newData: DataPoint[] = [
           ...prevData.slice(-(MAX_DATA_POINTS - 1)),
-          { name: moment().format('HH:mm:ss'), value: Math.floor(Math.random() * 100) },
+          { name: moment().format('HH:mm'), Bytes: Math.floor(Math.random() * 100) },
         ];
         return newData;
       });
@@ -53,12 +53,12 @@ const BarShapeChart: React.FC = () => {
     <div className='chart-container'>
       <ResponsiveContainer>
         <BarChart data={data}>
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis dataKey="name" tick = {{ dy: 6 }} />
+          <YAxis tick = {{ dy: 8 }}/>
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
           <Legend />
-          <Bar dataKey="value" fill="rgba(75,192,192,1)" />
+          <Bar dataKey="Bytes" fill="rgba(75,192,192,1)" />
         </BarChart>
       </ResponsiveContainer>
       <style>

@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'ONE-Mobile-Bold';
+    src: url(../fonts/ONE-Mobile-Bold.ttf) format('truetype');
+  }
+
+@font-face {
+    font-family: 'ONE-Mobile-Regular';
+    src: url(../fonts/ONE-Mobile-Regular.ttf) format('truetype');
+}
+
 .fhomebtn {
     width: 15%;
     bottom: 10%;
@@ -74,4 +84,164 @@
     border: none;
     overflow: hidden;
     transform: translate(-50%, -50%);
+}
+
+@media (min-aspect-ratio: 2){
+    .fhomebtn {
+        width: 15%;
+        bottom: 10%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        height: 7%;
+        background-color: gray;
+        opacity: 1;
+        position: absolute;
+        color: white;
+        font-family: ONE-Mobile-Bold;
+        font-size: 1.5vw;
+        text-align: center;
+        border-radius: 1000px;
+        border: none;
+        overflow: hidden;
+    }
+    
+    .shomebtn,
+    .smonitorbtn {
+        width: 15%;
+        bottom: 10%;
+        height: 7%;
+        background-color: gray;
+        opacity: 1;
+        position: absolute;
+        color: white;
+        font-family: ONE-Mobile-Bold;
+        font-size: 1.5vw;
+        text-align: center;
+        border-radius: 1000px;
+        border: none;
+        overflow: hidden;
+    }
+    
+    .mhomebtn,
+    .mbackbtn {
+        width: 15%;
+        bottom: 2%;
+        height: 7%;
+        background-color: gray;
+        opacity: 1;
+        position: absolute;
+        color: white;
+        font-family: ONE-Mobile-Bold;
+        font-size: 1.5vw;
+        text-align: center;
+        border-radius: 1000px;
+        border: none;
+        overflow: hidden;
+    }
+    .smonitorbtn,
+    .mbackbtn {
+      left: 33%;
+    }
+    .mhomebtn,
+    .shomebtn {
+      right: 33%;
+    }
+    
+    .startbtn {
+        width: 17%;
+        bottom: 5%;
+        left: 50%;
+        height: 7%;
+        background-color: gray;
+        opacity: 1;
+        position: absolute;
+        color: white;
+        font-family: ONE-Mobile-Bold;
+        font-size: 1.5vw;
+        text-align: center;
+        border-radius: 1000px;
+        border: none;
+        overflow: hidden;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media (min-aspect-ratio: 2.8){
+    .fhomebtn {
+        width: 15%;
+        bottom: 10%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        height: 7%;
+        background-color: gray;
+        opacity: 1;
+        position: absolute;
+        color: white;
+        font-family: ONE-Mobile-Bold;
+        font-size: 0.8vw;
+        text-align: center;
+        border-radius: 1000px;
+        border: none;
+        overflow: hidden;
+    }
+    
+    .shomebtn,
+    .smonitorbtn {
+        width: 15%;
+        bottom: 10%;
+        height: 7%;
+        background-color: gray;
+        opacity: 1;
+        position: absolute;
+        color: white;
+        font-family: ONE-Mobile-Bold;
+        font-size: 0.8vw;
+        text-align: center;
+        border-radius: 1000px;
+        border: none;
+        overflow: hidden;
+    }
+    
+    .mhomebtn,
+    .mbackbtn {
+        width: 15%;
+        bottom: 2%;
+        height: 7%;
+        background-color: gray;
+        opacity: 1;
+        position: absolute;
+        color: white;
+        font-family: ONE-Mobile-Bold;
+        font-size: 0.8vw;
+        text-align: center;
+        border-radius: 1000px;
+        border: none;
+        overflow: hidden;
+    }
+    .smonitorbtn,
+    .mbackbtn {
+      left: 33%;
+    }
+    .mhomebtn,
+    .shomebtn {
+      right: 33%;
+    }
+    
+    .startbtn {
+        width: 17%;
+        bottom: 5%;
+        left: 50%;
+        height: 7%;
+        background-color: gray;
+        opacity: 1;
+        position: absolute;
+        color: white;
+        font-family: ONE-Mobile-Bold;
+        font-size: 0.8vw;
+        text-align: center;
+        border-radius: 1000px;
+        border: none;
+        overflow: hidden;
+        transform: translate(-50%, -50%);
+    }
 }

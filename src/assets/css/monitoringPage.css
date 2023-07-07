@@ -59,10 +59,12 @@
     width: 25%;
     height: 30%;
   }
+  
   .cpu-block {
     bottom: 53%;
     left: 9%;
   }
+
   .log-block {
     bottom: 53%;
     left: 39%;

@@ -5,6 +5,7 @@ import Success from "./pages/ResultPage/SuccessPage";
 import Fail from "./pages/ResultPage/FailPage";
 import Nav from "./pages/Nav/Nav";
 import Monitor from "./pages/Monitoring/Monitor";
+import About from "./pages/About/About";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NightSky from "./pages/MainPage/NightSky";
 import Rendering from "./pages/RenderingPage/RenderingPage";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/fail" element={<Fail />}></Route>
           <Route path="/monitor" element={<Monitor />}></Route>
           <Route path="/rendering" element={<Rendering />}></Route>
+          <Route path="/About" element={<About />}></Route>
         </Routes>
         <NightSky />
       </BrowserRouter>

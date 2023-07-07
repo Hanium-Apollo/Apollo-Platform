@@ -3,7 +3,35 @@ import logoname from '../../assets/images/logoname.png';
 import github from '../../assets/images/github_logo.png';
 import '../../assets/css/MainPage.css';
 import Button from "../../components/button/Button";
+import { Button as MaterialButton } from "@mui/material";
+import DescriptionIcon from "@mui/icons-material/Description";
+import { jsx, css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { useNavigate } from "react-router-dom";
 
+const buttonStyles = css`
+  background-color: gray;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 1000px;
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  top: 63%;
+  right: 2%;
+  weight: 17%;
+
+  @font-face {
+    font-family: Inter';
+    src: url(../../fonts/Inter-Bold.ttf) format('truetype');
+  }
+
+  font-family: 'Inter';
+  `;
+
+const StyledButton = styled(MaterialButton)`
+ ${buttonStyles}
+ `
 
 export function handleLogout() {
     localStorage.removeItem("isLogin");
@@ -13,6 +41,8 @@ export function handleLogout() {
 function Main() {
     const [inputValue1, setInputValue1] = useState('');
     const [inputValue2, setInputValue2] = useState('');
+
+    const navigate = useNavigate();
 
 
     const handleLogin = () => {
@@ -56,6 +86,9 @@ function Main() {
                 <input className="inputname" type="text" value={inputValue1} onChange={handleInputChange1} placeholder="서비스 이름을 입력해주세요"/>
                 <input className="inputURL" type="text" value={inputValue2} onChange={handleInputChange2} placeholder="Github URL을 입력해주세요"/>
                 <Button css={"startbtn"} text={"start"}/>
+                <StyledButton variant="contained" startIcon= {<DescriptionIcon/> }onClick={() => navigate("/about")}>
+                  Learn More..
+                </StyledButton>
                 </form>
             ) : (
                 <button className="login" onClick={handleLogin}>

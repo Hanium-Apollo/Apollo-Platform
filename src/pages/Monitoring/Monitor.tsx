@@ -9,7 +9,7 @@ function Monitor() {
     return (
         <div>
             <div className="text-block">
-                <p className="container-name overflow-hidden">Container Name</p>
+                <p className="container-name">Container Name</p>
             </div>
 
             <div className="cpu-block">

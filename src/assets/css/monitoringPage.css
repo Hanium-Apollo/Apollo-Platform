@@ -14,11 +14,11 @@
 }
 
 .container-name {
-    font-size: 1.5vw;
+    font-size: 1.3vw;
     background-color: rgba(255, 255, 255, 0);
     z-index: 1;
-    top: -7%;
     position: absolute;
+    bottom: -90%;
     font-family: ONE-Mobile-Bold;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -108,7 +108,7 @@
     position: absolute;
     font-family: Acme;
     font-weight: bold;
-    top: 3%;
+    top: 50%;
   }
 
   .button-text {
@@ -121,7 +121,7 @@
     top: 15%;
   }
 
-  @media (min-aspect-ratio: 0.5) {
+  @media (max-aspect-ratio: 0.5) {
     .container-name {
       font-size: 1.7vw;
       left: 50%;
@@ -134,7 +134,7 @@
     }
   }
 
-  @media (min-aspect-ratio: 1.5) {
+  @media (max-aspect-ratio: 1.5) {
     .container-name {
       font-size: 1%;
       left: 57%;
@@ -148,29 +148,5 @@
     .text-match {
       font-size: 1.5vw;
       top: -5%;
-    }
-  }
-
-  @media (min-aspect-ratio: 2.8) {
-    .container-name {
-      font-size: 0.3vw;
-      left: 50%;
-      top: -21%;
-    }
-
-    .text-block {
-      width: 8%;
-      top: 17.5%;
-    }
-
-    .cpu-block,
-    .log-block,
-    .memory-block{
-      bottom: 48%;
-    }
-
-    .text-match {
-      font-size: 0.8vw;
-      top: 1%;
     }
   }

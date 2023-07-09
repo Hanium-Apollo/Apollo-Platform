@@ -17,9 +17,10 @@ const buttonStyles = css`
   position: absolute;
   text-align: center;
   font-weight: bold;
-  top: 63%;
-  right: 2%;
-  weight: 17%;
+  top: 63.2%;
+  right: 5%;
+  weight: 19vw;
+  height: 5vh;
 
   @font-face {
     font-family: Inter';

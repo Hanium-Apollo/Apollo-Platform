@@ -6,7 +6,7 @@ const MainContainer = styled(Grid)`
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 1440px;
+    height: 100vh;
     margin: 0 auto;
     padding: 100px 0;
     background-color: #333333;

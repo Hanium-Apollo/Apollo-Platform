@@ -9,17 +9,17 @@
 }
 
 .fhomebtn {
-    width: 15%;
-    bottom: 10%;
+    width: 15vw;
+    top: 85%;
     left: 50%;
     transform: translate(-50%, 0%);
-    height: 7%;
+    height: 7vh;
     background-color: gray;
     opacity: 1;
     position: absolute;
     color: white;
     font-family: ONE-Mobile-Bold;
-    font-size: 2vw;
+    font-size: 3vh;
     text-align: center;
     border-radius: 1000px;
     border: none;
@@ -28,15 +28,15 @@
 
 .shomebtn,
 .smonitorbtn {
-    width: 15%;
-    bottom: 10%;
-    height: 7%;
+    width: 15vw;
+    top: 85%;
+    height: 7vh;
     background-color: gray;
     opacity: 1;
     position: absolute;
     color: white;
     font-family: ONE-Mobile-Bold;
-    font-size: 2vw;
+    font-size: 3vh;
     text-align: center;
     border-radius: 1000px;
     border: none;
@@ -45,15 +45,15 @@
 
 .mhomebtn,
 .mbackbtn {
-    width: 15%;
-    bottom: 2%;
-    height: 7%;
+    width: 15vw;
+    top: 90%;
+    height: 7vh;
     background-color: gray;
     opacity: 1;
     position: absolute;
     color: white;
     font-family: ONE-Mobile-Bold;
-    font-size: 2vw;
+    font-size: 3vh;
     text-align: center;
     border-radius: 1000px;
     border: none;
@@ -69,16 +69,16 @@
 }
 
 .startbtn {
-    width: 17%;
-    bottom: 5%;
+    width: 17vw;
+    top: 90%;
     left: 50%;
-    height: 7%;
+    height: 7vh;
     background-color: gray;
     opacity: 1;
     position: absolute;
     color: white;
     font-family: ONE-Mobile-Bold;
-    font-size: 2vw;
+    font-size: 3vh;
     text-align: center;
     border-radius: 1000px;
     border: none;

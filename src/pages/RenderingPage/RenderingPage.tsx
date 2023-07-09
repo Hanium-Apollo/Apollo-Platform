@@ -18,7 +18,7 @@ function Rendering() {
     const timeout = setTimeout(() => {
       setIsLoading(false);
       goToSuccess();
-    }, 5000);
+    }, 10000);
     // 컴포넌트가 언마운트되면 타임아웃 클리어
     return () => clearTimeout(timeout);
   }, []);

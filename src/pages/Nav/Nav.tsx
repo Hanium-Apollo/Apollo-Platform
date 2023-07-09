@@ -1,6 +1,6 @@
 import React, {useState}  from 'react';
 import { useNavigate, Link} from 'react-router-dom';
-import logo from '../../assets/images/logonameblack.png';
+import logo from '../../assets/images/logoname.png';
 import '../../assets/css/Nav.css';
 import { handleLogout } from '../MainPage/components/LoginButton';
 
@@ -22,7 +22,7 @@ function Nav(){
         navigate('/success'); // Navigate to login page
     };
     const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+        setIsOpen(!isOpen);
     };
     
 
@@ -33,7 +33,7 @@ function Nav(){
             </Link>
             <div className='dropdown'>
                 {localStorage.getItem("isLogin") && <button className="dropdown-toggle" onClick={toggleDropdown}>
-                닉네임
+                User
                 </button>}
                 
                 {isOpen && (

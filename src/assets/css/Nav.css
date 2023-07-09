@@ -64,6 +64,10 @@
     list-style: none;
     padding: 1%;
   }
+  .dropdown-menu li:hover {
+    background-color: black;
+    color: white;
+  }
   
   .dropdown:hover .dropdown-menu {
     display: block;

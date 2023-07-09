@@ -17,7 +17,7 @@ function NightSky() {
     renderer.setSize(width, height);
 
     const starsGeometry = new THREE.BufferGeometry();
-    const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.001 }); // 조정된 크기
+    const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.005 }); // 조정된 크기
 
     const starsPositions = new Float32Array(1000 * 3); // x, y, z positions for each star
 

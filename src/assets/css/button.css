@@ -9,7 +9,7 @@
 }
 
 .fhomebtn {
-    width: 15vw;
+    width: 17vw;
     top: 85%;
     left: 50%;
     transform: translate(-50%, 0%);
@@ -84,6 +84,9 @@
     border: none;
     overflow: hidden;
     transform: translate(-50%, -50%);
+}
+button:hover {
+    background-color: black;
 }
 
 .login {
@@ -205,5 +208,8 @@
     .github {
         height: 5vh;
         margin-right: 5%;
+    }
+    button:hover {
+        background-color: black;
     }
 }

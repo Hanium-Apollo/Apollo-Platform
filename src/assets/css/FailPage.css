@@ -1,0 +1,119 @@
+@font-face {
+    font-family: 'ONE-Mobile-Bold';
+    src: url(../fonts/ONE-Mobile-Bold.ttf) format('truetype');
+  }
+
+@font-face {
+    font-family: 'ONE-Mobile-Regular';
+    src: url(../fonts/ONE-Mobile-Regular.ttf) format('truetype');
+}
+
+.flogo {
+    height: 50vh;
+    object-fit: contain;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+  }
+p {
+    background-color: rgba(255, 255, 255, 0);
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    font-family: ONE-Mobile-Regular;
+  }
+.fmessage {
+    font-size: 5vh;
+    font-weight: bold;
+    color: white;
+    top: 60%;
+}
+.fdone {
+    font-size: 3vh;
+    font-weight: bold;
+    top: 70%;
+    color: white;
+}
+
+.fcheck {
+    font-size: 3vh;
+    font-weight: bold;
+    top: 76%;
+    color: white;
+}
+
+@media (min-aspect-ratio: 2){
+    .flogo {
+        height: 40%;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(180deg);
+      }
+    p {
+        background-color: rgba(255, 255, 255, 0);
+        z-index: 1;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        font-family: ONE-Mobile-Regular;
+      }
+    .fmessage {
+        font-size: 2.5vw;
+        font-weight: Bold;
+        bottom: 30%;
+        color: white;
+    }
+    .fdone {
+        font-size: 1.2vw;
+        font-weight: Bold;
+        bottom: 25%;
+        color: white;
+    }
+    
+    .fcheck {
+        font-size: 1.2vw;
+        font-weight: Bold;
+        bottom: 18%;
+        color: white;
+    }
+}
+
+@media (min-aspect-ratio: 2.8){
+    .flogo {
+        height: 37%;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(180deg);
+      }
+    p {
+        background-color: rgba(255, 255, 255, 0);
+        z-index: 1;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        font-family: ONE-Mobile-Regular;
+      }
+    .fmessage {
+        font-size: 1.7vw;
+        font-weight: Bold;
+        bottom: 30%;
+        color: white;
+    }
+    .fdone {
+        font-size: 1vw;
+        font-weight: Bold;
+        bottom: 25%;
+        color: white;
+    }
+    
+    .fcheck {
+        font-size: 1vw;
+        font-weight: Bold;
+        bottom: 18%;
+        color: white;
+    }
+}

@@ -2,7 +2,7 @@ import React, {useState}  from 'react';
 import { useNavigate, Link} from 'react-router-dom';
 import logo from '../../assets/images/logonameblack.png';
 import '../../assets/css/Nav.css';
-import { handleLogout } from '../MainPage/MainPage';
+import { handleLogout } from '../MainPage/components/LoginButton';
 
 function Nav(){
 

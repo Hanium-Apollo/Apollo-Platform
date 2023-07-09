@@ -51,7 +51,7 @@ function NightSky() {
     };
   }, []);
 
-  return <canvas ref={canvasRef}></canvas>;
+  return <canvas ref={canvasRef} style= {{ width: '100%', height: '100vh'}}></canvas>;
 }
 
 export default NightSky;

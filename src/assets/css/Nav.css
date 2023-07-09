@@ -17,7 +17,7 @@
 .navbar {
     width: 100vw;
     height: 5vh;
-    background-color: white;
+    background-color: #333333;
     padding: 10%;
     text-align: right;
 }
@@ -39,9 +39,11 @@
   }
   
   .dropdown-toggle {
-    background-color: white;
+    background-color: #333333;
     background-image: none;
     border: none;
+    color: white;
+    margin-right: 15px;
     background-image: none !important;
     padding-right: 0 !important;
   }

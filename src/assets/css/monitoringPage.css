@@ -101,38 +101,6 @@
     text-align: center;
   }
 
-  .back-button {
-    width: 15%;
-    height: 7%;
-    background-color: gray;
-    opacity: 1;
-    position: absolute;
-    left: 33%;
-    bottom: 2%;
-    color: white;
-    font-family: ONE-Mobile-Bold;
-    font-weight: bold;
-    text-align: center;
-    border: none;
-    border-radius: 1000px;
-  }
-
-  .home-button {
-    width: 15%;
-    height: 7%;
-    background-color: gray;
-    opacity: 1;
-    position: absolute;
-    left: 53%;
-    bottom: 2%;
-    color: white;
-    font-family: ONE-Mobile-Bold;
-    font-weight: bold;
-    text-align: center;
-    border: none;
-    border-radius: 1000px;
-  }
-
   .text-match {
     font-size: 1.5vw;
     color: white;

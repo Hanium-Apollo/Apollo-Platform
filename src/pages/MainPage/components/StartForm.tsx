@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import '../../../assets/css/button.css';
 import { useNavigate } from "react-router-dom";
 

@@ -86,6 +86,27 @@
     transform: translate(-50%, -50%);
 }
 
+.login {
+    width: 50vh;
+    height: 13vh;
+    background-color: black;
+    opacity: 1;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: ONE-Mobile-Bold;
+    font-size: 3.5vh;
+    text-align: center;
+    border-radius:20px;
+}
+
+.github {
+    height: 7vh;
+    margin-right: 5%;
+}
+
 @media (min-aspect-ratio: 2){
     .fhomebtn {
         width: 15%;

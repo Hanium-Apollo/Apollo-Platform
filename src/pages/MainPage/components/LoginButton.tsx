@@ -15,8 +15,8 @@ function LoginButton() {
     };
     return (
         <button className="login" onClick={handleLogin}>
-                <img src={github} className="github" alt="github" />Log in with GitHub
-                </button>
+            <img src={github} className="github" alt="github" />Log in with GitHub
+        </button>
     );
 
 }

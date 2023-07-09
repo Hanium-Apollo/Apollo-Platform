@@ -44,61 +44,11 @@ input {
     position: absolute;
 }
 
-@media (min-aspect-ratio: 2.8){
+@media (max-aspect-ratio: 6/7){
     .logoname {
-        width: 50%;
-        height: 30%;
+        height: 20vh;
         position: absolute;
-        top: 10%;
+        top: 20%;
         transform: translate(-50%, 30%);
-    }
-    
-    .login {
-        width: 35%;
-        height: 13%;
-        background-color: black;
-        opacity: 1;
-        position: absolute;
-        bottom: 15%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-family: ONE-Mobile-Bold;
-        font-size: 2.5vw;
-        text-align: center;
-        border-radius:20px;
-    }
-    
-    .github {
-        width: 13%;
-        margin-right: 5%;
-    }
-    
-    input {
-        text-align: left;
-        background-color: rgba(234,236,239,0.8700000047683716);
-        border-radius: 1000px;
-        border: none;
-        width: 70%;
-        height: 7%;
-        font-family: ONE-Mobile-Bold;
-        font-weight: bold;
-        font-size: 0.7vw;
-        opacity: 1;
-        text-indent: 2%;
-    }
-    
-    .inputname {
-        bottom: 27%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        position: absolute;
-    }
-    
-    .inputURL {
-        bottom: 17%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        position: absolute;
     }
 }

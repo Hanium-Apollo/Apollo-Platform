@@ -1,0 +1,106 @@
+@font-face {
+  font-family: 'ONE-Mobile-Bold';
+  src: url(../fonts/ONE-Mobile-Bold.ttf) format('truetype');
+}
+
+@font-face {  
+  font-family: 'ONE-Mobile-Regular';
+  src: url(../fonts/ONE-Mobile-Regular.ttf) format('truetype');
+}
+  .logo {
+    height: 50vh;
+    object-fit: contain;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .flogo {
+    height: 50vh;
+    object-fit: contain;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+  }
+  
+  p {
+    background-color: rgba(255, 255, 255, 0);
+    z-index: 1;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: ONE-Mobile-Bold;
+    font-weight: bold;
+  }
+  
+  .message {
+    font-size: 5vh;
+    font-weight: bold;
+    color: white;
+    top: 60%;
+  }
+  
+  .done {
+    font-size: 3vh;
+    font-weight: bold;
+    top: 70%;
+    color: white;
+  }
+  
+  .check {
+    font-size: 3vh;
+    font-weight: bold;
+    top: 76%;
+    color: white;
+  }
+
+  @media (max-aspect-ratio: 6/7){
+    .logo {
+      height: 40vh;
+      object-fit: contain;
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .flogo {
+      height: 40vh;
+      object-fit: contain;
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(180deg);
+    }
+    
+    p {
+      background-color: rgba(255, 255, 255, 0);
+      z-index: 1;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: ONE-Mobile-Bold;
+      font-weight: bold;
+    }
+    
+    .message {
+      font-size: 3.5vh;
+      font-weight: bold;
+      color: white;
+      top: 60%;
+    }
+    
+    .done {
+      font-size: 2vh;
+      font-weight: bold;
+      top: 70%;
+      color: white;
+    }
+    
+    .check {
+      font-size: 2vh;
+      font-weight: bold;
+      top: 76%;
+      color: white;
+    }
+}

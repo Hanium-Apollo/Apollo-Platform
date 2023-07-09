@@ -107,19 +107,19 @@
     margin-right: 5%;
 }
 
-@media (min-aspect-ratio: 2){
+@media (max-aspect-ratio: 6/7){
     .fhomebtn {
-        width: 15%;
-        bottom: 10%;
+        width: 17vw;
+        top: 85%;
         left: 50%;
         transform: translate(-50%, 0%);
-        height: 7%;
+        height: 5vh;
         background-color: gray;
         opacity: 1;
         position: absolute;
         color: white;
         font-family: ONE-Mobile-Bold;
-        font-size: 1.5vw;
+        font-size: 2vh;
         text-align: center;
         border-radius: 1000px;
         border: none;
@@ -128,15 +128,15 @@
     
     .shomebtn,
     .smonitorbtn {
-        width: 15%;
-        bottom: 10%;
-        height: 7%;
+        width: 17vw;
+        top: 85%;
+        height: 5vh;
         background-color: gray;
         opacity: 1;
         position: absolute;
         color: white;
         font-family: ONE-Mobile-Bold;
-        font-size: 1.5vw;
+        font-size: 2vh;
         text-align: center;
         border-radius: 1000px;
         border: none;
@@ -145,15 +145,15 @@
     
     .mhomebtn,
     .mbackbtn {
-        width: 15%;
-        bottom: 2%;
-        height: 7%;
+        width: 17vw;
+        top: 90%;
+        height: 5vh;
         background-color: gray;
         opacity: 1;
         position: absolute;
         color: white;
         font-family: ONE-Mobile-Bold;
-        font-size: 1.5vw;
+        font-size: 2vh;
         text-align: center;
         border-radius: 1000px;
         border: none;
@@ -161,108 +161,49 @@
     }
     .smonitorbtn,
     .mbackbtn {
-      left: 33%;
+      left: 30%;
     }
     .mhomebtn,
     .shomebtn {
-      right: 33%;
+      right: 30%;
     }
     
     .startbtn {
-        width: 17%;
-        bottom: 5%;
+        width: 17vw;
+        top: 90%;
         left: 50%;
-        height: 7%;
+        height: 5vh;
         background-color: gray;
         opacity: 1;
         position: absolute;
         color: white;
         font-family: ONE-Mobile-Bold;
-        font-size: 1.5vw;
+        font-size: 2vh;
         text-align: center;
         border-radius: 1000px;
         border: none;
         overflow: hidden;
         transform: translate(-50%, -50%);
     }
-}
-
-@media (min-aspect-ratio: 2.8){
-    .fhomebtn {
-        width: 15%;
-        bottom: 10%;
+    
+    .login {
+        width: 35vh;
+        height: 13vh;
+        background-color: black;
+        opacity: 1;
+        position: absolute;
+        top: 75%;
         left: 50%;
-        transform: translate(-50%, 0%);
-        height: 7%;
-        background-color: gray;
-        opacity: 1;
-        position: absolute;
-        color: white;
-        font-family: ONE-Mobile-Bold;
-        font-size: 0.8vw;
-        text-align: center;
-        border-radius: 1000px;
-        border: none;
-        overflow: hidden;
-    }
-    
-    .shomebtn,
-    .smonitorbtn {
-        width: 15%;
-        bottom: 10%;
-        height: 7%;
-        background-color: gray;
-        opacity: 1;
-        position: absolute;
-        color: white;
-        font-family: ONE-Mobile-Bold;
-        font-size: 0.8vw;
-        text-align: center;
-        border-radius: 1000px;
-        border: none;
-        overflow: hidden;
-    }
-    
-    .mhomebtn,
-    .mbackbtn {
-        width: 15%;
-        bottom: 2%;
-        height: 7%;
-        background-color: gray;
-        opacity: 1;
-        position: absolute;
-        color: white;
-        font-family: ONE-Mobile-Bold;
-        font-size: 0.8vw;
-        text-align: center;
-        border-radius: 1000px;
-        border: none;
-        overflow: hidden;
-    }
-    .smonitorbtn,
-    .mbackbtn {
-      left: 33%;
-    }
-    .mhomebtn,
-    .shomebtn {
-      right: 33%;
-    }
-    
-    .startbtn {
-        width: 17%;
-        bottom: 5%;
-        left: 50%;
-        height: 7%;
-        background-color: gray;
-        opacity: 1;
-        position: absolute;
-        color: white;
-        font-family: ONE-Mobile-Bold;
-        font-size: 0.8vw;
-        text-align: center;
-        border-radius: 1000px;
-        border: none;
-        overflow: hidden;
         transform: translate(-50%, -50%);
+        color: white;
+        font-family: ONE-Mobile-Bold;
+        font-size: 2.5vh;
+        text-align: center;
+        border-radius:20px;
+    }
+    
+    .github {
+        height: 5vh;
+        margin-right: 5%;
     }
 }

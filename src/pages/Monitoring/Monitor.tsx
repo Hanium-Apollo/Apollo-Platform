@@ -3,55 +3,67 @@ import '../../assets/css/monitoringPage.css';
 import BarShapeChart from "../../components/monitoringChart/BarShapeChart";
 import LineShapeChart from "../../components/monitoringChart/LineShapeChart";
 import Button from "../../components/button/Button";
-
+import Slider from "react-slick";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 function Monitor() {
-
+        const settings = {
+          dots: true,
+          infinite: true,
+          speed: 500,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        };
+        
     return (
         <div>
             <div className="text-block">
-                <p className="container-name">Container Name</p>
+                Container Name
             </div>
+            <div className="chart">
+                <Slider {...settings} className="slider">
+                    <div className="cpu-block">
+                        <div className="NameBlock">
+                            CPU Utilization
+                        </div>
+                        <LineShapeChart />
+                    </div>
 
-            <div className="cpu-block">
-                <div className="NameBlock">
-                    <p className="text-match">CPU Utilization</p>
-                </div>
-                <LineShapeChart />
-            </div>
+                    <div className="log-block">
+                        <div className="NameBlock">
+                            Log Check
+                        </div>
+                        <BarShapeChart />
+                    </div>
 
-            <div className="log-block">
-                <div className="NameBlock">
-                    <p className="text-match">Log Check</p>
-                </div>
-                <BarShapeChart />
-            </div>
+                    <div className="memory-block">
+                        <div className="NameBlock">
+                            Memory
+                        </div>
+                        <LineShapeChart />
+                    </div>
 
-            <div className="memory-block">
-                <div className="NameBlock">
-                    <p className="text-match">Memory</p>
-                </div>
-                <LineShapeChart />
-            </div>
+                    <div className="disk-block">
+                        <div className="NameBlock">
+                            Disk I/O
+                        </div>
+                        <LineShapeChart />
+                    </div>
 
-            <div className="disk-block">
-                <div className="NameBlock">
-                    <p className="text-match">Disk I/O</p>
-                </div>
-                <LineShapeChart />
-            </div>
+                    <div className="networkin-block">
+                        <div className="NameBlock">
+                            Network In
+                        </div>
+                        <LineShapeChart />
+                    </div>
 
-            <div className="networkin-block">
-                <div className="NameBlock">
-                    <p className="text-match">Network In</p>
-                </div>
-                <LineShapeChart />
-            </div>
-
-            <div className="networkout-block">
-                <div className="NameBlock">
-                    <p className="text-match">Network Out</p>
-                </div>
-                <LineShapeChart />
+                    <div className="networkout-block">
+                        <div className="NameBlock">
+                            Network Out
+                        </div>
+                        <LineShapeChart />
+                    </div>
+                </Slider>
             </div>
             <Button css={"mhomebtn"} text={"home"}/>
             <Button css={"mbackbtn"} text={"back"}/>

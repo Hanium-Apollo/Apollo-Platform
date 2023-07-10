@@ -2,6 +2,8 @@ import React from 'react';
 import {Grid} from '@mui/material';
 import styled from '@emotion/styled';
 import { Fade } from "react-awesome-reveal";
+import { Section1Button } from './section1Inner';
+
 
 const SectionContainer = styled(Grid)`
     display: flex;
@@ -37,10 +39,10 @@ const Text = styled.div`
     color: inherit;
     letter-spacing: 4.8px;
     font-weight: bold;
-    @font-face {
-        font-family: 'AppleBold';
-        src: url(../../fonts/AppleSDGothicNeoEB.ttf) format('truetype');
-    }
+      @font-face {
+          font-family: 'AppleBold';
+          src: url('/fonts/AppleSDGothicNeoBold.ttf') format('truetype');
+      }
     font-family: 'AppleBold';
 
     span.highlight {
@@ -63,8 +65,8 @@ const InnerText = styled.div`
     padding: 10px 0;
     @font-face {
         font-family: 'Apple';
-        src: url(../../fonts/AppleSDGothicNeoB.ttf) format('truetype');
-    }
+        src: url('/fonts/AppleSDGothicNeo.ttf') format('truetype');
+      }
     font-family: 'Apple';
 `
 
@@ -90,6 +92,6 @@ export const Section1: React.FC<Section1Props> = ({children}) => {
                     </Fade>
                 </InnerContainer>
             </TextContainer>
-        </SectionContainer>   
+        </SectionContainer>  
     );
 };

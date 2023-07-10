@@ -11,7 +11,7 @@ const SectionContainer = styled(Grid)`
     opacity: 0.9;
     border-radius: 20px;
     z-index: 1;
-    margin: 20px 20px 20px 20px;
+    margin: 20px 20px 20px 30px;
     transform: translateY(-10%);
 `
 
@@ -41,9 +41,9 @@ export const Section1: React.FC<Section1Props> = ({children}) => {
             </TextContainer>
             <TextContainer item xs={6} sm={6}>
                 <InnerContainer>
-                    <h1>Section2</h1>
+                    <h2>Section2</h2>
                 </InnerContainer>
             </TextContainer>
-</SectionContainer>   
+        </SectionContainer>   
     );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import styled from '@emotion/styled';
 import { Grid } from "@mui/material";
 import MainContainer from "../../components/about/MainContainer";
-import {Section1} from "../../components/about/section1";
+import { Section1 } from "../../components/about/section1";
 
 
 const About: React.FC = () => {

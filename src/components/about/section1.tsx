@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid} from '@mui/material';
 import styled from '@emotion/styled';
 import { Fade } from "react-awesome-reveal";
-import { Section1Button } from './section1Inner';
+import { Section1Inner } from './section1Inner';
 
 
 const SectionContainer = styled(Grid)`
@@ -76,17 +76,25 @@ interface Section1Props {
 
 
 export const Section1: React.FC<Section1Props> = ({children}) => {
-    return(
+    
+    return( 
         <SectionContainer>
+            <TextContainer item xs={12} sm={6}>
+                <Fade direction="left">
+                    <Section1Inner>
+                        {"Get Started"}
+                    </Section1Inner>
+                </Fade>
+            </TextContainer>
             <TextContainer item xs={12}>
                 <InnerContainer>
-                    <Fade direction="up" triggerOnce>
+                    <Fade direction="up">
                         <Text>
                             {"Let's"}
                             <span className="highlight">{" APOLLO"}</span>
                         </Text>
                         <SubTitle>좀 더 빠르고, 좀 더 안전하게</SubTitle>
-                        <InnerText> ✓ Github를 이용으로 간편하게 </InnerText>
+                        <InnerText> ✓ Github & Docker 이용으로 간편하게 </InnerText>
                         <InnerText> ✓ 실시간 모니터링으로 직관적이게</InnerText>
                         <InnerText> ✓ 자동화로 한걸음 더 편리하게</InnerText>
                     </Fade>

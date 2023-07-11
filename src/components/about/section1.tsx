@@ -46,7 +46,7 @@ const Text = styled.div`
     font-family: 'AppleBold';
 
     span.highlight {
-        color: rgba(75,192,192,1);
+        color: #F3F781;
     }
 `
 

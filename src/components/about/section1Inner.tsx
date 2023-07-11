@@ -11,13 +11,21 @@ const buttonStyles = css`
     background-color: gray;
     padding: 10px 20px;
     color : white;
-    font-weight: bold;   
+    font-weight: bold; 
+    font-size: 1.5rem;  
     border: none;
-    weight : 40vw;
+    weight : 50vw;
+    height : 10vh;
     display: flex;
     position: relative;
-    padding: 10px 20px;
+    padding: 20px 20px;
     margin: 30px 0px;
+
+    @font-face {
+        font-family: 'AppleBold';
+        src: url('/fonts/AppleSDGothicNeoBold.ttf') format('truetype');
+    }
+    font-family: 'AppleBold';
 `
 const StyledButton = styled(MaterialButton)`
     ${buttonStyles}
@@ -36,7 +44,7 @@ const TextContainer = styled(Grid)`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 10px 20px;
+    padding: 20px 20px;
 `
 
 export const Section1Inner: React.FC<Section1Props> = ({children}) => {
@@ -48,10 +56,10 @@ export const Section1Inner: React.FC<Section1Props> = ({children}) => {
                 {"Get Started 👌🏼"}
             </StyledButton>
             <StyledButton variant="text">
-                {"With Docker 🐳"}
+                {"How to use? 🤔"}
             </StyledButton>
             <StyledButton>
-                {"Without Docker 👀"}
+                {"If No Dockerfile 🐳"}
             </StyledButton>
         </TextContainer>
     </SectionContainer>

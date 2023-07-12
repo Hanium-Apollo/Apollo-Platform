@@ -10,10 +10,10 @@
 
 
 .logoname {
-    height: 30vh;
+    height: 250px;
     position: absolute;
-    transform: translate(-50%, 30%);
-    top: 15%;
+    transform: translate(-50%);
+    margin-top: 120px;
 }
 
 input {
@@ -22,33 +22,24 @@ input {
     border-radius: 1000px;
     border: none;
     width: 70%;
-    height: 7%;
+    height: 50px;
     font-family: ONE-Mobile-Bold;
     font-weight: bold;
-    font-size: 1vh;
+    font-size: 30px;
     opacity: 1;
     text-indent: 2%;
 }
 
 .inputname {
-    bottom: 27%;
+    margin-top: 420px;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%);
     position: absolute;
 }
 
 .inputURL {
-    bottom: 17%;
+    margin-top: 520px;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%);
     position: absolute;
-}
-
-@media (max-aspect-ratio: 6/7){
-    .logoname {
-        height: 20vh;
-        position: absolute;
-        top: 20%;
-        transform: translate(-50%, 30%);
-    }
 }

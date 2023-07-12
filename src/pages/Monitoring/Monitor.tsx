@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import '../../assets/css/monitoringPage.css';
 import BarShapeChart from "../../components/monitoringChart/BarShapeChart";
 import LineShapeChart from "../../components/monitoringChart/LineShapeChart";
@@ -14,6 +14,7 @@ function Monitor() {
           slidesToShow: 1,
           slidesToScroll: 1,
         };
+        const buttonRef = useRef<HTMLButtonElement>(null);
         
     return (
         <div>
@@ -65,8 +66,10 @@ function Monitor() {
                     </div>
                 </Slider>
             </div>
-            <Button css={"mhomebtn"} text={"home"}/>
-            <Button css={"mbackbtn"} text={"back"}/>
+            <div>
+                <Button css={"mhomebtn"} text={"home"}/>
+                <Button css={"mbackbtn"} text={"back"}/>
+            </div>
         </div>
       
     );

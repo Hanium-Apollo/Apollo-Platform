@@ -3,10 +3,13 @@ import * as THREE from 'three';
 
 function NightSky() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    let width = container.clientWidth;
+    let height = container.clientHeight;
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x333333); // 배경색을 검은색으로 설정
@@ -33,6 +36,17 @@ function NightSky() {
     const stars = new THREE.Points(starsGeometry, starMaterial);
     scene.add(stars);
 
+    function handleResize() {
+      width = container.clientWidth;
+      height = Math.max(container.clientHeight, 750);
+
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    }
+
+    window.addEventListener('resize', handleResize);
+
     function animate() {
       requestAnimationFrame(animate);
 
@@ -45,13 +59,18 @@ function NightSky() {
     animate();
 
     return () => {
+      window.removeEventListener('resize', handleResize);
       renderer.dispose();
       starsGeometry.dispose();
       starMaterial.dispose();
     };
   }, []);
 
-  return <canvas ref={canvasRef} style= {{ width: '100%', height: '100vh'}}></canvas>;
+  return (
+    <div ref={containerRef} style={{ width: '100%', height: '93%'}}>
+      <canvas ref={canvasRef}></canvas>
+    </div>
+  );
 }
 
 export default NightSky;

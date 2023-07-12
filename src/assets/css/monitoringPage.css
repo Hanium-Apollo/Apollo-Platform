@@ -15,29 +15,30 @@
 
 .text-block {
   display: flex;
-  font-size: 2vh;
+  font-size: 20px;
   font-family: inter;
   font-weight: bold;
   justify-content : center;
   align-items : center;
   position: absolute;
   z-index: 0;
-  top: 10vh;
-  left: 20vw;
+  margin-top: 50px;
+  left: 50%;
   background-color: white;
   border: 1px solid black;
-  width: 15%;
-  height: 4%;
+  width: 250px;
+  height: 35px;
   opacity: 0.8;
+  transform: translate(-350px);
 }
 
 
   .chart-container {
-    width: 60vw;
-    height: 50vh;
+    width: 700px;
+    height: 360px;
     position: relative;
     z-index: 1;
-    margin-top: 1vh;
+    margin-top: 1vw;
   }
 
   .cpu-block,
@@ -49,10 +50,10 @@
     display: flex;
     z-index: 0;
     background-color: #d0d0d0;
-    width: 100%;
-    height: 55vh;
+    width: 300px;
+    height: 360px;
   }
-  
+
 
 
   .NameBlock {
@@ -60,11 +61,11 @@
     position: relative;
     z-index: 1;
     background-color: gray;
-    width: 60vw;
-    height: 4vh;
+    width: 700px;
+    height: 45px;
     opacity: 1;
     justify-content : center;
-    font-size: 2vh;
+    font-size: 2vw;
     color: white;
     z-index: 1;
     font-family: Acme;
@@ -74,45 +75,11 @@
   }
 
 .chart {
-  height: 55vh;
-  width: 60vw;
+  height: 450px;
+  width: 700px;
   position: absolute;
-  bottom: 55%;
   left: 50%;
-  transform: translate(-50%, 50%);
+  transform: translate(-50%);
+  margin-top: 130px;
 }
 
-
-  @media (max-aspect-ratio: 0.5) {
-    .container-name {
-      font-size: 1.7vw;
-      left: 50%;
-      top: 17%;
-    }
-
-    .text-match {
-      top: 18%;
-      font-size: 1.9vw;
-    }
-  }
-
-  @media (max-aspect-ratio: 1.5) {
-    .container-name {
-      font-size: 1%;
-      left: 57%;
-      top: -25%;
-    }
-
-    .text-block {
-      top: 12%
-    }
-
-    .text-match {
-      font-size: 1.5vw;
-      top: -5%;
-    }
-  }
-
-  @media (max-aspect-ratio: 6/7){
-
-}

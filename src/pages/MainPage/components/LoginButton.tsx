@@ -1,24 +1,53 @@
-import React, {useState, useEffect} from "react";
-import github from '../../../assets/images/github_logo.png';
-import '../../../assets/css/button.css';
+import React, { useState, useEffect } from "react";
+import github from "../../../assets/images/github_logo.png";
+import "../../../assets/css/button.css";
+import { getAuthenticationService } from "../../../apis/GetAuthenticationService";
 
 export function handleLogout() {
-    localStorage.removeItem("isLogin");
-    window.location.href = "/";
+  localStorage.removeItem("isLogin");
+  window.location.href = "/";
 }
 
 function LoginButton() {
-    const handleLogin = () => {
-        const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=eb98b73d98c77c524840&redirect_uri=http://localhost:3000/`;
-        window.location.href = githubAuthUrl;
-        localStorage.setItem("isLogin", JSON.stringify(true));
-    };
-    return (
-        <button className="login" onClick={handleLogin}>
-            <img src={github} className="github" alt="github" />Log in with GitHub
-        </button>
-    );
+  const handleLogin = () => {
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=7600733c0c5ed7849ce6`;
+    window.location.href = githubAuthUrl;
+    // localStorage.setItem("isLogin", JSON.stringify(true));
+  };
 
+  const [accessToken, setAccessToken] = useState("");
+
+  const handleCallback = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+
+    if (code) {
+      setAccessToken(code);
+      console.log(code);
+      getAuthenticationService(code)
+        .then((res) => {
+          console.log(res);
+          localStorage.setItem("isLogin", JSON.stringify(true));
+        })
+        .catch((err) => {
+          console.log("here");
+          console.log(err);
+        });
+    } else {
+      console.log("Error: code not found");
+    }
+  };
+
+  useEffect(() => {
+    handleCallback();
+  }, []);
+
+  return (
+    <button className="login" onClick={handleLogin}>
+      <img src={github} className="github" alt="github" />
+      Log in with GitHub
+    </button>
+  );
 }
 
 export default LoginButton;

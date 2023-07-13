@@ -15,17 +15,19 @@ const buttonStyles = css`
     font-size: 1.5rem;  
     border: none;
     weight : 50vw;
-    height : 10vh;
+    height : 5vh;
     display: flex;
-    position: relative;
-    padding: 20px 20px;
-    margin: 30px 0px;
+    border-radius: 10px;
 
     @font-face {
         font-family: 'AppleBold';
         src: url('/fonts/AppleSDGothicNeoBold.ttf') format('truetype');
     }
     font-family: 'AppleBold';
+
+    @media (max-width: 768px) {
+        font-size: 0.7rem; 
+       }
 `
 const StyledButton = styled(MaterialButton)`
     ${buttonStyles}
@@ -35,7 +37,6 @@ const SectionContainer = styled(Grid)`
     position: relative;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
 `
 
 const TextContainer = styled(Grid)`
@@ -43,24 +44,40 @@ const TextContainer = styled(Grid)`
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    padding: 20px 20px;
+    margin: 20px 20px 20px 20px;
+    padding: 20px 20px 20px 20px;
+
+    /* 추가한 부분 */
+    & > *:not(:last-child) {
+        margin-right: 100px; /* 버튼 사이의 간격을 조정합니다. */
+    }
+
+    @media (max-width: 768px) {
+        & > *:not(:last-child) {
+            margin-right: 10px; /* 화면이 768px 이하일 때 간격을 줄입니다.
+    }
+}
 `
+
 
 export const Section1Inner: React.FC<Section1Props> = ({children}) => {
     const navigate = useNavigate();
     return(
     <SectionContainer container>
         <TextContainer item xs={12}>
-            <StyledButton onClick={()=>navigate("/")}>
+            
+            <StyledButton onClick={()=>navigate("/")} size="large">
                 {"Get Started 👌🏼"}
             </StyledButton>
+
             <StyledButton variant="text">
                 {"How to use? 🤔"}
             </StyledButton>
+
             <StyledButton>
                 {"If No Dockerfile 🐳"}
             </StyledButton>
+
         </TextContainer>
     </SectionContainer>
     );

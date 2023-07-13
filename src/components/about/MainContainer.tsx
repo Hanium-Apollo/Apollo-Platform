@@ -9,6 +9,7 @@ const MainContainer = styled(Grid)`
     margin: 0 auto;
     padding: 100px 0;
     background-color: #333333;
+    flex-direction: column;
     @media (max-width: 768px) {
         padding: 100px 30px;
     }

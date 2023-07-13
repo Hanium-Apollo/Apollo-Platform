@@ -18,7 +18,7 @@
     opacity: 1;
     color: white;
     font-family: ONE-Mobile-Bold;
-    font-size: 25px;
+    font-size: 1.8vw;
     text-align: center;
     border-radius: 1000px;
     border: none;
@@ -33,7 +33,7 @@
     opacity: 1;
     color: white;
     font-family: ONE-Mobile-Bold;
-    font-size: 25px;
+    font-size: 1.7vw;
     text-align: center;
     border-radius: 1000px;
     border: none;
@@ -49,7 +49,7 @@
     opacity: 1;
     color: white;
     font-family: ONE-Mobile-Bold;
-    font-size: 25px;
+    font-size: 1.7vw;
     text-align: center;
     border-radius: 1000px;
     border: none;
@@ -72,7 +72,7 @@
     opacity: 1;
     color: white;
     font-family: ONE-Mobile-Bold;
-    font-size: 25px;
+    font-size: 1.8vw;
     text-align: center;
     border-radius: 1000px;
     border: none;
@@ -91,7 +91,7 @@
 }
 
 .login {
-    width: 35%;
+    width: 40%;
     height: 120px;
     background-color: black;
     opacity: 1;
@@ -101,32 +101,11 @@
     font-weight: bold;
     font-size: 2.5vw;
     text-align: center;
-    border-radius:30px;
+    border-radius:20px;
     border: none;
 }
 
 .github {
-    width: 20%;
-    margin-right: 5%;
-}
-
-@media (max-width: 650px) {
-    .fhomebtn,
-    .shomebtn,
-    .smonitorbtn,
-    .mbackbtn,
-    .mhomebtn,
-    .startbtn {
-        width: 22vw;
-        height: 40px;
-        font-size: 15px;
-    }
-    .smonitorbtn,
-    .mbackbtn {
-        left: 25%;
-    }
-    .mhomebtn,
-    .shomebtn {
-        right: 25%;
-    }
+    width: 10%;
+    margin-right: 2%;
 }

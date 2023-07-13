@@ -13,15 +13,15 @@ function Rendering() {
         navigate("/success");
     }
 
-  useEffect(() => {
-    // 로딩 시뮬레이션 (예: setTimeout, API 요청 등)
-    const timeout = setTimeout(() => {
-      setIsLoading(false);
-      goToSuccess();
-    }, 10000);
-    // 컴포넌트가 언마운트되면 타임아웃 클리어
-    return () => clearTimeout(timeout);
-  }, []);
+ useEffect(() => {
+   // 로딩 시뮬레이션 (예: setTimeout, API 요청 등)
+   const timeout = setTimeout(() => {
+     setIsLoading(false);
+     goToSuccess();
+   }, 10000);
+   // 컴포넌트가 언마운트되면 타임아웃 클리어
+   return () => clearTimeout(timeout);
+ }, []);
 
   return (
       <div className="loading-container">

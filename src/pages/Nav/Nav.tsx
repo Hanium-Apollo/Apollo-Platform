@@ -38,10 +38,10 @@ function Nav(){
                 
                 {isOpen && (
                     <ul className="dropdown-menu">
-                        <li onClick={GotoMain} style={{ cursor: 'pointer' }}>Home</li>
-                        <li onClick={GotoFail} style={{ cursor: 'pointer' }}>Fail</li>
-                        <li onClick={GotoSuccess} style={{ cursor: 'pointer' }}>Success</li>
-                        <li onClick={() => handleLogout()} style={{ cursor: 'pointer' }}>Logout</li>
+                        <li className="menu" onClick={GotoMain} style={{ cursor: 'pointer' }}>Home</li>
+                        <li className="menu" onClick={GotoFail} style={{ cursor: 'pointer' }}>Fail</li>
+                        <li className="menu" onClick={GotoSuccess} style={{ cursor: 'pointer' }}>Success</li>
+                        <li className="menu" onClick={() => handleLogout()} style={{ cursor: 'pointer' }}>Logout</li>
                     </ul>
                 )}
             </div>

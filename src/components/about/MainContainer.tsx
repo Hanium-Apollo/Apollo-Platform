@@ -5,11 +5,12 @@ const MainContainer = styled(Grid)`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0 auto;
     padding: 100px 0;
     background-color: #333333;
     flex-direction: column;
+    max-width: 1920px;
+    max-height: 100%;
+    margin: 0 auto;
     @media (max-width: 768px) {
         padding: 100px 30px;
     }

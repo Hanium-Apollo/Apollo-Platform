@@ -9,6 +9,7 @@ import About from "./pages/About/About";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NightSky from "./pages/MainPage/NightSky";
 import Rendering from "./pages/RenderingPage/RenderingPage";
+import Wait from "./pages/Wait/WaitPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/monitor" element={<Monitor />}></Route>
           <Route path="/rendering" element={<Rendering />}></Route>
           <Route path="/About" element={<About />}></Route>
+          <Route path="/wait" element={<Wait />}></Route>
         </Routes>
         <NightSky />
       </BrowserRouter>

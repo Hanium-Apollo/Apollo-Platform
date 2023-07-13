@@ -54,29 +54,3 @@
     color: white;
   }
 
-@media (max-width: 650px) {
-    .logo,
-    .flogo{
-      height: 250px;
-    }
-    .message{
-      font-size: 40px;
-    }
-    .done,
-    .check{
-      font-size: 20px;
-    }
-}
-@media (max-width: 650px) {
-  .logo,
-  .flogo{
-    height: 220px;
-  }
-  .message{
-    font-size: 30px;
-  }
-  .done,
-  .check{
-    font-size: 13px;
-  }
-}

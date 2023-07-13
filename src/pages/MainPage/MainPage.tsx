@@ -42,15 +42,16 @@ function Main() {
             <img src={logoname} className="logoname" alt="logoname" />
             {localStorage.getItem("isLogin") ? (
                 <div>
-                  <StartForm />
-                  <StyledButton variant="contained" startIcon= {<DescriptionIcon/> }onClick={() => navigate("/about")}>
-                  Learn More..
-                  </StyledButton>
-                </div>
+                <StartForm />
+                <StyledButton variant="contained" startIcon= {<DescriptionIcon/> }onClick={() => navigate("/about")}>
+                Learn More..
+                </StyledButton>
+              </div>
             ) : (
               <div>
                 <LoginButton />
                 </div>
+                
             )}
         </div>
       

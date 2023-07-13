@@ -18,16 +18,8 @@
     align-items: center;
 }
 .logoname {
-    width: 40%;
-    margin-top: 10vw;
-    @media (max-width: 600px) {
-        height: 180px;
-        margin-top: 140px;
-    }
-    @media (max-width: 450px) {
-        height: 120px;
-        margin-top: 160px;
-    }
+    width: 50%;
+    margin-top: 10%;
 }
 
 .inputname {
@@ -43,9 +35,7 @@
     opacity: 1;
     text-indent: 2%;
     margin-top: 10%;
-    @media (max-width: 450px) {
-        height: 40px;
-    }
+
 }
 
 .inputURL {
@@ -61,7 +51,5 @@
     opacity: 1;
     text-indent: 2%;
     margin-top: 5%;
-    @media (max-width: 450px) {
-        height: 40px;
-    }
+
 }

@@ -3,68 +3,66 @@ import '../../assets/css/monitoringPage.css';
 import BarShapeChart from "../../components/monitoringChart/BarShapeChart";
 import LineShapeChart from "../../components/monitoringChart/LineShapeChart";
 import Button from "../../components/button/Button";
-import Slider from "react-slick";
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { Container, Grid} from "@mui/material";
 function Monitor() {
-        const settings = {
-          dots: true,
-          infinite: true,
-          speed: 500,
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        };
-        const buttonRef = useRef<HTMLButtonElement>(null);
-        
     return (
         <div className="monitor">
             <div className="text-block">
                 Container Name
             </div>
             <div className="chart">
-                <Slider {...settings}>
-                    <div className="cpu-block">
+                <Container>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6} md={4}>
+                        <div className="cpu-block">
                         <div className="NameBlock">
                             CPU Utilization
                         </div>
                         <LineShapeChart />
                     </div>
-
-                    <div className="log-block">
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                        <div className="log-block">
                         <div className="NameBlock">
                             Log Check
                         </div>
                         <BarShapeChart />
                     </div>
-
-                    <div className="memory-block">
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                        <div className="memory-block">
                         <div className="NameBlock">
                             Memory
                         </div>
                         <LineShapeChart />
                     </div>
-
-                    <div className="disk-block">
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                        <div className="disk-block">
                         <div className="NameBlock">
                             Disk I/O
                         </div>
                         <LineShapeChart />
                     </div>
-
-                    <div className="networkin-block">
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                        <div className="networkin-block">
                         <div className="NameBlock">
                             Network In
                         </div>
                         <LineShapeChart />
                     </div>
-
-                    <div className="networkout-block">
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                        <div className="networkout-block">
                         <div className="NameBlock">
                             Network Out
                         </div>
                         <LineShapeChart />
                     </div>
-                </Slider>
+                        </Grid>
+                    </Grid>
+                </Container>
             </div>
             <div>
                 <Button css={"mhomebtn"} text={"home"}/>

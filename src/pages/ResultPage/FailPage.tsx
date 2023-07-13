@@ -9,7 +9,7 @@ import Button from "../../components/button/Button";
 function Fail() {
 
     return (
-        <div>
+        <div className="result">
             <img src={logo} className="flogo" alt="logo" />
             <p className="message">FAILED !</p>
             <p className="done">배포에 실패하였습니다</p>

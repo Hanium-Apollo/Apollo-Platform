@@ -38,7 +38,7 @@ function Main() {
     const navigate = useNavigate();
 
     return (
-        <div>
+        <div className="main">
             <img src={logoname} className="logoname" alt="logoname" />
             {localStorage.getItem("isLogin") ? (
                 <div>
@@ -48,7 +48,9 @@ function Main() {
                   </StyledButton>
                 </div>
             ) : (
+              <div>
                 <LoginButton />
+                </div>
             )}
         </div>
       

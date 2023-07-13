@@ -8,14 +8,15 @@ import { Section1Inner } from './section1Inner';
 const SectionContainer = styled(Grid)`
     display: flex;
     position: relative;
-    height: 90vh;
-    weight: 90vw;
+    height: 80vh;
+    weight: 70vw;
     background-color: #5A5A5A;
     opacity: 1;
     border-radius: 20px;
     z-index: 1;
-    margin: 20px 30px 20px 30px;
-    transform: translateY(-10%);
+    margin: 60px 70px 60px 70px;
+    transform: translateY(-5%);
+    flex-direction: column;
 `
 
 const TextContainer = styled(Grid)`
@@ -32,13 +33,16 @@ const InnerContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    white-space: nowrap;
+    margin: 20px 0;
  `
 
 const Text = styled.div`
-    font-size: 6rem;
+    font-size: 8rem;
     color: inherit;
     letter-spacing: 4.8px;
     font-weight: bold;
+    margin: 30px 0;
       @font-face {
           font-family: 'AppleBold';
           src: url('/fonts/AppleSDGothicNeoBold.ttf') format('truetype');
@@ -48,26 +52,38 @@ const Text = styled.div`
     span.highlight {
         color: #F3F781;
     }
-`
-
-const SubTitle = styled.div`
-    font-size: 3rem;
-    padding: 10px 0;
-    color: inherit;
-    letter-spacing: 4.8px;
-    font-family: 'AppleBold';
+    @media (max-width: 768px) {
+        font-size: 4rem;
+    }
 `
 
 const InnerText = styled.div`
     font-size: 2.3rem;
     color: inherit;
     letter-spacing: 4.8px;
-    padding: 10px 0;
+    padding: 20px 0;
     @font-face {
         font-family: 'Apple';
         src: url('/fonts/AppleSDGothicNeo.ttf') format('truetype');
       }
     font-family: 'Apple';
+    
+    @media (max-width: 768px) {
+        font-size: 1.2rem;
+    }
+`
+
+const SubTitle = styled.div`
+    font-size: 3.5rem;
+    padding: 20px 0;
+    color: inherit;
+    letter-spacing: 4.8px;
+    font-family: 'Apple';
+    font-weight: bold;
+
+    @media (max-width: 768px) {
+        font-size: 1.6rem;
+    }
 `
 
 interface Section1Props {
@@ -78,20 +94,13 @@ interface Section1Props {
 export const Section1: React.FC<Section1Props> = ({children}) => {
     
     return( 
-        <SectionContainer>
-            <TextContainer item xs={12} sm={6}>
-                <Fade direction="left">
-                    <Section1Inner>
-                        {"Get Started"}
-                    </Section1Inner>
-                </Fade>
-            </TextContainer>
+        <SectionContainer item xs={12}>
             <TextContainer item xs={12}>
                 <InnerContainer>
                     <Fade direction="up">
                         <Text>
-                            {"Let's"}
-                            <span className="highlight">{" APOLLO"}</span>
+                            {"🛰️ Let's"}
+                            <span className="highlight">{" APOLLO 🛰️"}</span>
                         </Text>
                         <SubTitle>좀 더 빠르고, 좀 더 안전하게</SubTitle>
                         <InnerText> ✓ Github & Docker 이용으로 간편하게 </InnerText>
@@ -99,6 +108,13 @@ export const Section1: React.FC<Section1Props> = ({children}) => {
                         <InnerText> ✓ 자동화로 한걸음 더 편리하게</InnerText>
                     </Fade>
                 </InnerContainer>
+            </TextContainer>  
+            <TextContainer item xs={12}>
+                <Fade direction="up">
+                    <Section1Inner>
+                        {"Get Started"}
+                    </Section1Inner>
+                </Fade>
             </TextContainer>
         </SectionContainer>  
     );

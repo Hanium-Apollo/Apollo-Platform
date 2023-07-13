@@ -30,7 +30,7 @@ function LoginButton() {
         .then((res) => {
           console.log(res);
           localStorage.setItem("isLogin", JSON.stringify(true));
-          navigate("/");
+          navigate("/wait");
         })
         .catch((err) => {
           console.log("here");

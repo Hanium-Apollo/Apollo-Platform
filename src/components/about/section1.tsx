@@ -8,19 +8,20 @@ import { Section1Inner } from './section1Inner';
 const SectionContainer = styled(Grid)`
     display: flex;
     position: relative;
-    height: 80vh;
-    weight: 70vw;
-    background-color: #5A5A5A;
-    opacity: 1;
-    border-radius: 20px;
-    z-index: 1;
-    margin: 60px 70px 60px 70px;
-    transform: translateY(-5%);
     flex-direction: column;
+    background-color: #5A5A5A;
+    border-radius: 20px;
+    width: 85vw;
+    z-index: 1;
+    padding: 50px 0 30px 0;
+    transform: translateY(-5%);
+    @media (max-width: 1920px) {
+        width: 100vw;
+    }
+    
 `
 
 const TextContainer = styled(Grid)`
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -94,13 +95,13 @@ interface Section1Props {
 export const Section1: React.FC<Section1Props> = ({children}) => {
     
     return( 
-        <SectionContainer item xs={12}>
+        <SectionContainer>
             <TextContainer item xs={12}>
                 <InnerContainer>
                     <Fade direction="up">
                         <Text>
-                            {"🛰️ Let's"}
-                            <span className="highlight">{" APOLLO 🛰️"}</span>
+                            {" Let's"}
+                            <span className="highlight">{" APOLLO "}</span>
                         </Text>
                         <SubTitle>좀 더 빠르고, 좀 더 안전하게</SubTitle>
                         <InnerText> ✓ Github & Docker 이용으로 간편하게 </InnerText>
@@ -112,7 +113,6 @@ export const Section1: React.FC<Section1Props> = ({children}) => {
             <TextContainer item xs={12}>
                 <Fade direction="up">
                     <Section1Inner>
-                        {"Get Started"}
                     </Section1Inner>
                 </Fade>
             </TextContainer>

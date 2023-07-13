@@ -37,6 +37,7 @@ const SectionContainer = styled(Grid)`
     position: relative;
     justify-content: center;
     align-items: center;
+
 `
 
 const TextContainer = styled(Grid)`
@@ -47,9 +48,8 @@ const TextContainer = styled(Grid)`
     margin: 20px 20px 20px 20px;
     padding: 20px 20px 20px 20px;
 
-    /* 추가한 부분 */
     & > *:not(:last-child) {
-        margin-right: 100px; /* 버튼 사이의 간격을 조정합니다. */
+        margin-right: 100px; 
     }
 
     @media (max-width: 768px) {

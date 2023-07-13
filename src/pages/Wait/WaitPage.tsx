@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import axios from "axios";
 
 interface WaitProps {
-  userInfo: UserInfo;
+  userInfo?: Partial<UserInfo>;
 }
 
 interface UserInfo {
@@ -41,4 +41,3 @@ const Wait: React.FC<WaitProps> = ({ userInfo }) => {
 }
 
 export default Wait;
-

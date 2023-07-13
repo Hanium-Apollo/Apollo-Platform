@@ -17,12 +17,12 @@ function Monitor() {
         const buttonRef = useRef<HTMLButtonElement>(null);
         
     return (
-        <div>
+        <div className="monitor">
             <div className="text-block">
                 Container Name
             </div>
             <div className="chart">
-                <Slider {...settings} className="slider">
+                <Slider {...settings}>
                     <div className="cpu-block">
                         <div className="NameBlock">
                             CPU Utilization

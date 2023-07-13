@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import '../../../assets/css/button.css';
+import '../../../assets/css/MainPage.css'
 import { useNavigate } from "react-router-dom";
 
 function StartForm() {
@@ -23,7 +24,9 @@ function StartForm() {
         <form onSubmit={handleSubmit}>
             <input className="inputname" type="text" value={inputValue1} onChange={handleInputChange1} placeholder="서비스 이름을 입력해주세요"/>
             <input className="inputURL" type="text" value={inputValue2} onChange={handleInputChange2} placeholder="Github URL을 입력해주세요"/>
+            <div>
             <button className="startbtn">시작하기</button>
+            </div>
         </form>
     );
 }

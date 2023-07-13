@@ -15,8 +15,7 @@
 
 
 .navbar {
-    width: 100%;
-    height: 7%;
+    height: 7vh;
     background-color: #333333;
     text-align: right;
     z-index: 1;

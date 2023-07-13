@@ -12,17 +12,13 @@
     src: url(../fonts/Inter-Regular.ttf) format('truetype');
   }
 .fhomebtn {
-    width: 17vw;
-    margin-top: 630px;
-    left: 50%;
-    transform: translate(-50%, 0%);
+    width: 17%;
     height: 55px;
     background-color: gray;
     opacity: 1;
-    position: absolute;
     color: white;
     font-family: ONE-Mobile-Bold;
-    font-size: 3vh;
+    font-size: 25px;
     text-align: center;
     border-radius: 1000px;
     border: none;
@@ -31,55 +27,49 @@
 
 .shomebtn,
 .smonitorbtn {
-    width: 15vw;
+    width: 15%;
     height: 55px;
     background-color: gray;
     opacity: 1;
-    position: absolute;
     color: white;
     font-family: ONE-Mobile-Bold;
-    font-size: 2vw;
+    font-size: 25px;
     text-align: center;
     border-radius: 1000px;
     border: none;
     overflow: hidden;
-    margin-top: 630px;
 }
 
 .mhomebtn,
 .mbackbtn {
-    width: 15vw;
+    width: 15%;
+    margin-top: 5%;
     height: 55px;
     background-color: gray;
     opacity: 1;
-    position: absolute;
     color: white;
     font-family: ONE-Mobile-Bold;
-    font-size: 2vw;
+    font-size: 25px;
     text-align: center;
     border-radius: 1000px;
     border: none;
     overflow: hidden;
-    margin-top: 630px;
 }
 .smonitorbtn,
 .mbackbtn {
-  left: 33%;
+  margin-left: 2%;
 }
 .mhomebtn,
 .shomebtn {
-  right: 33%;
+  margin-right: 2%;
 }
 
 .startbtn {
-    width: 17vw;
-    margin-top: 630px;
-    left: 50%;
-    transform: translate(-50%, 0%);
+    width: 17%;
+    margin-top: 5%;
     height: 55px;
     background-color: gray;
     opacity: 1;
-    position: absolute;
     color: white;
     font-family: ONE-Mobile-Bold;
     font-size: 25px;
@@ -101,25 +91,22 @@
 }
 
 .login {
-    width: 420px;
+    width: 35%;
     height: 120px;
     background-color: black;
     opacity: 1;
-    position: absolute;
-    margin-top: 550px;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-top: 10%;
     color: white;
     font-family: Inter;
     font-weight: bold;
-    font-size: 32px;
+    font-size: 2.5vw;
     text-align: center;
     border-radius:30px;
     border: none;
 }
 
 .github {
-    height: 70px;
+    width: 20%;
     margin-right: 5%;
 }
 

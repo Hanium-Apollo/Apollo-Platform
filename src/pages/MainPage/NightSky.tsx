@@ -67,7 +67,7 @@ function NightSky() {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ width: '100%', height: '93%'}}>
+    <div ref={containerRef} style={{height: '100vh'}}>
       <canvas ref={canvasRef}></canvas>
     </div>
   );

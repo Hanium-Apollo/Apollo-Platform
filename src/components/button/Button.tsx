@@ -26,9 +26,7 @@ function Button({text, css}: ButtonProps) {
             navigate(-1);
     };
     return (
-        <div>
             <button className={css} type="submit" onClick={goTo}>{set_context()}</button>
-        </div>
     );
 }
 

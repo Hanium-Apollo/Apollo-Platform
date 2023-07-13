@@ -82,13 +82,18 @@
     position: absolute;
     color: white;
     font-family: ONE-Mobile-Bold;
-    font-size: 3vh;
+    font-size: 25px;
     text-align: center;
     border-radius: 1000px;
     border: none;
     overflow: hidden;
 }
-button:hover {
+.fhomebtn:hover,
+.shomebtn:hover,
+.smonitorbtn:hover,
+.mbackbtn:hover,
+.mhomebtn:hover,
+.startbtn:hover {
     background-color: black;
 }
 .login:hover {
@@ -116,4 +121,25 @@ button:hover {
 .github {
     height: 70px;
     margin-right: 5%;
+}
+
+@media (max-width: 650px) {
+    .fhomebtn,
+    .shomebtn,
+    .smonitorbtn,
+    .mbackbtn,
+    .mhomebtn,
+    .startbtn {
+        width: 22vw;
+        height: 40px;
+        font-size: 15px;
+    }
+    .smonitorbtn,
+    .mbackbtn {
+        left: 25%;
+    }
+    .mhomebtn,
+    .shomebtn {
+        right: 25%;
+    }
 }

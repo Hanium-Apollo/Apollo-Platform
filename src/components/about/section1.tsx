@@ -15,6 +15,7 @@ const SectionContainer = styled(Grid)`
     z-index: 1;
     padding: 50px 0 30px 0;
     transform: translateY(-5%);
+    
     @media (max-width: 1920px) {
         width: 100vw;
     }

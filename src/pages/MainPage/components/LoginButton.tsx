@@ -30,6 +30,7 @@ function LoginButton() {
         .then((res) => {
           console.log(res);
           localStorage.setItem("isLogin", JSON.stringify(true));
+          localStorage.setItem("userInfo", JSON.stringify(res.data))
           navigate("/wait");
         })
         .catch((err) => {

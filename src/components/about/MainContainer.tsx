@@ -8,12 +8,12 @@ const MainContainer = styled(Grid)`
     padding: 100px 0;
     background-color: #333333;
     flex-direction: column;
-    max-width: 1920px;
-    max-height: 100%;
+    max-width: 1280px;
     margin: 0 auto;
     @media (max-width: 768px) {
         padding: 100px 30px;
     }
+    overflow : auto;
 `;
 
 export default MainContainer;

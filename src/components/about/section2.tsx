@@ -5,10 +5,14 @@ import styled from '@emotion/styled';
 const SectionContainer = styled(Grid)`
     display: flex;
     position: relative;
+    background-color: #5A5A5A;
     border-radius: 20px;
     width: 85vw;
     z-index: 1;
     padding: 50px 0 30px 0;
+    transform: translateY(-5%);
+    
+    
 `
 
 interface Section2Props {

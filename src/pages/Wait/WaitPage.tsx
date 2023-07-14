@@ -35,7 +35,7 @@ const Wait: React.FC<WaitProps> = ({ userInfo }) => {
 
   return (
     <div>
-      <Button onClick={() => handleButtonClick("home")}>눌러줘잉~</Button>
+      <Button onClick={() => handleButtonClick("saveUser")}>눌러줘잉~</Button>
     </div>
   );
 }

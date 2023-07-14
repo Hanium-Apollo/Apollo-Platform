@@ -1,43 +1,50 @@
-import { useNavigate } from "react-router-dom";
-import React from "react";
-import { Button } from "@mui/material";
-import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Button } from '@mui/material';
+import axios from 'axios';
 
 interface WaitProps {
-  userInfo?: Partial<UserInfo>;
+    userInfo?: Partial<UserInfo>;
 }
 
 interface UserInfo {
-  id: number;
-  login: string;
-  username: string;
-  email: string;
-  profileUrl: string;
+    id: string; 
+    login: string;
+    username: string;
+    email: string;
+    profileUrl: string;
 }
 
 const Wait: React.FC<WaitProps> = ({ userInfo }) => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const handleButtonClick = (action: string) => {
-    if (action === "home") {
-      navigate("/");
-    } else if (action === "saveUser") {
-      axios
-        .post("http://localhost:8080/api/save/user", userInfo)
-        .then((response) => {
-          console.log("성공띠");
-        })
-        .catch((error) => {
-          console.error("땡:", error);
-        });
-    }
-  };
+    const handleButtonClick = (action: string) => {
+        if (action === 'home') {
+            navigate('/');
+        } else if (action === 'saveUser') {
+            let info = localStorage.getItem('userInfo');
+            if (!info) return;
+            let parsedInfo = JSON.parse(info) as UserInfo;
+            if (parsedInfo) parsedInfo.id = parsedInfo.id.toString();
 
-  return (
-    <div>
-      <Button onClick={() => handleButtonClick("saveUser")}>눌러줘잉~</Button>
-    </div>
-  );
-}
+            axios
+                .post('http://localhost:8080/api/save/user', JSON.stringify(parsedInfo), {
+                    headers: { 'Content-Type': `application/json` },
+                })
+                .then((response) => {
+                    console.log('성공띠');
+                })
+                .catch((error) => {
+                    console.error('땡:', error);
+                });
+        }
+    };
+
+    return (
+        <div>
+            <Button onClick={() => handleButtonClick('saveUser')}>눌러줘잉~</Button>
+        </div>
+    );
+};
 
 export default Wait;

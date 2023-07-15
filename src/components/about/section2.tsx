@@ -39,7 +39,7 @@ interface Section2Props {
 
 export const Section2: React.FC<Section2Props> = ({ children }) => { 
     return (
-    <SectionContainer container xs>
+    <SectionContainer container xs id='how'>
         <Grid item xs={6}>
             <JackInTheBox>
                 <Text>

@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { Grid, Button as MaterialButton } from "@mui/material";
 import { jsx, css } from '@emotion/react';
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-scroll';
+
 
 interface Section1Props {
     children: React.ReactNode;
@@ -70,15 +72,19 @@ export const Section1Inner: React.FC<Section1Props> = ({children}) => {
                 {"Get Started 👌🏼"}
             </StyledButton>
 
+        <Link to="how" spy={true} smooth="true">
             <StyledButton variant="text">
                 {"How to use? 🤔"}
             </StyledButton>
+        </Link>
 
+        <Link to="docker" spy={true} smooth="true">
             <StyledButton>
                 {"If No Dockerfile 🐳"}
             </StyledButton>
+        </Link>
 
-        </TextContainer>
+    </TextContainer>
     </SectionContainer>
     );
 };

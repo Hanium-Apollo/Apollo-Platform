@@ -11,14 +11,12 @@ const SectionContainer = styled(Grid)`
     flex-direction: column;
     background-color: #5A5A5A;
     border-radius: 20px;
-    width: 85vw;
+    width: 90vw;
     z-index: 1;
-    padding: 50px 0 30px 0;
-    transform: translateY(-5%);
-    
-    @media (max-width: 1920px) {
-        width: 100vw;
-    }
+    padding: 50px 0 50px 0;
+    margin: 20px 30px 70px 30px;
+    transform: translateY(-10%);
+
     
 `
 
@@ -36,7 +34,6 @@ const InnerContainer = styled.div`
     justify-content: center;
     align-items: center;
     white-space: nowrap;
-    margin: 20px 0;
  `
 
 const Text = styled.div`

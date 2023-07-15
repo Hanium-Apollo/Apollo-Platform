@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import styled from '@emotion/styled';
-import { JackInTheBox } from 'react-awesome-reveal';
+import {Slide} from 'react-awesome-reveal';
 
 const SectionContainer = styled(Grid)`
     display: flex;
@@ -11,6 +11,7 @@ const SectionContainer = styled(Grid)`
     width: 90vw;
     z-index: 1;
     padding: 50px 0 30px 0;
+    margin: 100px 30px 60px 30px;
 `
 
 const Text = styled.div`
@@ -33,26 +34,26 @@ const Text = styled.div`
     }
 `
 
-interface Section2Props {
+interface Section3Props {
     children: React.ReactNode;
 }
 
-export const Section2: React.FC<Section2Props> = ({ children }) => { 
+export const Section3: React.FC<Section3Props> = ({ children }) => { 
     return (
     <SectionContainer container xs>
         <Grid item xs={6}>
-            <JackInTheBox>
+            <Slide direction="left">    
                 <Text>
-                    {"How to use "}
+                    {"Without Dockerfile?"}
                 </Text>
-            </JackInTheBox>
+            </Slide>
         </Grid>
         <Grid item xs={6}>
-            <JackInTheBox>
+            <Slide direction="right">
                 <Text>
                     {"설명 듣고 적기"}
-                </Text>  
-            </JackInTheBox>      
+                </Text>
+            </Slide>
         </Grid>
     </SectionContainer>
     );

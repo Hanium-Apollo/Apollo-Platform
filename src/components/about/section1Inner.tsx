@@ -15,7 +15,7 @@ const buttonStyles = css`
     font-size: 1.5rem;  
     border: none;
     weight : 50vw;
-    height : 5vh;
+    height : 7vh;
     display: flex;
     border-radius: 10px;
 

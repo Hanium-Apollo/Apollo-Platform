@@ -11,7 +11,7 @@ interface Section1Props {
 
 const buttonStyles = css`
     background-color: gray;
-    padding: 10px 20px;
+    padding: 20px 20px;
     color : white;
     font-weight: bold; 
     font-size: 1.5rem;  
@@ -47,7 +47,7 @@ const TextContainer = styled(Grid)`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px 20px 20px 20px;
+    margin: 20px 20px 10px 20px;
     padding: 20px 20px 20px 20px;
 
     & > *:not(:last-child) {

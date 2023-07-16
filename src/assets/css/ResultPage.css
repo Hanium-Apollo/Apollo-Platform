@@ -17,12 +17,12 @@
   align-items: center;
 }
   .logo {
-    height: 40%;
-    margin-top: 5vw;
+    width: 30%;
+    margin-top: 7%;
   }
   .flogo {
-    height: 40%;
-    margin-top: 5vw;
+    width: 30%;
+    margin-top: 7%;
     transform: rotate(180deg);
   }
   

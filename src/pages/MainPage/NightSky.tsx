@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import '../../assets/css/MainPage.css';
+
 
 function NightSky() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -67,7 +69,7 @@ function NightSky() {
   }, []);
 
   return (
-    <div ref={containerRef} style={{height: '100vh'}}>
+    <div ref={containerRef} className="canvas">
       <canvas ref={canvasRef}></canvas>
     </div>
   );

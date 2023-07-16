@@ -1,23 +1,21 @@
 import { useNavigate } from 'react-router-dom';
-import '../../../assets/css/MainPage.css'
+import '../../assets/css/deploy.css'
+import Button from '../../components/button/Button';
 
 
 function ListItem(props : any) {
-    const toggleDropdown = () => {
-        window.open("https://github.com/", "_blank", "noopener, noreferrer");
-    };
     const navigate = useNavigate();
     const handleSubmit = () => {
+        const value = props.value;
         console.log(props.value); // 예시: 콘솔에 입력값 출력
-        const value = props.value
-        navigate("/rendering",{ state: { value } });
+        navigate("/monitor", { state: { value } });
         // 서버로 전송 후 필요한 로직을 추가해야 합니다.
     };
     //맞습니다. 여기에는 key를 지정할 필요가 없습니다.
     return (
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
-        <li className="list" onClick={() => toggleDropdown()} style={{ cursor: 'pointer' }}>{props.value}</li>
-        <button className="selectbtn" onClick={handleSubmit}>배포</button>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px'}}>
+        <li className="list">{props.value}</li>
+        <button className="selectbtn" onClick={handleSubmit}>모니터링</button>
         </div>
     );
 }
@@ -29,7 +27,7 @@ function NumberList(props : any) {
       <ListItem key = {number.toString()} value={number} />
     );
     return (
-        <div className="listbox">
+        <div className="deploylist">
       <ul style = {{padding: '0px'}}>
         {listItems}
       </ul>
@@ -37,5 +35,16 @@ function NumberList(props : any) {
     );
 };
 
+function DeployList(props: any) {
+    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    return(
+        <div className="deploy">
+            <div className="name">배포 중인 서비스</div>
+            <NumberList numbers={numbers} />
+            <Button css={"fhomebtn"} text={"home"}/>
+        </div>
+    )
 
-  export default NumberList;
+}
+
+  export default DeployList;

@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from "react";
 import '../../assets/css/RenderingPage.css';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 
 
 function Rendering() {
+    const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
-
+    const value = location.state?.value;
     const goToSuccess = () => {
-        navigate("/success");
+        navigate("/success", { state: { value } });
     }
 
  useEffect(() => {

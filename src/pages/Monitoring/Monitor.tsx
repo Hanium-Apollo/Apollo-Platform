@@ -4,11 +4,14 @@ import BarShapeChart from "../../components/monitoringChart/BarShapeChart";
 import LineShapeChart from "../../components/monitoringChart/LineShapeChart";
 import Button from "../../components/button/Button";
 import { Container, Grid} from "@mui/material";
+import { useLocation } from "react-router-dom";
 function Monitor() {
+    const location = useLocation();
+    const value = location.state?.value;
     return (
         <div className="monitor">
             <div className="text-block">
-                Container Name
+                {value}
             </div>
             <div className="chart">
                 <Container>

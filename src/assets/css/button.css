@@ -12,6 +12,7 @@
     src: url(../fonts/Inter-Regular.ttf) format('truetype');
   }
 .fhomebtn {
+    margin-top: 5%;
     width: 17%;
     height: 55px;
     background-color: gray;
@@ -27,6 +28,7 @@
 
 .shomebtn,
 .smonitorbtn {
+    margin-top: 5%;
     width: 15%;
     height: 55px;
     background-color: gray;

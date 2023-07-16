@@ -7,26 +7,27 @@ interface ButtonProps {
     css: string;
   }
 
-function Button({text, css}: ButtonProps) {
+function Button(props:any) {
     const navigate = useNavigate();
     const set_context = () => {
-        if (text === "home")
+        if (props.text === "home")
             return "홈으로";
-        else if (text === "monitor")
+        else if (props.text === "monitor")
             return "모니터링";
-        else if (text === "back")
+        else if (props.text === "back")
             return "이전으로";
     };
     const goTo = () => {
-        if (text === "home")
+        const value = props.value;
+        if (props.text === "home")
             navigate("/");
-        else if (text === "monitor")
-            navigate("/monitor");
-        else if (text === "back")
+        else if (props.text === "monitor")
+            navigate("/monitor", { state: { value } });
+        else if (props.text === "back")
             navigate(-1);
     };
     return (
-            <button className={css} type="submit" onClick={goTo}>{set_context()}</button>
+            <button className={props.css} type="submit" onClick={goTo}>{set_context()}</button>
     );
 }
 

@@ -42,13 +42,13 @@ function Main() {
         <div className="main">
             <img src={logoname} className="logoname" alt="logoname" />
             {localStorage.getItem("isLogin") ? (
-                <div>
+                <>
                 <StyledButton variant="contained" startIcon= {<DescriptionIcon/> }onClick={() => navigate("/about")}>
                 Learn More..
                 </StyledButton>
                 <NumberList numbers={numbers} />
-              </div>
-              ) : (
+              </>
+               ) : (
                <div>
                  <LoginButton />
                  </div>

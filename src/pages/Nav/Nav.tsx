@@ -21,6 +21,9 @@ function Nav(){
         // Handle logout logic
         navigate('/success'); // Navigate to login page
     };
+    const GotoDeployList = () => {
+        navigate('/deploy');
+    }
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
@@ -41,7 +44,9 @@ function Nav(){
                         <li className="menu" onClick={GotoMain} style={{ cursor: 'pointer' }}>Home</li>
                         <li className="menu" onClick={GotoFail} style={{ cursor: 'pointer' }}>Fail</li>
                         <li className="menu" onClick={GotoSuccess} style={{ cursor: 'pointer' }}>Success</li>
+                        <li className="menu" onClick={GotoDeployList} style={{ cursor: 'pointer' }}>DeployList</li>
                         <li className="menu" onClick={() => handleLogout()} style={{ cursor: 'pointer' }}>Logout</li>
+                        
                     </ul>
                 )}
             </div>

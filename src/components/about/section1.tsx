@@ -11,11 +11,19 @@ const SectionContainer = styled(Grid)`
     flex-direction: column;
     background-color: #5A5A5A;
     border-radius: 20px;
-    width: 90vw;
     z-index: 1;
-    padding: 50px 0 50px 0;
-    margin: 20px 30px 70px 30px;
+    padding: 20px 0 30px 0;
     transform: translateY(-10%);
+
+    @media (max-width: 1280px) {
+        width: 80vw;
+        margin: 20px 30px 30px 30px;
+    }
+
+    @media (max-width: 1920px) {
+        width: 90vw;
+        margin: 20px 50px 0px 50px;
+    }  
 
     
 `
@@ -41,7 +49,7 @@ const Text = styled.div`
     color: inherit;
     letter-spacing: 4.8px;
     font-weight: bold;
-    margin: 30px 0;
+    margin: 15px 0;
       @font-face {
           font-family: 'AppleBold';
           src: url('/fonts/AppleSDGothicNeoBold.ttf') format('truetype');
@@ -60,7 +68,7 @@ const InnerText = styled.div`
     font-size: 2.3rem;
     color: inherit;
     letter-spacing: 4.8px;
-    padding: 20px 0;
+    padding: 15px 0;
     @font-face {
         font-family: 'Apple';
         src: url('/fonts/AppleSDGothicNeo.ttf') format('truetype');
@@ -74,7 +82,7 @@ const InnerText = styled.div`
 
 const SubTitle = styled.div`
     font-size: 3.5rem;
-    padding: 20px 0;
+    padding: 10px 0;
     color: inherit;
     letter-spacing: 4.8px;
     font-family: 'Apple';

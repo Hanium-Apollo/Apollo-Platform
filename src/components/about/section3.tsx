@@ -8,10 +8,19 @@ const SectionContainer = styled(Grid)`
     position: relative;
     background-color: #5A5A5A;
     border-radius: 20px;
-    width: 90vw;
     z-index: 1;
     padding: 50px 0 30px 0;
-    margin: 100px 30px 60px 30px;
+
+    @media (max-width: 1280px) {
+        width: 80vw;
+        margin: 100px 30px 60px 30px;
+    }
+
+    @media (max-width: 1920px) {
+        width: 90vw;
+        margin: 100px 50px 60px 50px;
+    }  
+
 `
 
 const Text = styled.div`

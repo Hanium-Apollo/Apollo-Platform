@@ -8,6 +8,7 @@ import { jsx, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useNavigate } from "react-router-dom";
 import StartForm from "./components/StartForm";
+import NumberList from "./components/RepoList";
 
 const buttonStyles = css`
   background-color: gray;
@@ -33,7 +34,7 @@ const buttonStyles = css`
 const StyledButton = styled(MaterialButton)`
  ${buttonStyles}
  `
-
+ const numbers = [1, 2, 3, 4, 5, 6, 7, 8]
 function Main() {
     const navigate = useNavigate();
 
@@ -42,17 +43,17 @@ function Main() {
             <img src={logoname} className="logoname" alt="logoname" />
             {localStorage.getItem("isLogin") ? (
                 <div>
-                <StartForm />
                 <StyledButton variant="contained" startIcon= {<DescriptionIcon/> }onClick={() => navigate("/about")}>
                 Learn More..
                 </StyledButton>
+                <NumberList numbers={numbers} />
               </div>
-            ) : (
-              <div>
-                <LoginButton />
-                </div>
+              ) : (
+               <div>
+                 <LoginButton />
+                 </div>
                 
-            )}
+             )}
         </div>
       
     );

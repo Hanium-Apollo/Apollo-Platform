@@ -12,7 +12,7 @@ export function handleLogout() {
 function LoginButton() {
   const navigate = useNavigate();
   const handleLogin = () => {
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=aaf4ee42ea6e3043265c`;
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=7600733c0c5ed7849ce6`;
     window.location.href = githubAuthUrl;
     // localStorage.setItem("isLogin", JSON.stringify(true));
   };

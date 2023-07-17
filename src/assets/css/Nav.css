@@ -35,6 +35,7 @@
     font-family: 'Inter', ONE-Mobile-Regular;
     font-size: 100%;
     opacity: 1;
+    z-index: 5;
   }
   
   .dropdown-toggle {

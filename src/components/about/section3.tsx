@@ -6,7 +6,7 @@ import {Slide} from 'react-awesome-reveal';
 const SectionContainer = styled(Grid)`
     display: flex;
     position: relative;
-    background-color: #5A5A5A;
+    background-color: #989898;
     border-radius: 20px;
     z-index: 1;
     padding: 50px 0 30px 0;
@@ -53,7 +53,7 @@ export const Section3: React.FC<Section3Props> = ({ children }) => {
         <Grid item xs={6}>
             <Slide direction="left">    
                 <Text>
-                    {"Without Dockerfile?"}
+                    {"Without Dockerfile"}
                 </Text>
             </Slide>
         </Grid>

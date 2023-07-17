@@ -10,12 +10,12 @@ interface Section1Props {
 }
 
 const buttonStyles = css`
-    background-color: gray;
+    background-color: #A2A2A1;
     padding: 20px 20px;
     color : white;
     font-weight: bold; 
     font-size: 1.3vw;  
-    border: none;
+    border: 1px;
     weight : 50vw;
     height : 7vh;
     display: flex;

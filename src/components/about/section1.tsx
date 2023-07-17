@@ -9,7 +9,7 @@ const SectionContainer = styled(Grid)`
     display: flex;
     position: relative;
     flex-direction: column;
-    background-color: #5A5A5A;
+    background-color: #989898;
     border-radius: 20px;
     z-index: 1;
     padding: 50px 0 50px 0;
@@ -27,7 +27,7 @@ const SectionContainer = styled(Grid)`
     }
 
     @media (max-width: 1920px) {
-        width: 90vw;
+        width: 88vw;
         margin: 30px 30px 30px 30px;
     }  
 

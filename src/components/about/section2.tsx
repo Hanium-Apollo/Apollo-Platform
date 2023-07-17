@@ -6,7 +6,7 @@ import { JackInTheBox } from 'react-awesome-reveal';
 const SectionContainer = styled(Grid)`
     display: flex;
     position: relative;
-    background-color: #5A5A5A;
+    background-color: #989898;
     border-radius: 20px;
     z-index: 1;
     padding: 50px 0 30px 0;

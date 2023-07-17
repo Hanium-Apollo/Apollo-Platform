@@ -14,7 +14,7 @@ const buttonStyles = css`
     padding: 20px 20px;
     color : white;
     font-weight: bold; 
-    font-size: 1.5rem;  
+    font-size: 1.3vw;  
     border: none;
     weight : 50vw;
     height : 7vh;
@@ -28,8 +28,12 @@ const buttonStyles = css`
     font-family: 'AppleBold';
 
     @media (max-width: 768px) {
-        font-size: 0.7rem; 
+        font-size: 0.4vw; 
        }
+
+    @media (max-width: 1280px) {
+        font-size: 1.3vw;
+    }
 `
 const StyledButton = styled(MaterialButton)`
     ${buttonStyles}

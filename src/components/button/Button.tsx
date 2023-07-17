@@ -2,11 +2,6 @@ import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import '../../assets/css/button.css';
 
-interface ButtonProps {
-    text: string;
-    css: string;
-  }
-
 function Button(props:any) {
     const navigate = useNavigate();
     const set_context = () => {

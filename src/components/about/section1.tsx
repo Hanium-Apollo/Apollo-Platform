@@ -12,17 +12,23 @@ const SectionContainer = styled(Grid)`
     background-color: #5A5A5A;
     border-radius: 20px;
     z-index: 1;
-    padding: 20px 0 30px 0;
-    transform: translateY(-10%);
+    padding: 50px 0 50px 0;
+    transform: translateY(-8%);
+    max-width: 1920px;
+
+    @media (max-width: 768px) {
+        width: 70%;
+        margin: 20px 20px 20px 20px;
+    }
 
     @media (max-width: 1280px) {
-        width: 80vw;
+        width: 80%;
         margin: 20px 30px 30px 30px;
     }
 
     @media (max-width: 1920px) {
         width: 90vw;
-        margin: 20px 50px 0px 50px;
+        margin: 30px 30px 30px 30px;
     }  
 
     
@@ -33,19 +39,20 @@ const TextContainer = styled(Grid)`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 100%;
 `
 
 const InnerContainer = styled.div`
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     white-space: nowrap;
+    width: 100%;
  `
 
 const Text = styled.div`
-    font-size: 8rem;
+    font-size: 7.8vw;
     color: inherit;
     letter-spacing: 4.8px;
     font-weight: bold;
@@ -60,12 +67,16 @@ const Text = styled.div`
         color: #F3F781;
     }
     @media (max-width: 768px) {
-        font-size: 4rem;
+        font-size: 6vw;
+    }
+
+    @media (max-width: 1280px) {
+        font-size: 9vw;
     }
 `
 
 const InnerText = styled.div`
-    font-size: 2.3rem;
+    font-size: 2vw;
     color: inherit;
     letter-spacing: 4.8px;
     padding: 15px 0;
@@ -76,21 +87,30 @@ const InnerText = styled.div`
     font-family: 'Apple';
     
     @media (max-width: 768px) {
-        font-size: 1.2rem;
+        font-size: 0.8vw;
+        padding : 10px 0;
     }
+
+    @media (max-width: 1280px) {
+        font-size: 2.5vw;
+    } 
 `
 
 const SubTitle = styled.div`
-    font-size: 3.5rem;
-    padding: 10px 0;
+    font-size: 3.3vw;
     color: inherit;
     letter-spacing: 4.8px;
     font-family: 'Apple';
     font-weight: bold;
 
     @media (max-width: 768px) {
-        font-size: 1.6rem;
+        font-size: 3vw;
     }
+
+    @media (max-width: 1280px) {
+        font-size: 4vw;
+    }
+
 `
 
 interface Section1Props {

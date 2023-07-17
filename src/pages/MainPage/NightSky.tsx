@@ -26,7 +26,7 @@ function NightSky() {
 
     const starsPositions = new Float32Array(1000 * 3); // x, y, z positions for each star
 
-    for (let i = 0; i < 3000; i++) {
+    for (let i = 0; i < 2000; i++) {
       const i3 = i * 3;
       starsPositions[i3] = THREE.MathUtils.randFloatSpread(10);
       starsPositions[i3 + 1] = THREE.MathUtils.randFloatSpread(10);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import github from "../../../assets/images/github_logo.png";
 import "../../../assets/css/button.css";
 import { getAuthenticationService } from "../../../apis/GetAuthenticationService";
@@ -25,12 +25,12 @@ function LoginButton() {
 
     if (code) {
       setAccessToken(code);
-      console.log(code);
+      console.log(accessToken);
       getAuthenticationService(code)
         .then((res) => {
           console.log(res);
           localStorage.setItem("isLogin", JSON.stringify(true));
-          localStorage.setItem("userInfo", JSON.stringify(res.data))
+          localStorage.setItem("userInfo", JSON.stringify(res.data));
           navigate("/wait");
         })
         .catch((err) => {
@@ -44,7 +44,7 @@ function LoginButton() {
 
   useEffect(() => {
     handleCallback();
-  }, []);
+  }, [handleCallback]);
 
   return (
     <button className="login" onClick={handleLogin}>

@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from "react";
-import logoname from '../../assets/images/logoname.png';
-import '../../assets/css/MainPage.css';
+// import React, {useState, useEffect} from "react";
+import logoname from "../../assets/images/logoname.png";
+import "../../assets/css/MainPage.css";
 import LoginButton from "./components/LoginButton";
 import { Button as MaterialButton } from "@mui/material";
 import DescriptionIcon from "@mui/icons-material/Description";
-import { jsx, css } from '@emotion/react';
-import styled from '@emotion/styled';
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import StartForm from "./components/StartForm";
+// import StartForm from "./components/StartForm";
 import NumberList from "./components/RepoList";
 
 const buttonStyles = css`
@@ -32,31 +32,33 @@ const buttonStyles = css`
   `;
 
 const StyledButton = styled(MaterialButton)`
- ${buttonStyles}
- `
- const numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+  ${buttonStyles}
+`;
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8];
 function Main() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    return (
-        <div className="main">
-            <img src={logoname} className="logoname" alt="logoname" />
-            {localStorage.getItem("isLogin") ? (
-                <>
-                <StyledButton variant="contained" startIcon= {<DescriptionIcon/> }onClick={() => navigate("/about")}>
-                Learn More..
-                </StyledButton>
-                <NumberList numbers={numbers} />
-              </>
-               ) : (
-               <div>
-                 <LoginButton />
-                 </div>
-                
-             )}
+  return (
+    <div className="main">
+      <img src={logoname} className="logoname" alt="logoname" />
+      {localStorage.getItem("isLogin") ? (
+        <>
+          <StyledButton
+            variant="contained"
+            startIcon={<DescriptionIcon />}
+            onClick={() => navigate("/about")}
+          >
+            Learn More..
+          </StyledButton>
+          <NumberList numbers={numbers} />
+        </>
+      ) : (
+        <div>
+          <LoginButton />
         </div>
-      
-    );
+      )}
+    </div>
+  );
 }
 
 export default Main;

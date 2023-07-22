@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import github from "../../../assets/images/github_logo.png";
 import "../../../assets/css/button.css";
 import { getAuthenticationService } from "../../../apis/GetAuthenticationService";
@@ -19,7 +19,30 @@ function LoginButton() {
 
   const [accessToken, setAccessToken] = useState("");
 
-  const handleCallback = () => {
+  // const handleCallback = () => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const code = urlParams.get("code");
+
+  //   if (code) {
+  //     setAccessToken(code);
+  //     console.log(accessToken);
+  //     getAuthenticationService(code)
+  //       .then((res) => {
+  //         console.log(res);
+  //         localStorage.setItem("isLogin", JSON.stringify(true));
+  //         localStorage.setItem("userInfo", JSON.stringify(res.data));
+  //         navigate("/wait");
+  //       })
+  //       .catch((err) => {
+  //         console.log("here");
+  //         console.log(err);
+  //       });
+  //   } else {
+  //     console.log("Error: code not found");
+  //   }
+  // };
+
+  const handleCallback = useCallback(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
 
@@ -40,7 +63,7 @@ function LoginButton() {
     } else {
       console.log("Error: code not found");
     }
-  };
+  }, [accessToken, navigate]);
 
   useEffect(() => {
     handleCallback();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "../../assets/css/RenderingPage.css";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -7,9 +7,12 @@ function Rendering() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const value = location.state?.value;
-  const goToSuccess = () => {
+  // const goToSuccess = () => {
+  //   navigate("/success", { state: { value } });
+  // };
+  const goToSuccess = useCallback(() => {
     navigate("/success", { state: { value } });
-  };
+  }, [navigate, value]);
 
   useEffect(() => {
     // 로딩 시뮬레이션 (예: setTimeout, API 요청 등)

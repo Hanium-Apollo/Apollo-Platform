@@ -28,7 +28,7 @@ const Wait: React.FC<WaitProps> = ({ userInfo }) => {
             if (parsedInfo) parsedInfo.id = parsedInfo.id.toString();
 
             axios
-                .post('http://localhost:8080/api/save/user', JSON.stringify(parsedInfo), {
+                .post('http://apollo-lb-220895166.ap-northeast-2.elb.amazonaws.com/api/save/user', JSON.stringify(parsedInfo), {
                     headers: { 'Content-Type': `application/json` },
                 })
                 .then((response) => {

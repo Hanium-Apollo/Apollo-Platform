@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import github from "../../../assets/images/github_logo.png";
 import "../../../assets/css/button.css";
 import { getAuthenticationService } from "../../../apis/GetAuthenticationService";

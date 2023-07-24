@@ -14,41 +14,14 @@ function LoginButton() {
   const handleLogin = () => {
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=aaf4ee42ea6e3043265c`;
     window.location.href = githubAuthUrl;
-    // localStorage.setItem("isLogin", JSON.stringify(true));
   };
-
-  const [accessToken, setAccessToken] = useState("");
-
-  // const handleCallback = () => {
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   const code = urlParams.get("code");
-
-  //   if (code) {
-  //     setAccessToken(code);
-  //     console.log(accessToken);
-  //     getAuthenticationService(code)
-  //       .then((res) => {
-  //         console.log(res);
-  //         localStorage.setItem("isLogin", JSON.stringify(true));
-  //         localStorage.setItem("userInfo", JSON.stringify(res.data));
-  //         navigate("/wait");
-  //       })
-  //       .catch((err) => {
-  //         console.log("here");
-  //         console.log(err);
-  //       });
-  //   } else {
-  //     console.log("Error: code not found");
-  //   }
-  // };
 
   const handleCallback = useCallback(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
 
     if (code) {
-      setAccessToken(code);
-      console.log(accessToken);
+      console.log(code);
       getAuthenticationService(code)
         .then((res) => {
           console.log(res);
@@ -63,7 +36,7 @@ function LoginButton() {
     } else {
       console.log("Error: code not found");
     }
-  }, [accessToken, navigate]);
+  }, [navigate]);
 
   useEffect(() => {
     handleCallback();

@@ -9,11 +9,10 @@ const SectionContainer = styled(Grid)`
     display: flex;
     position: relative;
     flex-direction: column;
-    background-color: #989898;
-    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.4);
     z-index: 1;
     padding: 50px 0 50px 0;
-    transform: translateY(-8%);
+    transform: translateY(-10%);
     max-width: 1920px;
 
     @media (max-width: 768px) {
@@ -27,7 +26,7 @@ const SectionContainer = styled(Grid)`
     }
 
     @media (max-width: 1920px) {
-        width: 88vw;
+        width: 100vw;
         margin: 30px 30px 30px 30px;
     }  
 
@@ -59,7 +58,7 @@ const Text = styled.div`
     margin: 15px 0;
       @font-face {
           font-family: 'AppleBold';
-          src: url('/fonts/AppleSDGothicNeoBold.ttf') format('truetype');
+          src: url('../../fonts/AppleSDGothicNeoBold.ttf') format('truetype');
       }
     font-family: 'AppleBold';
 
@@ -79,10 +78,10 @@ const InnerText = styled.div`
     font-size: 2vw;
     color: inherit;
     letter-spacing: 4.8px;
-    padding: 15px 0;
+    padding: 12px 0;
     @font-face {
         font-family: 'Apple';
-        src: url('/fonts/AppleSDGothicNeo.ttf') format('truetype');
+        src: url('../../fonts/AppleSDGothicNeo.ttf') format('truetype');
       }
     font-family: 'Apple';
     

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import github from "../../../assets/images/github_logo.png";
 import "../../../assets/css/button.css";
 import { getAuthenticationService } from "../../../apis/GetAuthenticationService";
@@ -14,23 +14,19 @@ function LoginButton() {
   const handleLogin = () => {
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=7600733c0c5ed7849ce6`;
     window.location.href = githubAuthUrl;
-    // localStorage.setItem("isLogin", JSON.stringify(true));
   };
 
-  const [accessToken, setAccessToken] = useState("");
-
-  const handleCallback = () => {
+  const handleCallback = useCallback(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
 
     if (code) {
-      setAccessToken(code);
       console.log(code);
       getAuthenticationService(code)
         .then((res) => {
           console.log(res);
           localStorage.setItem("isLogin", JSON.stringify(true));
-          localStorage.setItem("userInfo", JSON.stringify(res.data))
+          localStorage.setItem("userInfo", JSON.stringify(res.data));
           navigate("/wait");
         })
         .catch((err) => {
@@ -40,11 +36,11 @@ function LoginButton() {
     } else {
       console.log("Error: code not found");
     }
-  };
+  }, [navigate]);
 
   useEffect(() => {
     handleCallback();
-  }, []);
+  }, [handleCallback]);
 
   return (
     <button className="login" onClick={handleLogin}>

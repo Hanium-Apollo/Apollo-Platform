@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - deploy
-  pull_request:
-    branches:
-      - deploy
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,10 +21,10 @@ jobs:
           touch .env
           echo REACT_APP_API_ENDPOINT=${{ secrets.AWS_S3_ENDPOINT }} >> .env
           cat .env
-      - name: Npm Install
+      - name: npm Install
         run: |
           npm install
-      - name: Npm Build
+      - name: npm Build
         run: |
           npm run build
       - name: Deploy to S3

@@ -1,53 +1,52 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { Button } from "@mui/material";
-import axios from "axios";
+import { UserInfo } from "../../apis/UserServiceType";
+import {
+  getUserSignInService,
+  getUserSignUpService,
+} from "../../apis/UserService";
 
 interface WaitProps {
   userInfo?: Partial<UserInfo>;
-}
-
-interface UserInfo {
-  id: string;
-  login: string;
-  username: string;
-  email: string;
-  profileUrl: string;
 }
 
 const Wait: React.FC<WaitProps> = ({ userInfo }) => {
   const navigate = useNavigate();
 
   const handleButtonClick = (action: string) => {
-    if (action === "home") {
-      navigate("/");
-    } else if (action === "saveUser") {
-      let info = localStorage.getItem("userInfo");
-      if (!info) return;
-      let parsedInfo = JSON.parse(info) as UserInfo;
+    let info = localStorage.getItem("userInfo");
+    if (!info) return;
+    let parsedInfo = JSON.parse(info) as UserInfo;
+    let userLogin = parsedInfo.login;
+    let userId = parsedInfo.id;
+    if (action === "userSignUp") {
       if (parsedInfo) parsedInfo.id = parsedInfo.id.toString();
-
-      axios
-        .post(
-          "http://apollo-lb-220895166.ap-northeast-2.elb.amazonaws.com/api/save/user",
-          JSON.stringify(parsedInfo),
-          {
-            headers: { "Content-Type": `application/json` },
-          }
-        )
+      getUserSignUpService(parsedInfo)
         .then((response) => {
-          console.log("성공띠");
+          console.log("success");
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log("error: ", error);
+        });
+    } else if (action === "userSignIn") {
+      getUserSignInService(userLogin, userId)
+        .then((response) => {
+          console.log("success");
+          console.log(response);
           navigate("/");
         })
         .catch((error) => {
-          console.error("땡:", error);
+          console.log("error: ", error);
         });
     }
   };
 
   return (
     <div>
-      <Button onClick={() => handleButtonClick("saveUser")}>눌러줘잉~</Button>
+      <Button onClick={() => handleButtonClick("userSignIn")}>로그인</Button>
+      <Button onClick={() => handleButtonClick("userSignUp")}>회원가입</Button>
     </div>
   );
 };

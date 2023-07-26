@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from "react";
 import github from "../../../assets/images/github_logo.png";
 import "../../../assets/css/button.css";
-import { getAuthenticationService } from "../../../apis/GetAuthenticationService";
+import { getAuthenticationService } from "../../../apis/UserService";
 import { useNavigate } from "react-router-dom";
 
 export function handleLogout() {
@@ -12,7 +12,7 @@ export function handleLogout() {
 function LoginButton() {
   const navigate = useNavigate();
   const handleLogin = () => {
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=aaf4ee42ea6e3043265c`;
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=7600733c0c5ed7849ce6`;
     window.location.href = githubAuthUrl;
   };
 

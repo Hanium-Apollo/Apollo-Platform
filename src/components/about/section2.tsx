@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { Grid } from '@mui/material';
 import styled from '@emotion/styled';
-import wallpaper from '../../assets/images/wallpaper.jpg';
+import wallpaper from '../../assets/images/wallpaperf.jpg';
 
 const SectionContainer = styled(Grid)`
     display: flex;
@@ -13,14 +13,14 @@ const SectionContainer = styled(Grid)`
     padding: 50px 0 30px 0;
     width: 100vw;
     text-align: center;
-
+    height: 110vh;
 `
 
 const Text = styled.div`
     margin: 0 auto;
     max-width: 1920px;
     color: lightgray;
-    font-size: 90px;
+    font-size: 80px;
     font-weight: 700;
     line-height: 1.8;
     letter-spacing: -1px;
@@ -41,7 +41,8 @@ const Text = styled.div`
     }
     
     @media (max-width: 768px) {
-        font-size: 4rem;
+        font-size: 30px;
+        opacity: 1;
     }
 `
 

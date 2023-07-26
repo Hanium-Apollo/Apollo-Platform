@@ -6,7 +6,7 @@ import {Slide} from 'react-awesome-reveal';
 const SectionContainer = styled(Grid)`
     display: flex;
     position: relative;
-    background-color: #6E6E6E;
+    background-color: #444654;
     z-index: 1;
     padding: 50px 0 30px 0;
     margin: 50px auto;
@@ -42,7 +42,7 @@ export const Section3: React.FC<Section3Props> = ({ children }) => {
     return (
     <SectionContainer container xs id='docker'>
         <Grid item xs={12}>
-            <Slide direction="left">    
+            <Slide direction="up">    
                 <Text> {"Apollo는 더 안전하고 편리한 배포 서비스를 위해 Docker 사용을 권장합니다."} </Text>
                 <Text> {"Docker 파일 생성이 처음이시라구요? 가이드만 천천히 따라해주세요!"}</Text>
             </Slide>

@@ -9,7 +9,7 @@ const SectionContainer = styled(Grid)`
     display: flex;
     position: relative;
     flex-direction: column;
-    background-color: #6E6E6E;
+    background-color: #424242;
     z-index: 1;
     padding: 50px 0 50px 0;
     transform: translateY(-10%);
@@ -52,7 +52,7 @@ const InnerContainer = styled.div`
 
 const Text = styled.div`
     font-size: 7.8vw;
-    color: inherit;
+    color: lightgray;
     letter-spacing: 4.8px;
     font-weight: bold;
     margin: 15px 0;
@@ -76,7 +76,7 @@ const Text = styled.div`
 
 const InnerText = styled.div`
     font-size: 2vw;
-    color: inherit;
+    color: lightgray;
     letter-spacing: 4.8px;
     padding: 12px 0;
     @font-face {
@@ -97,7 +97,7 @@ const InnerText = styled.div`
 
 const SubTitle = styled.div`
     font-size: 3.3vw;
-    color: inherit;
+    color: lightgray;
     letter-spacing: 4.8px;
     font-family: 'Apple';
     font-weight: bold;

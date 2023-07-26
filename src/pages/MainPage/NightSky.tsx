@@ -40,7 +40,7 @@ function NightSky() {
 
     function handleResize() {
       width = container.clientWidth;
-      height = Math.max(container.clientHeight, 750);
+      height = Math.max(container.clientHeight, 900);
 
       camera.aspect = width / height;
       camera.updateProjectionMatrix();

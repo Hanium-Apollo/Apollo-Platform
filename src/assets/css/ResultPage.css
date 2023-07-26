@@ -19,11 +19,29 @@
   .logo {
     width: 30%;
     margin-top: 7%;
+    @media (max-width: 900px){
+      width: 40%;
+      margin-top: 10%;
+    }
+    @media (max-width: 600px){
+      width: 50%;
+      margin-top: 15%;
+    }
   }
   .flogo {
     width: 30%;
     margin-top: 7%;
     transform: rotate(180deg);
+    @media (max-width: 900px){
+      width: 40%;
+      margin-top: 10%;
+      transform: rotate(180deg);
+    }
+    @media (max-width: 600px){
+      width: 50%;
+      margin-top: 15%;
+      transform: rotate(180deg);
+    }
   }
   
   .message,
@@ -40,17 +58,30 @@
     font-size: 60px;
     font-weight: bold;
     color: white;
+    @media (max-width: 900px){
+      margin-top: 4%;
+    }
+    @media (max-width: 600px){
+      margin-top: 7%;
+      font-size: 9vw;
+    }
   }
   
   .done {
     font-size: 30px;
     font-weight: bold;
     color: white;
+    @media (max-width: 600px){
+      font-size: 5vw;
+    }
   }
   
   .check {
     font-size: 30px;
     font-weight: bold;
     color: white;
+    @media (max-width: 600px){
+      font-size: 5vw;
+    }
   }
 

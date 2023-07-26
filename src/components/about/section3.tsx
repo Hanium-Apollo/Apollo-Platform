@@ -6,34 +6,25 @@ import {Slide} from 'react-awesome-reveal';
 const SectionContainer = styled(Grid)`
     display: flex;
     position: relative;
-    background-color: #989898;
-    border-radius: 20px;
+    background-color: #6E6E6E;
     z-index: 1;
     padding: 50px 0 30px 0;
-
-    @media (max-width: 1280px) {
-        width: 80vw;
-        margin: 100px 30px 60px 30px;
-    }
-
-    @media (max-width: 1920px) {
-        width: 90vw;
-        margin: 100px 50px 60px 50px;
-    }  
-
+    margin: 50px auto;
+    width: 100vw;
+    justify-content: center; 
 `
 
 const Text = styled.div`
-    font-size: 8rem;
-    color: inherit;
+    font-size: 30px;
+    color: lightgray;
     letter-spacing: 4.8px;
     font-weight: bold;
     margin: 30px 0;
       @font-face {
-          font-family: 'AppleBold';
-          src: url('/fonts/AppleSDGothicNeoBold.ttf') format('truetype');
+          font-family: 'One';
+          src: url('/fonts/ONE-Mobile-Regular.ttf') format('truetype');
       }
-    font-family: 'AppleBold';
+    font-family: 'One';
 
     span.highlight {
         color: #F3F781;
@@ -50,18 +41,10 @@ interface Section3Props {
 export const Section3: React.FC<Section3Props> = ({ children }) => { 
     return (
     <SectionContainer container xs id='docker'>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
             <Slide direction="left">    
-                <Text>
-                    {"Without Dockerfile"}
-                </Text>
-            </Slide>
-        </Grid>
-        <Grid item xs={6}>
-            <Slide direction="right">
-                <Text>
-                    {"설명 듣고 적기"}
-                </Text>
+                <Text> {"Apollo는 더 안전하고 편리한 배포 서비스를 위해 Docker 사용을 권장합니다."} </Text>
+                <Text> {"Docker 파일 생성이 처음이시라구요? 가이드만 천천히 따라해주세요!"}</Text>
             </Slide>
         </Grid>
     </SectionContainer>

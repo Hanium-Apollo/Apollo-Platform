@@ -9,7 +9,7 @@ const SectionContainer = styled(Grid)`
     display: flex;
     position: relative;
     flex-direction: column;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: #6E6E6E;
     z-index: 1;
     padding: 50px 0 50px 0;
     transform: translateY(-10%);

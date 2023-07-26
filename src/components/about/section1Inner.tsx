@@ -73,7 +73,7 @@ export const Section1Inner: React.FC<Section1Props> = ({ children }) => {
         </StyledButton>
 
         <Link to="how" spy={true} smooth="true">
-          <StyledButton variant="text">{"How to use? 🤔"}</StyledButton>
+          <StyledButton variant="text">{"Apollo ? 🤔"}</StyledButton>
         </Link>
 
         <Link to="docker" spy={true} smooth="true">

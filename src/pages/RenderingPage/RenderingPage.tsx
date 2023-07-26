@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "../../assets/css/RenderingPage.css";
 import { useLocation, useNavigate } from "react-router-dom";
 

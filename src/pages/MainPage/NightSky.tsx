@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import { useEffect, useRef } from 'react';
+import THREE from 'three';
 import '../../assets/css/MainPage.css';
 
 

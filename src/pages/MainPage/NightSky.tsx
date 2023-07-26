@@ -1,7 +1,6 @@
-import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
-import '../../assets/css/MainPage.css';
-
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
+import "../../assets/css/MainPage.css";
 
 function NightSky() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -22,7 +21,10 @@ function NightSky() {
     renderer.setSize(width, height);
 
     const starsGeometry = new THREE.BufferGeometry();
-    const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.005 }); // 조정된 크기
+    const starMaterial = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.005,
+    }); // 조정된 크기
 
     const starsPositions = new Float32Array(1000 * 3); // x, y, z positions for each star
 
@@ -33,7 +35,10 @@ function NightSky() {
       starsPositions[i3 + 2] = THREE.MathUtils.randFloatSpread(10);
     }
 
-    starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPositions, 3));
+    starsGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(starsPositions, 3)
+    );
 
     const stars = new THREE.Points(starsGeometry, starMaterial);
     scene.add(stars);
@@ -47,7 +52,7 @@ function NightSky() {
       renderer.setSize(width, height);
     }
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     function animate() {
       requestAnimationFrame(animate);
@@ -61,7 +66,7 @@ function NightSky() {
     animate();
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
       renderer.dispose();
       starsGeometry.dispose();
       starMaterial.dispose();

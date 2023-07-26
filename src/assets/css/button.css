@@ -24,6 +24,12 @@
     border-radius: 1000px;
     border: none;
     overflow: hidden;
+    @media (max-width: 600px){
+        width: 22%;
+        margin-top: 10%;
+        font-size: 2.5vw;
+        height: 40px;
+    }
 }
 
 .shomebtn,
@@ -40,6 +46,12 @@
     border-radius: 1000px;
     border: none;
     overflow: hidden;
+    @media (max-width: 600px){
+        width: 20%;
+        margin-top: 10%;
+        font-size: 2.5vw;
+        height: 40px;
+    }
 }
 
 .mhomebtn,
@@ -56,6 +68,12 @@
     border-radius: 1000px;
     border: none;
     overflow: hidden;
+    @media (max-width: 600px){
+        width: 20%;
+        margin-top: 10%;
+        font-size: 2.5vw;
+        height: 40px;
+    }
 }
 .smonitorbtn,
 .mbackbtn {
@@ -65,27 +83,11 @@
 .shomebtn {
   margin-right: 2%;
 }
-
-.startbtn {
-    width: 17%;
-    margin-top: 5%;
-    height: 55px;
-    background-color: gray;
-    opacity: 1;
-    color: white;
-    font-family: ONE-Mobile-Bold;
-    font-size: 1.8vw;
-    text-align: center;
-    border-radius: 1000px;
-    border: none;
-    overflow: hidden;
-}
 .fhomebtn:hover,
 .shomebtn:hover,
 .smonitorbtn:hover,
 .mbackbtn:hover,
-.mhomebtn:hover,
-.startbtn:hover {
+.mhomebtn:hover {
     background-color: black;
 }
 .login:hover {
@@ -101,13 +103,33 @@
     color: white;
     font-family: Inter;
     font-weight: bold;
-    font-size: 2.5vw;
+    font-size: 3vw;
     text-align: center;
     border-radius:20px;
     border: none;
+    @media (max-width: 900px){
+        width: 45%;
+        font-size: 3.3vw;
+        margin-top: 15%;
+        height: 85px;
+    }
+    @media (max-width: 600px){
+        width: 50%;
+        margin-top: 20%;
+        height: 60px;
+        font-size: 3.5vw;
+    }
 }
 
 .github {
-    width: 10%;
+    width: 12%;
     margin-right: 2%;
+    @media (max-width: 900px){
+        width: 13%;
+        margin-right: 4%;
+    }
+    @media (max-width: 600px){
+        width: 15%;
+        margin-right: 6%;
+    }
 }

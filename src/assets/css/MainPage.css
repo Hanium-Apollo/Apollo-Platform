@@ -18,8 +18,8 @@
     transform: translate(-50%);
 }
 .canvas {
+    min-height: 900px;
     height: 100vh;
-    min-height: 750px;
 }
 
 .listbox {
@@ -64,36 +64,12 @@
 .logoname {
     width: 50%;
     margin-top: 10%;
-}
-
-.inputname {
-    text-align: left;
-    background-color: rgba(234,236,239,0.87);
-    border-radius: 1000px;
-    border: none;
-    width: 70%;
-    height: 50px;
-    font-family: ONE-Mobile-Bold;
-    font-weight: bold;
-    font-size: 80%;
-    opacity: 1;
-    text-indent: 2%;
-    margin-top: 10%;
-
-}
-
-.inputURL {
-    text-align: left;
-    background-color: rgba(234,236,239,0.87);
-    border-radius: 1000px;
-    border: none;
-    width: 70%;
-    height: 50px;
-    font-family: ONE-Mobile-Bold;
-    font-weight: bold;
-    font-size: 80%;
-    opacity: 1;
-    text-indent: 2%;
-    margin-top: 5%;
-
+    @media (max-width: 900px){
+        width: 60%;
+        margin-top: 15%;
+    }
+    @media (max-width: 600px){
+        width: 70%;
+        margin-top: 20%;
+    }
 }

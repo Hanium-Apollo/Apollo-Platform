@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import '../../../assets/css/MainPage.css'
+import '../../../assets/css/deploy.css'
 
 
 function ListItem(props : any) {

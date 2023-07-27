@@ -12,22 +12,16 @@ const SectionContainer = styled(Grid)`
   z-index: 1;
   padding: 50px 0 50px 0;
   transform: translateY(-10%);
-  max-width: 1920px;
+  width: 100vw;
 
   @media (max-width: 768px) {
-    width: 70%;
     margin: 20px 20px 20px 20px;
   }
 
   @media (max-width: 1280px) {
-    width: 80%;
     margin: 20px 30px 30px 30px;
   }
 
-  @media (max-width: 1920px) {
-    width: 100vw;
-    margin: 30px 30px 30px 30px;
-  }
 `;
 
 const TextContainer = styled(Grid)`
@@ -48,14 +42,13 @@ const InnerContainer = styled.div`
 `;
 
 const Text = styled.div`
-  font-size: 7.8vw;
+  font-size: 180px;
   color: lightgray;
   letter-spacing: 4.8px;
-  font-weight: bold;
   margin: 15px 0;
   @font-face {
     font-family: "AppleBold";
-    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoB.ttf") format("truetype");
+    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoEB.ttf") format("truetype");
   }
   font-family: "AppleBold";
 
@@ -78,7 +71,7 @@ const InnerText = styled.div`
   padding: 12px 0;
   @font-face {
     font-family: "Apple";
-    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoEB.ttf") format("truetype");
+    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoB.ttf") format("truetype");
   }
   font-family: "Apple";
 

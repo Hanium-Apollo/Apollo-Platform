@@ -30,7 +30,7 @@ const Text = styled.div`
     color: #f3f781;
   }
   @media (max-width: 768px) {
-    font-size: 4rem;
+    font-size: 15px;
   }
 `;
 

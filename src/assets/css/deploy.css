@@ -49,6 +49,10 @@
     margin-top: 5%;
     height: 60%;
     overflow: auto;
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+}
+.deploylist::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
 .selectbtn
 {

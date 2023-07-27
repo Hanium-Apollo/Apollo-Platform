@@ -1,18 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import "../../../assets/css/deploy.css";
+import "../../../assets/css/MainPage.css"
 
-function ListItem(props: any) {
+type RepoData = {
+  userLogin: string;
+  repoName: string;
+  repoUrl: string;
+};
+
+type ListItemProps = {
+  repoName: string;
+  repoUrl: string;
+};
+
+// RepoData 배열을 받아올 NumberListProps의 형식을 선언합니다.
+type NumberListProps = {
+  repo: RepoData[];
+};
+
+const ListItem: React.FC<ListItemProps> = ({ repoName, repoUrl }) => {
   const toggleDropdown = () => {
-    window.open("https://github.com/", "_blank", "noopener, noreferrer");
+    window.open(repoUrl, "_blank", "noopener, noreferrer");
   };
   const navigate = useNavigate();
   const handleSubmit = () => {
-    console.log(props.value); // 예시: 콘솔에 입력값 출력
-    const value = props.value;
-    navigate("/rendering", { state: { value } });
-    // 서버로 전송 후 필요한 로직을 추가해야 합니다.
+    const name = repoName;
+    navigate("/rendering", { state: { name } });
   };
-  //맞습니다. 여기에는 key를 지정할 필요가 없습니다.
   return (
     <div
       style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}
@@ -22,7 +36,7 @@ function ListItem(props: any) {
         onClick={() => toggleDropdown()}
         style={{ cursor: "pointer" }}
       >
-        {props.value}
+        {repoName}
       </li>
       <button className="selectbtn" onClick={handleSubmit}>
         배포
@@ -31,11 +45,9 @@ function ListItem(props: any) {
   );
 }
 
-function NumberList(props: any) {
-  const numbers = props.numbers;
-  const listItems = numbers.map((number: number) => (
-    //맞습니다. 배열 안에 key를 지정해야 합니다.
-    <ListItem key={number.toString()} value={number} />
+const NumberList: React.FC<NumberListProps> = ({ repo }) => {
+  const listItems = repo.map((item, index) => (
+    <ListItem key={index.toString()} repoName={item.repoName} repoUrl={item.repoUrl} />
   ));
   return (
     <div className="listbox">

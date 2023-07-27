@@ -1,4 +1,4 @@
-// import React, {useState, useEffect} from "react";
+import { useEffect, useState } from "react";
 import logoname from "../../assets/images/logoname.png";
 import "../../assets/css/MainPage.css";
 import LoginButton from "./components/LoginButton";
@@ -7,8 +7,8 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-// import StartForm from "./components/StartForm";
 import NumberList from "./components/RepoList";
+import axios from "axios";
 
 const buttonStyles = css`
   background-color: gray;
@@ -34,10 +34,40 @@ const buttonStyles = css`
 const StyledButton = styled(MaterialButton)`
   ${buttonStyles}
 `;
-const numbers = [1, 2, 3, 4, 5, 6, 7, 8];
 function Main() {
   const navigate = useNavigate();
+  const [repoData, setRepoData] = useState([]);
+  const storedUserInfo = localStorage.getItem('userInfo');
+  useEffect(() => {
+    getRepo();
+  }, []);
 
+  let userInfo;
+  try {
+      userInfo = storedUserInfo ? JSON.parse(storedUserInfo) : null;
+  } catch (error) {
+      console.error('Error parsing userInfo:', error);
+      userInfo = null;
+  }
+  let userLogin;
+  if (userInfo && userInfo.userLogin) {
+      userLogin = userInfo.userLogin;
+      console.log('userLogin:', userLogin);
+  } else {
+      console.log('Error: userLogin not found');
+  }
+  const url = `/api/repository/list/${userLogin}`;
+
+  const getRepo = () => {
+    axios.get(url)
+      .then(response => {
+        console.log(response.data);
+        setRepoData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  };
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
@@ -50,7 +80,9 @@ function Main() {
           >
             Learn More..
           </StyledButton>
-          <NumberList numbers={numbers} />
+          {repoData !== null && (
+            <NumberList repo={repoData} />
+          )}
         </>
       ) : (
         <div>

@@ -8,7 +8,6 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import NumberList from "./components/RepoList";
-import axios from "axios";
 import { apiClient } from "../../apis/ApiClient";
 
 const buttonStyles = css`

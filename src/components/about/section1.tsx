@@ -55,7 +55,7 @@ const Text = styled.div`
   margin: 15px 0;
   @font-face {
     font-family: "AppleBold";
-    src: url("http://apollo-client-s3.s3-website.ap-northeast-2.amazonaws.com/fonts/AppleSDGothicNeoB.ttf") format("truetype");
+    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoB.ttf") format("truetype");
   }
   font-family: "AppleBold";
 
@@ -78,7 +78,7 @@ const InnerText = styled.div`
   padding: 12px 0;
   @font-face {
     font-family: "Apple";
-    src: url("../../fonts/AppleSDGothicNeo.ttf") format("truetype");
+    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoEB.ttf") format("truetype");
   }
   font-family: "Apple";
 

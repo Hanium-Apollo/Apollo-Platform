@@ -103,13 +103,13 @@
     color: white;
     font-family: Inter;
     font-weight: bold;
-    font-size: 3vw;
+    font-size: 2.5vw;
     text-align: center;
     border-radius:20px;
     border: none;
     @media (max-width: 900px){
         width: 45%;
-        font-size: 3.3vw;
+        font-size: 3vw;
         margin-top: 15%;
         height: 85px;
     }
@@ -117,7 +117,7 @@
         width: 50%;
         margin-top: 20%;
         height: 60px;
-        font-size: 3.5vw;
+        font-size: 3.2vw;
     }
 }
 

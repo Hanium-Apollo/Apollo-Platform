@@ -27,7 +27,7 @@ const Text = styled.div`
 
   @font-face {
     font-family: "AppleBold";
-    src: url("http://apollo-client-s3.s3-website.ap-northeast-2.amazonaws.com/fonts/AppleSDGothicNeoB.ttf") format("truetype");
+    src: url("https://s3.amazonaws.com/apollo-client-s3/fonts/AppleSDGothicNeoB.ttf") format("truetype");
   }
 
   font-family: "AppleBold";

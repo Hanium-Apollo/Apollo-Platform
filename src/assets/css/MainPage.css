@@ -28,8 +28,12 @@
     left: 50%;
     transform: translate(-50%);
     width: 50vw;
-    max-height: 250px;
+    max-height: 300px;
     overflow: auto;
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+}
+.listbox::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
 .selectbtn
 {

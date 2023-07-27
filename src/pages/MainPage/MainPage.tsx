@@ -8,7 +8,6 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import NumberList from "./components/RepoList";
-import axios from "axios";
 import { apiClient } from "../../apis/ApiClient";
 
 const buttonStyles = css`
@@ -39,9 +38,6 @@ function Main() {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
   const storedUserInfo = localStorage.getItem('userInfo');
-  useEffect(() => {
-    getRepo();
-  }, [repoData]);
 
   let userInfo;
   try {
@@ -69,6 +65,10 @@ function Main() {
         console.error('Error fetching data:', error);
       });
   };
+
+  useEffect(() => {
+    getRepo();
+  }, [getRepo]);
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />

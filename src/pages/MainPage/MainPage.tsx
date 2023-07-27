@@ -9,6 +9,7 @@ import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import NumberList from "./components/RepoList";
 import axios from "axios";
+import { apiClient } from "../../apis/ApiClient";
 
 const buttonStyles = css`
   background-color: gray;
@@ -40,7 +41,7 @@ function Main() {
   const storedUserInfo = localStorage.getItem('userInfo');
   useEffect(() => {
     getRepo();
-  }, []);
+  }, [repoData]);
 
   let userInfo;
   try {
@@ -59,7 +60,7 @@ function Main() {
   const url = `/api/repository/list/${userLogin}`;
 
   const getRepo = () => {
-    axios.get(url)
+    apiClient.get(url)
       .then(response => {
         console.log(response.data);
         setRepoData(response.data);

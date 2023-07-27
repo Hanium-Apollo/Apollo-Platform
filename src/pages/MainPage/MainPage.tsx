@@ -39,9 +39,6 @@ function Main() {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
   const storedUserInfo = localStorage.getItem('userInfo');
-  useEffect(() => {
-    getRepo();
-  }, [repoData]);
 
   let userInfo;
   try {
@@ -69,6 +66,10 @@ function Main() {
         console.error('Error fetching data:', error);
       });
   };
+
+  useEffect(() => {
+    getRepo();
+  }, [getRepo]);
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />

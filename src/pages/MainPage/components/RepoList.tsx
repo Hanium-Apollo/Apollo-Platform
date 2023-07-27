@@ -13,19 +13,17 @@ type ListItemProps = {
   repoUrl: string;
 };
 
-// RepoData 배열을 받아올 NumberListProps의 형식을 선언합니다.
 type NumberListProps = {
   repo: RepoData[];
 };
 
-const ListItem: React.FC<ListItemProps> = ({ repoName, repoUrl }) => {
+const ListItem = ({ repoName, repoUrl } : ListItemProps) => {
   const toggleDropdown = () => {
     window.open(repoUrl, "_blank", "noopener, noreferrer");
   };
   const navigate = useNavigate();
   const handleSubmit = () => {
-    const name = repoName;
-    navigate("/rendering", { state: { name } });
+    navigate("/rendering", { state: { repoName } });
   };
   return (
     <div
@@ -45,7 +43,7 @@ const ListItem: React.FC<ListItemProps> = ({ repoName, repoUrl }) => {
   );
 }
 
-const NumberList: React.FC<NumberListProps> = ({ repo }) => {
+const NumberList = ({ repo } : NumberListProps) => {
   const listItems = repo.map((item, index) => (
     <ListItem key={index.toString()} repoName={item.repoName} repoUrl={item.repoUrl} />
   ));

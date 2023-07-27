@@ -55,7 +55,7 @@ function Main() {
   }
   const url = `/api/repository/list/${userLogin}`;
 
-  const getRepo = () => {
+  const getRepo = useCallback(() => {
     apiClient.get(url)
       .then(response => {
         console.log(response.data);
@@ -64,11 +64,12 @@ function Main() {
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-  };
+  }, []);
 
   useEffect(() => {
     getRepo();
   }, [getRepo]);
+
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />

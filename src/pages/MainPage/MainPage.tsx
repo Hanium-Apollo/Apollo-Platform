@@ -8,7 +8,8 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import NumberList from "./components/RepoList";
-import { apiClient } from "../../apis/ApiClient";
+import { UserInfo } from "../../apis/UserServiceType";
+import { getRepoList } from "../../apis/RepoListapi";
 
 const buttonStyles = css`
   background-color: gray;
@@ -34,29 +35,20 @@ const buttonStyles = css`
 const StyledButton = styled(MaterialButton)`
   ${buttonStyles}
 `;
-function Main() {
+interface MainProps {
+  userInfo?: Partial<UserInfo>;
+}
+
+const Main: React.FC<MainProps> = ({ userInfo }) => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
-  const storedUserInfo = localStorage.getItem('userInfo');
-
-  let userInfo;
-  try {
-      userInfo = storedUserInfo ? JSON.parse(storedUserInfo) : null;
-  } catch (error) {
-      console.error('Error parsing userInfo:', error);
-      userInfo = null;
-  }
-  let userLogin;
-  if (userInfo && userInfo.userLogin) {
-      userLogin = userInfo.userLogin;
-      console.log('userLogin:', userLogin);
-  } else {
-      console.log('Error: userLogin not found');
-  }
-  const url = `/api/repository/list/${userLogin}`;
+  let info = localStorage.getItem("userInfo");
+  if (!info) return (<>error</>);
+  let parsedInfo = JSON.parse(info) as UserInfo;
+  let userLogin = parsedInfo.login;
 
   const getRepo = useCallback(() => {
-    apiClient.get(url)
+    getRepoList(userLogin)
       .then(response => {
         console.log(response.data);
         setRepoData(response.data);
@@ -64,7 +56,7 @@ function Main() {
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-  }, [url]);
+  }, [userLogin]);
 
   useEffect(() => {
     getRepo();

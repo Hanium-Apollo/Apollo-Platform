@@ -3,22 +3,23 @@ import { useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/images/logoname.png";
 import "../../assets/css/Nav.css";
 import { handleLogout } from "../MainPage/components/LoginButton";
+import { UserInfo } from "../../apis/UserServiceType";
 
-function Nav() {
+const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-
+  let info = localStorage.getItem("userInfo");
+  let parsedInfo = info ? JSON.parse(info) as UserInfo : null;
+  let userLogin = parsedInfo?.login;
   const GotoMain = () => {
     navigate("/"); // Navigate to another route
   };
 
   const GotoFail = () => {
-    // Handle logout logic
-    navigate("/fail"); // Navigate to login page
+    navigate("/fail");
   };
   const GotoSuccess = () => {
-    // Handle logout logic
-    navigate("/success"); // Navigate to login page
+    navigate("/success");
   };
   const GotoDeployList = () => {
     navigate("/deploy");
@@ -33,9 +34,9 @@ function Nav() {
         <img src={logo} className="navbar_logo" alt="logo" />
       </Link>
       <div className="dropdown">
-        {localStorage.getItem("isLogin") && (
+        {userLogin && (
           <button className="dropdown-toggle" onClick={toggleDropdown}>
-            User
+            {userLogin}
           </button>
         )}
 

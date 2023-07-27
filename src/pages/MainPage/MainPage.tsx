@@ -35,27 +35,25 @@ const buttonStyles = css`
 const StyledButton = styled(MaterialButton)`
   ${buttonStyles}
 `;
-interface MainProps {
-  userInfo?: Partial<UserInfo>;
-}
 
-const Main: React.FC<MainProps> = ({ userInfo }) => {
+const Main = () => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
   let info = localStorage.getItem("userInfo");
-  if (!info) return (<>error</>);
-  let parsedInfo = JSON.parse(info) as UserInfo;
-  let userLogin = parsedInfo.login;
+  let parsedInfo = info ? JSON.parse(info) as UserInfo : null;
+  let userLogin = parsedInfo?.login;
 
   const getRepo = useCallback(() => {
-    getRepoList(userLogin)
-      .then(response => {
-        console.log(response.data);
-        setRepoData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
+    if (userLogin){
+      getRepoList(userLogin)
+        .then(response => {
+          console.log(response.data);
+          setRepoData(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
       });
+    }
   }, [userLogin]);
 
   useEffect(() => {
@@ -65,7 +63,7 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
-      {localStorage.getItem("isLogin") ? (
+      {userLogin ? (
         <>
           <StyledButton
             variant="contained"
@@ -86,5 +84,6 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
     </div>
   );
 }
+
 
 export default Main;

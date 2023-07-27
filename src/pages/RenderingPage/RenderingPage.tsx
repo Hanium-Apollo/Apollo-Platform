@@ -6,21 +6,17 @@ function Rendering() {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const value = location.state?.value;
-  // const goToSuccess = () => {
-  //   navigate("/success", { state: { value } });
-  // };
+  const value = location.state?.repoName;
+
   const goToSuccess = useCallback(() => {
     navigate("/success", { state: { value } });
   }, [navigate, value]);
 
   useEffect(() => {
-    // 로딩 시뮬레이션 (예: setTimeout, API 요청 등)
     const timeout = setTimeout(() => {
       setIsLoading(false);
       goToSuccess();
-    }, 10000);
-    // 컴포넌트가 언마운트되면 타임아웃 클리어
+    }, 3000);
     return () => clearTimeout(timeout);
   }, [goToSuccess]);
 

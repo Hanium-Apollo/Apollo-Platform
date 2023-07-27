@@ -11,6 +11,7 @@ const Nav = () => {
   let info = localStorage.getItem("userInfo");
   let parsedInfo = info ? JSON.parse(info) as UserInfo : null;
   let userLogin = parsedInfo?.login;
+  let profile = parsedInfo?.profileUrl;
   const GotoMain = () => {
     navigate("/"); // Navigate to another route
   };
@@ -35,9 +36,12 @@ const Nav = () => {
       </Link>
       <div className="dropdown">
         {userLogin && (
-          <button className="dropdown-toggle" onClick={toggleDropdown}>
-            {userLogin}
-          </button>
+          <>
+            <img src = {profile} alt="profile" style={{height: "100%"}}/>
+            <button className="dropdown-toggle" onClick={toggleDropdown}>
+              {userLogin}
+            </button>
+          </>
         )}
 
         {isOpen && (

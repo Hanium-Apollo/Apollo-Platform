@@ -22,7 +22,7 @@ const buttonStyles = css`
 
   @font-face {
     font-family: "AppleBold";
-    src: url("/fonts/AppleSDGothicNeoBold.ttf") format("truetype");
+    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoB.ttf") format("truetype");
   }
   font-family: "AppleBold";
 

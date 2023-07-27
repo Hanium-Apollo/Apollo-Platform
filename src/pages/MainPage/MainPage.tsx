@@ -41,7 +41,7 @@ function Main() {
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
-      {/* {localStorage.getItem("isLogin") ? ( */}
+      {localStorage.getItem("isLogin") ? (
         <>
           <StyledButton
             variant="contained"
@@ -52,11 +52,11 @@ function Main() {
           </StyledButton>
           <NumberList numbers={numbers} />
         </>
-      {/* ) : (
+      ) : (
         <div>
           <LoginButton />
         </div>
-      )} */}
+      )}
     </div>
   );
 }

@@ -8,7 +8,8 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import NumberList from "./components/RepoList";
-import { apiClient } from "../../apis/ApiClient";
+import { UserInfo } from "../../apis/UserServiceType";
+import { getRepoListService } from "../../apis/RepoService";
 
 const buttonStyles = css`
   background-color: gray;
@@ -34,37 +35,26 @@ const buttonStyles = css`
 const StyledButton = styled(MaterialButton)`
   ${buttonStyles}
 `;
-function Main() {
+
+const Main = () => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
-  const storedUserInfo = localStorage.getItem('userInfo');
-
-  let userInfo;
-  try {
-      userInfo = storedUserInfo ? JSON.parse(storedUserInfo) : null;
-  } catch (error) {
-      console.error('Error parsing userInfo:', error);
-      userInfo = null;
-  }
-  let userLogin;
-  if (userInfo && userInfo.userLogin) {
-      userLogin = userInfo.userLogin;
-      console.log('userLogin:', userLogin);
-  } else {
-      console.log('Error: userLogin not found');
-  }
-  const url = `/api/repository/list/${userLogin}`;
+  let info = localStorage.getItem("userInfo");
+  let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
+  let userLogin = parsedInfo?.login;
 
   const getRepo = useCallback(() => {
-    apiClient.get(url)
-      .then(response => {
-        console.log(response.data);
-        setRepoData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, [url]);
+    if (userLogin) {
+      getRepoListService(userLogin)
+        .then((response) => {
+          console.log(response.data);
+          setRepoData(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [userLogin]);
 
   useEffect(() => {
     getRepo();
@@ -73,7 +63,7 @@ function Main() {
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
-      {localStorage.getItem("isLogin") ? (
+      {userLogin ? (
         <>
           <StyledButton
             variant="contained"
@@ -82,9 +72,7 @@ function Main() {
           >
             Learn More..
           </StyledButton>
-          {repoData !== null && (
-            <NumberList repo={repoData} />
-          )}
+          {repoData !== null && <NumberList repo={repoData} />}
         </>
       ) : (
         <div>
@@ -93,6 +81,6 @@ function Main() {
       )}
     </div>
   );
-}
+};
 
 export default Main;

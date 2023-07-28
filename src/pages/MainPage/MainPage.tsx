@@ -9,7 +9,7 @@ import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import NumberList from "./components/RepoList";
 import { UserInfo } from "../../apis/UserServiceType";
-import { getRepoList } from "../../apis/RepoListapi";
+import { getRepoListService } from "../../apis/RepoService";
 
 const buttonStyles = css`
   background-color: gray;
@@ -40,19 +40,19 @@ const Main = () => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
   let info = localStorage.getItem("userInfo");
-  let parsedInfo = info ? JSON.parse(info) as UserInfo : null;
+  let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
   let userLogin = parsedInfo?.login;
 
   const getRepo = useCallback(() => {
-    if (userLogin){
-      getRepoList(userLogin)
-        .then(response => {
+    if (userLogin) {
+      getRepoListService(userLogin)
+        .then((response) => {
           console.log(response.data);
           setRepoData(response.data);
         })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-      });
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     }
   }, [userLogin]);
 
@@ -72,9 +72,7 @@ const Main = () => {
           >
             Learn More..
           </StyledButton>
-          {repoData !== null && (
-            <NumberList repo={repoData} />
-          )}
+          {repoData !== null && <NumberList repo={repoData} />}
         </>
       ) : (
         <div>
@@ -83,7 +81,6 @@ const Main = () => {
       )}
     </div>
   );
-}
-
+};
 
 export default Main;

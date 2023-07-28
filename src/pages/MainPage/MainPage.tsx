@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import logoname from "../../assets/images/logoname.png";
 import "../../assets/css/MainPage.css";
 import LoginButton from "./components/LoginButton";
@@ -8,8 +8,8 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import NumberList from "./components/RepoList";
-import axios from "axios";
-import { apiClient } from "../../apis/ApiClient";
+import { UserInfo } from "../../apis/UserServiceType";
+import { getRepoList } from "../../apis/RepoListapi";
 
 const buttonStyles = css`
   background-color: gray;
@@ -35,44 +35,35 @@ const buttonStyles = css`
 const StyledButton = styled(MaterialButton)`
   ${buttonStyles}
 `;
-function Main() {
+
+const Main = () => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
-  const storedUserInfo = localStorage.getItem('userInfo');
+  let info = localStorage.getItem("userInfo");
+  let parsedInfo = info ? JSON.parse(info) as UserInfo : null;
+  let userLogin = parsedInfo?.login;
+
+  const getRepo = useCallback(() => {
+    if (userLogin){
+      getRepoList(userLogin)
+        .then(response => {
+          console.log(response.data);
+          setRepoData(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+      });
+    }
+  }, [userLogin]);
+
   useEffect(() => {
     getRepo();
-  }, [repoData]);
+  }, [getRepo]);
 
-  let userInfo;
-  try {
-      userInfo = storedUserInfo ? JSON.parse(storedUserInfo) : null;
-  } catch (error) {
-      console.error('Error parsing userInfo:', error);
-      userInfo = null;
-  }
-  let userLogin;
-  if (userInfo && userInfo.userLogin) {
-      userLogin = userInfo.userLogin;
-      console.log('userLogin:', userLogin);
-  } else {
-      console.log('Error: userLogin not found');
-  }
-  const url = `/api/repository/list/${userLogin}`;
-
-  const getRepo = () => {
-    apiClient.get(url)
-      .then(response => {
-        console.log(response.data);
-        setRepoData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  };
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
-      {localStorage.getItem("isLogin") ? (
+      {userLogin ? (
         <>
           <StyledButton
             variant="contained"
@@ -93,5 +84,6 @@ function Main() {
     </div>
   );
 }
+
 
 export default Main;

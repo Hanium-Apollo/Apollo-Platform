@@ -37,7 +37,7 @@ const Nav = () => {
       <div className="dropdown">
         {userLogin && (
           <>
-            <img src = {profile} alt="profile" style={{height: "100%"}}/>
+            <img src = {profile} alt="profile" style={{height: "100%", borderRadius: "50%"}}/>
             <button className="dropdown-toggle" onClick={toggleDropdown}>
               {userLogin}
             </button>

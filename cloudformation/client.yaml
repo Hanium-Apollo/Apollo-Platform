@@ -1,0 +1,32 @@
+# s3 버킷 생성 
+# -> ACL 활성화, 퍼블릭 차단 해제
+AWSTemplateFormatVersion: "2010-09-09"
+Description: resource for s3bucket
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: client-bucket
+      #acl 활성화
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+      #퍼블릭 acl 액세스 차단
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      WebsiteConfiguration:
+        IndexDocument: index.html
+# 정책 생성
+  MyBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref MyS3Bucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: '*'
+            Action: s3:GetObject
+            Resource: !Join [ '', ['arn:aws:s3:::', !Ref MyS3Bucket, '/*']]

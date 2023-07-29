@@ -26,15 +26,7 @@ const Wait: React.FC<WaitProps> = ({ action }) => {
         .then((response) => {
           console.log("success");
           console.log(response);
-          getUserSignInService(userLogin, userId)
-            .then((response) => {
-              console.log("success");
-              console.log(response);
-              navigate("/");
-            })
-            .catch((error) => {
-              console.log("error: ", error);
-            });
+          action = 'userSignIn';
           })
         .catch((error) => {
           console.log("error: ", error);

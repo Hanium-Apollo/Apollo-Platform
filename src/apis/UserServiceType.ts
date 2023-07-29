@@ -3,5 +3,5 @@ export interface UserInfo {
   login: string;
   username: string;
   email: string;
-  profileUrl: string;
+  avatar_url: string;
 }

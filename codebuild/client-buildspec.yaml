@@ -1,1 +1,19 @@
 #npm build해줄 ~~
+## [LOCAL_BUILD_DIRECTORY] -> 로컬 환경에서 빌드된 결과물이 위치한 디렉토리 주소
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+  pre_build:
+    commands:
+      - echo "Installing..."
+      - npm install
+  build:
+    commands:
+      - echo "building project..." 
+      - npm run build
+  post_build:
+    commands:
+      - echo "uploading build artifact to S3..."
+      - aws s3 sync [LOCAL_BUILD_DIRECTORY] s3://client-bucket --delete

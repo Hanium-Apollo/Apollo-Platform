@@ -45,7 +45,7 @@ const Wait: React.FC<WaitProps> = ({ action }) => {
   }, [navigate, action]);
   useEffect(() => {
     handleLogin();
-  }, [handleLogin]);
+  }, [handleLogin, action]);
   return (
     <div className="contentWrap">
       <div

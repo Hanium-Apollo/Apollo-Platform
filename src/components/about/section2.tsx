@@ -13,8 +13,7 @@ const SectionContainer = styled(Grid)`
   padding: 50px 0 30px 0;
   width: 100vw;
   text-align: center;
-  height: 110vh;
-  max-width: 2560px;
+  max-width: 1440px;
 
   @media (max-width: 768px) {
     height: 100vh;
@@ -27,6 +26,7 @@ const Text = styled.div`
   font-weight: 700;
   line-height: 1.8;
   letter-spacing: -1px;
+  font-size: 50px;
 
   @font-face {
     font-family: "AppleBold";
@@ -41,18 +41,6 @@ const Text = styled.div`
 
   @media (max-width: 768px) {
     font-size: 15px;
-  }
-
-  @media (max-width: 1280px) {
-    font-size: 50px;
-  }
-
-  @media (max-width: 1920px) {
-    font-size: 80px;
-  }
-
-  @media (max-width: 2560px) {
-    font-size: 95px;
   }
 
 

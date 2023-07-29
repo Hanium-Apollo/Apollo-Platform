@@ -20,18 +20,19 @@ const Wait: React.FC<WaitProps> = ({ action }) => {
     let parsedInfo = JSON.parse(info) as UserInfo;
     let userLogin = parsedInfo.login;
     let userId = parsedInfo.id;
-    if (action === "userSignUp") {
+    let act = action;
+    if (act === "userSignUp") {
       if (parsedInfo) parsedInfo.id = parsedInfo.id.toString();
       getUserSignUpService(parsedInfo)
         .then((response) => {
           console.log("success");
           console.log(response);
-          action = 'userSignIn';
+          act = 'userSignIn';
           })
         .catch((error) => {
           console.log("error: ", error);
         });
-    } else if (action === "userSignIn") {
+    } else if (act === "userSignIn") {
       getUserSignInService(userLogin, userId)
         .then((response) => {
           console.log("success");

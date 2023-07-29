@@ -17,7 +17,7 @@ Resources:
         RestrictPublicBuckets: true
       WebsiteConfiguration:
         IndexDocument: index.html
-# 정책 생성
+# 정책 생성 -> 모든 허용
   MyBucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:

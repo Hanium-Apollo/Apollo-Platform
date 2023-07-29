@@ -34,9 +34,11 @@ const buttonStyles = css`
     font-size: 1.3vw;
   }
 `;
+
 const StyledButton = styled(MaterialButton)`
   ${buttonStyles}
 `;
+
 const SectionContainer = styled(Grid)`
   display: flex;
   position: relative;

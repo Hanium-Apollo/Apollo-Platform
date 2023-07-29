@@ -11,6 +11,7 @@ import NumberList from "./components/RepoList";
 import { UserInfo } from "../../apis/UserServiceType";
 import { getRepoListService } from "../../apis/RepoService";
 import Signup from "./components/Signup";
+import { getAuthenticationService } from "../../apis/UserService";
 
 const buttonStyles = css`
   background-color: gray;
@@ -36,10 +37,10 @@ const buttonStyles = css`
 const StyledButton = styled(MaterialButton)`
   ${buttonStyles}
 `;
-
 const Main = () => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
+  const [action, setAction] = useState('');
   let info = localStorage.getItem("userInfo");
   let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
   let userLogin = parsedInfo?.login;
@@ -61,6 +62,31 @@ const Main = () => {
     getRepo();
   }, [getRepo]);
 
+  const handleCallback = useCallback(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+
+    if (code) {
+      console.log(code);
+      getAuthenticationService(code)
+        .then((res) => {
+          console.log(res);
+          localStorage.setItem("userInfo", JSON.stringify(res.data));
+          navigate("/wait", { state: { action: action } });
+        })
+        .catch((err) => {
+          console.log("here");
+          console.log(err);
+        });
+    } else {
+      console.log("Error: code not found");
+    }
+  }, [navigate, action]);
+
+  useEffect(() => {
+    handleCallback();
+  }, [handleCallback]);
+
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
@@ -77,8 +103,8 @@ const Main = () => {
         </>
       ) : (
         <div>
-          <LoginButton />
-          <Signup />
+          <LoginButton setAction={setAction}/>
+          <Signup setAction={setAction}/>
         </div>
       )}
     </div>

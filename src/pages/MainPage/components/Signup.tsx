@@ -1,30 +1,13 @@
-import { useEffect, useCallback } from "react";
-import { getAuthenticationService } from "../../../apis/UserService";
-import { useNavigate } from "react-router-dom";
+import { Dispatch, SetStateAction } from "react";
 
-function Signup() {
-  const navigate = useNavigate();
+type SetActionType = Dispatch<SetStateAction<string>>;
+
+
+const Signup = ({ setAction }: { setAction: SetActionType }) => {
   const handleSignin = () => {
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=7600733c0c5ed7849ce6`;
     window.location.href = githubAuthUrl;
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
-
-    if (code) {
-      console.log(code);
-      getAuthenticationService(code)
-        .then((res) => {
-          console.log(res);
-          localStorage.setItem("userInfo", JSON.stringify(res.data));
-          navigate("/wait", { state: { action: 'userSignUp' } });
-        })
-        .catch((err) => {
-          console.log("here");
-          console.log(err);
-        });
-    } else {
-      console.log("Error: code not found");
-    }
+    setAction('userSignUp');
   };
 
   return (

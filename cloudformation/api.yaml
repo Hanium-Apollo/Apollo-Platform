@@ -254,3 +254,15 @@ Resources:
         - Type: forward
           TargetGroupArn: !Ref APITargetGroup
 
+##############################################################
+  #ecr 생성
+  BackendECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: backend
+  
+  #ecs cluster 생성
+  APICluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: API-cluster

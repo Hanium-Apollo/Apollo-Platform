@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import NumberList from "./components/RepoList";
 import { UserInfo } from "../../apis/UserServiceType";
 import { getRepoListService } from "../../apis/RepoService";
+import Signup from "./components/Signup";
 
 const buttonStyles = css`
   background-color: gray;
@@ -77,6 +78,7 @@ const Main = () => {
       ) : (
         <div>
           <LoginButton />
+          <Signup />
         </div>
       )}
     </div>

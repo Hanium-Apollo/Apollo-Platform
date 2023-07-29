@@ -14,9 +14,6 @@ function LoginButton() {
   const handleLogin = () => {
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=7600733c0c5ed7849ce6`;
     window.location.href = githubAuthUrl;
-  };
-
-  const handleCallback = useCallback(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
 
@@ -26,7 +23,7 @@ function LoginButton() {
         .then((res) => {
           console.log(res);
           localStorage.setItem("userInfo", JSON.stringify(res.data));
-          navigate("/wait", { state: { action: 'userSignIn' } });
+          navigate("/wait", { state: { action: 'userSignUp' } });
         })
         .catch((err) => {
           console.log("here");
@@ -35,11 +32,7 @@ function LoginButton() {
     } else {
       console.log("Error: code not found");
     }
-  }, [navigate]);
-
-  useEffect(() => {
-    handleCallback();
-  }, [handleCallback]);
+  };
 
   return (
     <button className="login" onClick={handleLogin}>

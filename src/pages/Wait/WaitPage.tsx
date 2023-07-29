@@ -7,36 +7,33 @@ import {
 import { useCallback, useEffect } from "react";
 import FadeLoader from "react-spinners/FadeLoader";
 
-interface WaitProps {
-  action?: string;
-}
-
-const Wait: React.FC<WaitProps> = ({ action }) => {
+const Wait = () => {
   const navigate = useNavigate();
-
+  const action = localStorage.getItem("action");
   const handleLogin = useCallback(() => {
     let info = localStorage.getItem("userInfo");
     if (!info) return;
     let parsedInfo = JSON.parse(info) as UserInfo;
     let userLogin = parsedInfo.login;
     let userId = parsedInfo.id;
-    let act = action;
-    if (act === "userSignUp") {
+    if (action === "userSignUp") {
       if (parsedInfo) parsedInfo.id = parsedInfo.id.toString();
       getUserSignUpService(parsedInfo)
         .then((response) => {
           console.log("success");
           console.log(response);
-          act = 'userSignIn';
+          localStorage.removeItem("action");
+          localStorage.setItem("action", "userSignIn");
           })
         .catch((error) => {
           console.log("error: ", error);
         });
-    } else if (act === "userSignIn") {
+    } else if (action === "userSignIn") {
       getUserSignInService(userLogin, userId)
         .then((response) => {
           console.log("success");
           console.log(response);
+          localStorage.removeItem("action");
           navigate("/");
         })
         .catch((error) => {

@@ -1,0 +1,129 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  # CodeBuild Project
+  CodeBuildProject:
+    Type: 'AWS::CodeBuild::Project'
+    Properties:
+      Artifacts:
+        Type: 'NO_ARTIFACTS'
+      Environment:
+        ComputeType: 'BUILD_GENERAL1_SMALL'
+        Image: 'aws/codebuild/docker:18.09.0'
+        Type: 'LINUX_CONTAINER'
+        EnvironmentVariables:
+          - Name: 'REPOSITORY_NAME'
+            Value: 'backend'  # name of your ECR repository
+      Name: CodeBuildProject
+      ServiceRole: !GetAtt 'CodeBuildServiceRole.Arn'
+      Source:
+        Type: 'GITHUB'
+        Location: !Ref Location # Replace with your GitHub username and repo name
+        BuildSpec: 'version: 0.2\nphases:\n  build:\n    commands:\n      - echo Logging in to Amazon ECR...\n      - aws --version\n      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)\n      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)\n      - docker build -t $REPOSITORY_NAME:latest .\n      - docker tag $REPOSITORY_NAME:latest $REPOSITORY_NAME:$IMAGE_TAG\n      - docker push $REPOSITORY_NAME:latest\n      - docker push $REPOSITORY_NAME:$IMAGE_TAG\n'
+      TimeoutInMinutes: 10
+
+  # IAM Role for CodeBuild
+  CodeBuildServiceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: '/'
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'
+  
+  # CodePipeline
+  MyPipeline:
+    Type: 'AWS::CodePipeline::Pipeline'
+    Properties:
+      Name: MyPipeline
+      RoleArn: !GetAtt 'CodePipelineServiceRole.Arn'
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: Source
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Provider: GitHub
+                Version: 1
+              OutputArtifacts:
+                - Name: SourceOutput
+              Configuration:
+                Owner: <GITHUB_USERNAME> # Replace with your GitHub username
+                Repo: <REPO_NAME> # Replace with your repo name
+                Branch: master
+                OAuthToken: <OAUTH_TOKEN> # Replace with your OAuth token
+              RunOrder: 1
+        - Name: Build
+          Actions:
+            - Name: Build
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: 1
+                Provider: CodeBuild
+              InputArtifacts:
+                - Name: SourceOutput
+              OutputArtifacts:
+                - Name: BuildOutput
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+              RunOrder: 1
+        - Name: Deploy
+          Actions:
+            - Name: Deploy
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Version: 1
+                Provider: ECS
+              InputArtifacts:
+                - Name: BuildOutput
+              Configuration:
+                ClusterName: APICluster # name of your ECS cluster
+                ServiceName: APIService # name of your ECS service
+                FileName: imagedefinitions.json
+              RunOrder: 1
+      ArtifactStore:
+        Type: S3
+        Location: !Ref ArtifactBucket
+
+  # IAM Role for CodePipeline
+  CodePipelineServiceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: '/'
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'
+  
+  # S3 bucket to store CodePipeline artifacts
+  ArtifactBucket:
+    Type: 'AWS

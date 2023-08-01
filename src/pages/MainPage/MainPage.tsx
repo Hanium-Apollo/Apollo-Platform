@@ -11,6 +11,7 @@ import NumberList from "./components/RepoList";
 import { UserInfo } from "../../apis/UserServiceType";
 import { getRepoListService } from "../../apis/RepoService";
 import Signup from "./components/Signup";
+import { getAuthenticationService } from "../../apis/UserService";
 
 const buttonStyles = css`
   background-color: gray;
@@ -42,7 +43,31 @@ const Main = () => {
   let info = localStorage.getItem("userInfo");
   let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
   let userLogin = parsedInfo?.login;
-  
+
+  const handleCallback = useCallback(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+    if (code && localStorage.getItem("action")) {
+      console.log(code);
+      getAuthenticationService(code)
+        .then((res) => {
+          console.log(res);
+          localStorage.setItem("userInfo", JSON.stringify(res.data));
+          navigate("/wait");
+        })
+        .catch((err) => {
+          console.log("here");
+          console.log(err);
+        });
+    } else {
+      console.log("Error: code not found");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    handleCallback();
+  }, [handleCallback]);
+
   const getRepo = useCallback(() => {
     if (userLogin) {
       getRepoListService(userLogin)

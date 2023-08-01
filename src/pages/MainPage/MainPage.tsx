@@ -12,7 +12,6 @@ import { UserInfo } from "../../apis/UserServiceType";
 import { getRepoListService } from "../../apis/RepoService";
 import Signup from "./components/Signup";
 import { getAuthenticationService } from "../../apis/UserService";
-import { access } from "fs";
 
 const buttonStyles = css`
   background-color: gray;

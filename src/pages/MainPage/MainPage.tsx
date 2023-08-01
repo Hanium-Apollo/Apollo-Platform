@@ -40,9 +40,6 @@ const StyledButton = styled(MaterialButton)`
 const Main = () => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
-  let info = localStorage.getItem("userInfo");
-  let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
-  let userLogin = parsedInfo?.login;
 
   const handleCallback = useCallback(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -69,6 +66,9 @@ const Main = () => {
   }, [handleCallback]);
   const accessToken = localStorage.getItem("accessToken");
   const getRepo = useCallback(() => {
+    let info = localStorage.getItem("userInfo");
+    let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
+    let userLogin = parsedInfo?.login;
     if (accessToken && userLogin) {
       getRepoListService(userLogin)
         .then((response) => {
@@ -79,7 +79,7 @@ const Main = () => {
           console.error("Error fetching data:", error);
         });
     }
-  }, [userLogin]);
+  }, [accessToken]);
 
   useEffect(() => {
     getRepo();

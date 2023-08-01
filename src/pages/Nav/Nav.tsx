@@ -35,7 +35,7 @@ const Nav = () => {
         <img src={logo} className="navbar_logo" alt="logo" />
       </Link>
       <div className="dropdown">
-        {userLogin && (
+        {localStorage.getItem("islogin") === 'true' && (
           <>
             <img src = {profile} alt="profile" style={{height: "100%", borderRadius: "50%"}}/>
             <button className="dropdown-toggle" onClick={toggleDropdown}>

@@ -6,6 +6,7 @@ import {
 } from "../../apis/UserService";
 import { useCallback, useEffect } from "react";
 import FadeLoader from "react-spinners/FadeLoader";
+import { apiClient } from "../../apis/ApiClient";
 
 const Wait = () => {
   const navigate = useNavigate();
@@ -33,12 +34,18 @@ const Wait = () => {
         .then((response) => {
           console.log("success");
           console.log(response);
+          apiClient.defaults.headers.common[
+            "Authorization"
+          ] = `${response.data.result.grantType} ${response.data.result.accessToken}`;
           localStorage.removeItem("action");
           navigate("/");
+          return response.data;
         })
-        .catch((error) => {
-          console.log("error: ", error);
+          .catch((e) => {
+            console.log(e.response.data);
+            return "error";
         });
+
     }
   }, [navigate, action]);
   useEffect(() => {

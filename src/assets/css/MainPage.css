@@ -77,3 +77,12 @@
         margin-top: 20%;
     }
 }
+.signup {
+    font-size: 20px;
+    color: white;
+    margin: 10px;
+    cursor: pointer;
+}
+.signup:hover {
+    font-weight: bold;
+}

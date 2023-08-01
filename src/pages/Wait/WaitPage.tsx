@@ -23,7 +23,7 @@ const Wait = () => {
           console.log("success");
           console.log(response);
           localStorage.removeItem("action");
-          localStorage.setItem("action", "userSignIn");
+          navigate("/");
           })
         .catch((error) => {
           console.log("error: ", error);

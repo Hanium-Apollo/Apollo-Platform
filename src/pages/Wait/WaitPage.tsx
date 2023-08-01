@@ -38,6 +38,7 @@ const Wait = () => {
             "Authorization"
           ] = `${response.data.result.grantType} ${response.data.result.accessToken}`;
           localStorage.removeItem("action");
+          localStorage.setItem("islogin", "true");
           navigate("/");
           return response.data;
         })

@@ -3,6 +3,7 @@ import "../../../assets/css/button.css";
 
 export function handleLogout() {
   localStorage.removeItem("userInfo");
+  localStorage.removeItem("islogin");
   window.location.href = "/";
 }
 

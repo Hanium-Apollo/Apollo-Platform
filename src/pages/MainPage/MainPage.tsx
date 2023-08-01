@@ -69,7 +69,7 @@ const Main = () => {
   }, [handleCallback]);
 
   const getRepo = useCallback(() => {
-    if (userLogin) {
+    if (localStorage.getItem("islogin") === 'true' && userLogin) {
       getRepoListService(userLogin)
         .then((response) => {
           console.log(response.data);
@@ -88,7 +88,7 @@ const Main = () => {
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
-      {userLogin ? (
+      {localStorage.getItem("islogin") === 'true' ? (
         <>
           <StyledButton
             variant="contained"

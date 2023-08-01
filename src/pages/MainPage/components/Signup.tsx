@@ -1,3 +1,4 @@
+import "../../../assets/css/MainPage.css";
 
 const Signup = () => {
     const handleSignup = () => {

@@ -64,6 +64,7 @@ const Main = () => {
   useEffect(() => {
     handleCallback();
   }, [handleCallback]);
+
   const accessToken = localStorage.getItem("accessToken");
   const getRepo = useCallback(() => {
     let info = localStorage.getItem("userInfo");
@@ -100,7 +101,7 @@ const Main = () => {
           {repoData !== null && <NumberList repo={repoData} />}
         </>
       ) : (
-        <div>
+        <div style={ {display:"flex", justifyContent:"center", flexDirection:"column", alignItems:"center"} }>
           <LoginButton />
           <Signup />
         </div>

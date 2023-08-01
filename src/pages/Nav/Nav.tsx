@@ -12,6 +12,7 @@ const Nav = () => {
   let parsedInfo = info ? JSON.parse(info) as UserInfo : null;
   let userLogin = parsedInfo?.login;
   let profile = parsedInfo?.avatar_url;
+  const accessToken = localStorage.getItem("accessToken");
   const GotoMain = () => {
     navigate("/"); // Navigate to another route
   };
@@ -35,7 +36,7 @@ const Nav = () => {
         <img src={logo} className="navbar_logo" alt="logo" />
       </Link>
       <div className="dropdown">
-        {localStorage.getItem("islogin") === 'true' && (
+        {accessToken && (
           <>
             <img src = {profile} alt="profile" style={{height: "100%", borderRadius: "50%"}}/>
             <button className="dropdown-toggle" onClick={toggleDropdown}>

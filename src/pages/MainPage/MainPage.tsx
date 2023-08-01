@@ -12,6 +12,7 @@ import { UserInfo } from "../../apis/UserServiceType";
 import { getRepoListService } from "../../apis/RepoService";
 import Signup from "./components/Signup";
 import { getAuthenticationService } from "../../apis/UserService";
+import { access } from "fs";
 
 const buttonStyles = css`
   background-color: gray;
@@ -67,9 +68,9 @@ const Main = () => {
   useEffect(() => {
     handleCallback();
   }, [handleCallback]);
-
+  const accessToken = localStorage.getItem("accessToken");
   const getRepo = useCallback(() => {
-    if (localStorage.getItem("islogin") === 'true' && userLogin) {
+    if (accessToken && userLogin) {
       getRepoListService(userLogin)
         .then((response) => {
           console.log(response.data);
@@ -88,7 +89,7 @@ const Main = () => {
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
-      {localStorage.getItem("islogin") === 'true' ? (
+      {accessToken ? (
         <>
           <StyledButton
             variant="contained"

@@ -5,13 +5,13 @@ import wallpaper from "../../assets/images/wallpaperf.jpg";
 
 const SectionContainer = styled(Grid)`
   display: flex;
-  position: relative;
   background-image: url(${wallpaper});
   z-index: 1;
   justify-content: center;
   align-items: center;
   padding: 50px 0 30px 0;
   width: 100vw;
+  height: 100%;  
   text-align: center;
   max-width: 1440px;
 
@@ -26,7 +26,7 @@ const Text = styled.div`
   font-weight: 700;
   line-height: 1.8;
   letter-spacing: -1px;
-  font-size: 50px;
+  font-size: 70px;
 
   @font-face {
     font-family: "AppleBold";
@@ -39,8 +39,12 @@ const Text = styled.div`
     color: #f3f781;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 600px) {
     font-size: 15px;
+  }
+
+  @media (max-width: 1200px) {
+    font-size: 45px;
   }
 
 

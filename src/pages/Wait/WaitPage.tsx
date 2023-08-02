@@ -25,6 +25,7 @@ const Wait = () => {
           console.log(response);
           localStorage.removeItem("action");
           localStorage.removeItem("userInfo");
+          
           navigate("/");
           })
         .catch((error) => {

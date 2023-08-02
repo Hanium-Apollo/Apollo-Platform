@@ -25,9 +25,9 @@ const Wait = () => {
           console.log(response);
           localStorage.removeItem("action");
           localStorage.removeItem("userInfo");
-          
+
           navigate("/");
-          })
+        })
         .catch((error) => {
           console.log("error: ", error);
         });
@@ -37,18 +37,17 @@ const Wait = () => {
           console.log("success");
           console.log(response);
           apiClient.defaults.headers.common[
-            "Authorization"
+            "auth"
           ] = `${response.data.result.grantType} ${response.data.result.accessToken}`;
           localStorage.removeItem("action");
           localStorage.setItem("accessToken", response.data.result.accessToken);
           navigate("/");
           return response.data;
         })
-          .catch((e) => {
-            console.log(e.response.data);
-            return "error";
+        .catch((e) => {
+          console.log(e.response.data);
+          return "error";
         });
-
     }
   }, [navigate, action]);
   useEffect(() => {
@@ -64,13 +63,7 @@ const Wait = () => {
           transform: "translate(-50%, -50%)",
         }}
       >
-        <FadeLoader
-          color="white"
-          height={15}
-          width={5}
-          radius={2}
-          margin={2}
-        />
+        <FadeLoader color="white" height={15} width={5} radius={2} margin={2} />
       </div>
     </div>
   );

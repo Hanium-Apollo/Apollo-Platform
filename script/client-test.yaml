@@ -9,9 +9,10 @@ Resources:
       AccessControl: Private
       PublicAccessBlockConfiguration:
         #퍼블릭 acl 액세스 차단
-        BlockPublicAcls: false
-        BlockPublicPolicy: false
-        IgnorePublicAcls: false
-        RestrictPublicBuckets: false
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
       WebsiteConfiguration:
         IndexDocument: index.html
+    DeletionPolicy: Retain

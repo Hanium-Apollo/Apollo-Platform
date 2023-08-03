@@ -102,11 +102,11 @@ Resources:
     Properties:
       Domain : vpc
 
-  APINAtGateway:
-  Type: AWS::EC2::NatGateway
-  Properties:
-    AllocationID: !GetAtt APINatGatewayEIP.AllocationId
-    SubnetId: !Ref APISubnetPublic1A
+  APINatGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationID: !GetAtt APINatGatewayEIP.AllocationId
+      SubnetId: !Ref APISubnetPublic1A
 
   # 라우팅 테이블
   ## public routing table, private routing table
@@ -116,18 +116,18 @@ Resources:
       VpcId: 
         Ref: APIVpc
       Tags:
-      - keys: Name
-        Value: API-public-rtb
+        - Key: Name
+          Value: API-public-rtb
 
   APIPublicRoute:
     Type: AWS::EC2::Route
     DependsOn: APIVpcgwAttachment
     Properties:
       RouteTableId:
-       Ref: APIPublicrtb
+        Ref: APIPublicrtb
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: 
-      Ref: APIIgw
+        Ref: APIIgw
 
   APISubnetPublic1ARouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
@@ -150,8 +150,8 @@ Resources:
       VpcId: 
         Ref: APIVpc
       Tags:
-      - keys: Name
-        Value: API-private-rtb
+        - Key: Name
+          Value: API-private-rtb
   
   APIPrivatertbRoute:
     Type: AWS::EC2::Route
@@ -161,7 +161,7 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       NatGatewayId: !Ref APINatGateway
  
- APISubnetPrivate1ARouteTableAssociation:
+  APISubnetPrivate1ARouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       SubnetId: !Ref APISubnetPrivate1A
@@ -174,7 +174,7 @@ Resources:
       RouteTableId: !Ref APIPrivatertb
 
   # 보안 그룹
-  ## was sg, loadbalancer sg
+  ## was sg, load balancer sg
   APIWASSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -199,70 +199,4 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: LoadBalancer Security Group
-      SecurityGroupEgress:
-        - CidrIp: 0.0.0.0/0
-          Description: Allow all outbound traffic 
-          IpProtocol: "-1"
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          CidrIp: 0.0.0.0/0
-      Tags:
-        - Key: Name
-          Value: API-lb-sg
-      VpcId:
-        Ref: APIVpc
-  
-  #대상그룹
-  APITargetGroup:
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    Properties:
-      Name: API-tg
-      Protocol: HTTP
-      Port: 8080
-      TargetType: ip
-      VpcId: APIVpc
-
-  #로드 밸런서
-  APILoadBalancer:
-    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-    Properties:
-      Name: API-LoadBalancer
-      Subnets:
-        - API-subnet-private-1a
-        - API-subnet-private-1c
-      SecurityGroups:
-        - !Ref LoadBalancerSecurityGroup
-      Type: application
-      Tags:
-        - Key: Name
-          Value: API-LoadBalancer
-
-  # 로드 밸런서에 대상 그룹 연결
-  APILoadBalancerListener:
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties:
-      LoadBalancerArn: !Ref APILoadBalancer
-      Protocol: HTTP
-      Port: 80
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref APITargetGroup
-
-##############################################################
-  #ecr 생성
-  BackendECRRepository:
-    Type: AWS::ECR::Repository
-    Properties:
-      RepositoryName: backend
-  
-  #ecs cluster 생성
-  APICluster:
-    Type: AWS::ECS::Cluster
-    Properties:
-      ClusterName: API-cluster
+      Security

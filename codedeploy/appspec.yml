@@ -1,0 +1,8 @@
+version: 0.0
+resources: 
+  ecs-service-specifications
+hooks: 
+  deployment-lifecycle-event-mappings
+
+
+  

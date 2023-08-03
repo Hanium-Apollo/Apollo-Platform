@@ -74,13 +74,7 @@ Resources:
       Source:
         Type: GITHUB
         Location: !Ref RepoLocation
-      Environment:
-        Type: LINUX_CONTAINER
-        ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/standard:4.0
-      Artifacts:
-        Type: NO_ARTIFACTS
-      BuildSpec: |
+        BuildSpec: |
         version: 0.2
         phases:
           install:
@@ -98,6 +92,12 @@ Resources:
             commands:
               - echo "Uploading build artifact to S3..."
               - aws s3 sync build s3://apollo-client-bucket --delete
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:4.0
+      Artifacts:
+        Type: NO_ARTIFACTS
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

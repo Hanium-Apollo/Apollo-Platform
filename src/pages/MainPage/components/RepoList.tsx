@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../../../assets/css/deploy.css";
 import "../../../assets/css/MainPage.css";
+// import { useState } from "react";
 
 type RepoData = {
   userLogin: string;
@@ -18,10 +19,14 @@ type NumberListProps = {
 };
 
 const ListItem = ({ repoName, repoUrl }: ListItemProps) => {
+  // const [showButton, setButton] = useState(-1);
   const toggleDropdown = () => {
     window.open(repoUrl, "_blank", "noopener, noreferrer");
   };
   const navigate = useNavigate();
+  // const handleButton = (index:number) => {
+  //   setButton(index);
+  // }
 
   const handleClick = () => {navigate("/rendering", { state: { repoName } })};
   return (

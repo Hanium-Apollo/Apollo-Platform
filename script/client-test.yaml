@@ -5,14 +5,24 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: no-duplicated-bucket-name-with-apollo
-      #acl 활성화
       AccessControl: Private
       PublicAccessBlockConfiguration:
-        #퍼블릭 acl 액세스 차단
-        BlockPublicAcls: true
-        BlockPublicPolicy: true
-        IgnorePublicAcls: true
-        RestrictPublicBuckets: true
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
       WebsiteConfiguration:
         IndexDocument: index.html
     DeletionPolicy: Retain
+  MyBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref MyS3Bucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: "*"
+            Action: s3:GetObject
+            Resource: !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]

@@ -21,7 +21,7 @@ Resources:
     Properties:
       BucketName: apollo-client-bucket
       AccessControl: private
-      publicAccessBlockConfiguration:
+      PublicAccessBlockConfiguration:
         BlockPublicAcls: false
         BlockPublicPolicy: false
         IgnorePublicAcls: false

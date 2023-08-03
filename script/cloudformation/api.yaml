@@ -48,29 +48,22 @@ Resources:
         - Key: Type
           Value: Isolated
 
-# 퍼블릭 액세스를 위해 서브넷 구성 업데이트
-
-APISubnetPublic1A:
-  Type: AWS::EC2::Subnet
-  Properties:
-    CidrBlock: 10.1.0.0/24
-    VpcId: !Ref APIVpc
-    AvailabilityZone: 
-      Fn::Select: 
-        - 0
-        - Fn::GetAZs: ""
-    MapPublicIpOnLaunch: true
-    Tags:
-      - Key: Name
-        Value: API-subnet-public-1a
-      - Key: Type
-        Value: Public
-#네트워크 acl
-  APISubnetPublic1ANetworkAclAssociation:
-    Type: AWS::EC2::SubnetNetworkAclAssociation
+  # 퍼블릭 액세스를 위해 서브넷 구성 업데이트
+  APISubnetPublic1A:
+    Type: AWS::EC2::Subnet
     Properties:
-      SubnetId: !Ref APISubnetPublic1A
-      NetworkAclId: !Ref APISubnetPublicNetworkAcl
+      CidrBlock: 10.1.0.0/24
+      VpcId: !Ref APIVpc
+      AvailabilityZone: 
+        Fn::Select: 
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: API-subnet-public-1a
+        - Key: Type
+          Value: Public
 
   APISubnetPublic1C:
     Type: AWS::EC2::Subnet
@@ -88,6 +81,13 @@ APISubnetPublic1A:
         - Key: Type
           Value: Public
 
+  # 네트워크 acl
+  APISubnetPublic1ANetworkAclAssociation:
+    Type: AWS::EC2::SubnetNetworkAclAssociation
+    Properties:
+      SubnetId: !Ref APISubnetPublic1A
+      NetworkAclId: !Ref APISubnetPublicNetworkAcl
+
   APISubnetPublic1CNetworkAclAssociation:
     Type: AWS::EC2::SubnetNetworkAclAssociation
     Properties:
@@ -103,7 +103,6 @@ APISubnetPublic1A:
           Value: API-subnet-public-network-acl
 
   # 네트워크 ACL의 인바운드와 아웃바운드 트래픽을 모두 허용
-
   APISubnetPublicNetworkAclInboundRuleAll:
     Type: AWS::EC2::NetworkAclEntry
     Properties:
@@ -123,6 +122,7 @@ APISubnetPublic1A:
       RuleAction: allow
       Egress: true
       CidrBlock: 0.0.0.0/0
+
   # 인터넷 게이트웨이 생성
   APIIgw:
     Type: AWS::EC2::InternetGateway
@@ -130,6 +130,15 @@ APISubnetPublic1A:
       Tags:
         - Key: Name
           Value: API-igw
+
+  APIVpcgwAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: APIVpc
+      InternetGatewayId:
+        Ref: APIIgw
+
   APIVpcgwAttachment:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:

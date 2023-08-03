@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../../../assets/css/deploy.css";
 import "../../../assets/css/MainPage.css";
-// import { useState } from "react";
+import { useState } from "react";
 
 type RepoData = {
   userLogin: string;
@@ -19,14 +19,14 @@ type NumberListProps = {
 };
 
 const ListItem = ({ repoName, repoUrl }: ListItemProps) => {
-  // const [showButton, setButton] = useState(-1);
+  const [showButton, setButton] = useState("");
   const toggleDropdown = () => {
     window.open(repoUrl, "_blank", "noopener, noreferrer");
   };
   const navigate = useNavigate();
-  // const handleButton = (index:number) => {
-  //   setButton(index);
-  // }
+  const handleButton = (name:string) => {
+    setButton(name);
+  }
 
   const handleClick = () => {navigate("/rendering", { state: { repoName } })};
   return (
@@ -40,9 +40,20 @@ const ListItem = ({ repoName, repoUrl }: ListItemProps) => {
       >
         {repoName}
       </li>
-      <button className="selectbtn" onClick={() => handleClick()}>
+      {showButton === repoName ? (
+        <>
+        <button className="deploybtn1" onClick={() => handleClick}>
+        client
+        </button>
+        <button className="deploybtn2" onClick={() => handleClick}>
+        server
+        </button>
+        </>
+      ): (
+        <button className="selectbtn" onClick={() => handleButton}>
         배포
-      </button>
+        </button>
+      )}
     </div>
   );
 };

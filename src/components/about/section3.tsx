@@ -9,7 +9,6 @@ const SectionContainer = styled(Grid)`
   background-color: #444654;
   z-index: 1;
   padding: 50px 0 30px 0;
-  margin: 50px auto;
   width: 100vw;
   justify-content: center;
 `;

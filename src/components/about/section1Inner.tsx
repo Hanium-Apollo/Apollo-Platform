@@ -9,7 +9,7 @@ interface Section1Props {
 }
 
 const buttonStyles = css`
-  background-color: #585858;
+  background-color: #1C1C1C;
   padding: 20px 20px;
   color: white;
   font-weight: bold;

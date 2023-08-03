@@ -11,13 +11,9 @@ const SectionContainer = styled(Grid)`
   align-items: center;
   padding: 50px 0 30px 0;
   width: 100vw;
-  height: 100%;  
+  height: 100vh;  
   text-align: center;
   max-width: 1440px;
-
-  @media (max-width: 768px) {
-    height: 100vh;
-  }
 `;
 
 const Text = styled.div`
@@ -26,7 +22,7 @@ const Text = styled.div`
   font-weight: 700;
   line-height: 1.8;
   letter-spacing: -1px;
-  font-size: 70px;
+  font-size: 100px;
 
   @font-face {
     font-family: "AppleBold";
@@ -36,18 +32,16 @@ const Text = styled.div`
   font-family: "AppleBold";
 
   span.highlight {
-    color: #f3f781;
+    color: #4CBCCC;
   }
 
   @media (max-width: 600px) {
     font-size: 15px;
   }
 
-  @media (max-width: 1200px) {
-    font-size: 45px;
+  @media (max-width: 1500px) {
+    font-size: 60px;
   }
-
-
 `;
 
 const Scroll = styled.div`

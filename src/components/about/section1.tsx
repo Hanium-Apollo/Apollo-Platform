@@ -7,21 +7,11 @@ import { Section1Inner } from "./section1Inner";
 const SectionContainer = styled(Grid)`
   display: flex;
   flex-direction: column;
-  background-color: #424242;
+  background-color: #151515;
   z-index: 1;
   padding: 50px 0 50px 0;
-  transform: translateY(-10%);
   width: 100vw;
-
-  @media (max-width: 700px) {
-    margin: 20px 20px 20px 20px;
-  }
-
-  @media (max-width: 1200px) {
-    margin: 20px 30px 30px 30px;
-  }
-
-`;
+`
 
 const TextContainer = styled(Grid)`
   display: flex;
@@ -40,7 +30,7 @@ const InnerContainer = styled.div`
 `;
 
 const Text = styled.div`
-  font-size: 150px;
+  font-size: 200px;
   color: lightgray;
   letter-spacing: 4.8px;
   margin: 15px 0;
@@ -51,14 +41,15 @@ const Text = styled.div`
   font-family: "AppleBold";
 
   span.highlight {
-    color: #f3f781;
+    color: #4CBCCC;
   }
+
   @media (max-width: 600px) {
     font-size: 40px;
   }
 
-  @media (max-width: 1200px) {
-    font-size: 100px;
+  @media (max-width: 1500px) {
+    font-size: 120px;
   }
 `;
 
@@ -73,12 +64,12 @@ const InnerText = styled.div`
   }
   font-family: "Apple";
 
-  @media (max-width: 768px) {
+  @media (max-width: 600px) {
     font-size: 0.8vw;
     padding: 10px 0;
   }
 
-  @media (max-width: 1280px) {
+  @media (max-width: 1500px) {
     font-size: 2.5vw;
   }
 `;
@@ -90,11 +81,11 @@ const SubTitle = styled.div`
   font-family: "Apple";
   font-weight: bold;
 
-  @media (max-width: 768px) {
+  @media (max-width: 600px) {
     font-size: 3vw;
   }
 
-  @media (max-width: 1280px) {
+  @media (max-width: 1500px) {
     font-size: 4vw;
   }
 `;

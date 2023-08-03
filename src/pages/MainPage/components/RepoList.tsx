@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "../../../assets/css/deploy.css";
 import "../../../assets/css/MainPage.css";
-import { postRepoCreateService } from "../../../apis/RepoService";
 
 type RepoData = {
   userLogin: string;
@@ -23,19 +22,8 @@ const ListItem = ({ repoName, repoUrl }: ListItemProps) => {
     window.open(repoUrl, "_blank", "noopener, noreferrer");
   };
   const navigate = useNavigate();
-  const handleSubmit = () => {
-    navigate("/rendering", { state: { repoName } });
-    console.log("repoName: ", repoName);
-    postRepoCreateService(repoName)
-      .then((response) => {
-        console.log("success");
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log("error: ", error);
-        navigate("/error");
-      });
-  };
+
+  const handleClick = () => {navigate("/rendering", { state: { repoName } })};
   return (
     <div
       style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}
@@ -47,7 +35,7 @@ const ListItem = ({ repoName, repoUrl }: ListItemProps) => {
       >
         {repoName}
       </li>
-      <button className="selectbtn" onClick={handleSubmit}>
+      <button className="selectbtn" onClick={() => handleClick()}>
         배포
       </button>
     </div>

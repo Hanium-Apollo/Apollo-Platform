@@ -43,7 +43,7 @@ const Wait = () => {
           console.log("success");
           console.log(response);
           localStorage.removeItem("action");
-          setAuth(defaultAuth);
+          setAuth({type: "SET_AUTH", payload:defaultAuth});
           SetFinish("signup");
           return "success";
         })
@@ -61,7 +61,7 @@ const Wait = () => {
             "auth"
           ] = `${response.data.result.grantType} ${response.data.result.accessToken}`;
           localStorage.removeItem("action");
-          setToken(response.data.result.accessToken);
+          setToken({ type: "SET_TOKEN", payload: response.data.result.accessToken });
           SetFinish("signin");
           return response.data;
         })

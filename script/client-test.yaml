@@ -4,7 +4,7 @@ Resources:
   MyS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: no-duplicated-bucket-name-with-apollo
+      BucketName: apollo-client-bucket
       AccessControl: Private
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false

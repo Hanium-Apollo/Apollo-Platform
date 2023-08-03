@@ -199,4 +199,70 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: LoadBalancer Security Group
-      Security
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic 
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: API-lb-sg
+      VpcId:
+        Ref: APIVpc
+  
+  #대상그룹
+  APITargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: API-tg
+      Protocol: HTTP
+      Port: 8080
+      TargetType: ip
+      VpcId: APIVpc
+
+  #로드 밸런서
+  APILoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: API-LoadBalancer
+      Subnets:
+        - API-subnet-private-1a
+        - API-subnet-private-1c
+      SecurityGroups:
+        - !Ref LoadBalancerSecurityGroup
+      Type: application
+      Tags:
+        - Key: Name
+          Value: API-LoadBalancer
+
+  # 로드 밸런서에 대상 그룹 연결
+  APILoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref APILoadBalancer
+      Protocol: HTTP
+      Port: 80
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref APITargetGroup
+
+##############################################################
+  #ecr 생성
+  BackendECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: backend
+  
+  #ecs cluster 생성
+  APICluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: API-cluster

@@ -30,15 +30,13 @@ export const StyledToastContainer = styled(ToastContainer)`
 const Wait = () => {
   const navigate = useNavigate();
   const action = localStorage.getItem("action");
-  const [isFinish, SetFinish] = useState(false);
+  const [isFinish, SetFinish] = useState("");
   const {auth, setAuth} = useAuth();
   const {setToken} = useToken();
   const handleLogin = useCallback(() => {
     let userLogin = auth.login;
     let userId = auth.id;
-    const notify = (message:string) => toast(message, {
-      onClose: () => navigate("/")
-    });
+
     if (action === "userSignUp") {
       getUserSignUpService(auth)
         .then((response) => {
@@ -46,15 +44,16 @@ const Wait = () => {
           console.log(response);
           localStorage.removeItem("action");
           setAuth(defaultAuth);
-          SetFinish(true);
-          notify("회원가입이 완료되었습니다.");
-          })
+          SetFinish("signup");
+          return "success";
+        })
         .catch((error) => {
           console.log("error: ", error);
-          alert("에러가 발생했습니다: " + error.response.data);
+          alert("에러가 발생했습니다: " + error.response);
           setTimeout(() => {
             navigate("/");
           }, 3000);
+          return "error";
         });
     } else if (action === "userSignIn") {
       getUserSignInService(userLogin, userId)
@@ -66,23 +65,32 @@ const Wait = () => {
           ] = `${response.data.result.grantType} ${response.data.result.accessToken}`;
           localStorage.removeItem("action");
           setToken(response.data.result.accessToken);
-          notify("로그인이 완료되었습니다.");
+          SetFinish("signin");
           return response.data;
         })
-          .catch((error) => {
-            console.log(error.response.data);
-            alert("에러가 발생했습니다: " + error.response.data);
-            setTimeout(() => {
-              navigate("/");
-            }, 3000);
-            return error;
+        .catch((error) => {
+          console.log(error.response.data);
+          alert("에러가 발생했습니다: " + error.response);
+          setTimeout(() => {
+            navigate("/");
+          }, 3000);
+          return error;
         });
-
     }
-  }, [navigate, action, auth, setAuth, setToken]);
+  }, [action, auth, setAuth, setToken, navigate]);
+
   useEffect(() => {
+    const notify = (message:string) => toast(message, {
+      onClose: () => navigate("/")
+    });
     handleLogin();
-  }, [handleLogin, action]);
+    if (isFinish === "signup"){
+      notify("회원가입이 완료되었습니다.");
+    }
+    else if (isFinish === "signin"){
+      notify("로그인이 완료되었습니다.");
+    }
+  }, [handleLogin, isFinish, navigate]);
 
   return (
     <>

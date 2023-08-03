@@ -20,7 +20,7 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: apollo-client-bucket
-      AccessControl: private
+      AccessControl: Private
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false
         BlockPublicPolicy: false

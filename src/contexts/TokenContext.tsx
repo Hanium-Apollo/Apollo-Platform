@@ -1,11 +1,11 @@
-import { createContext, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 
 const TokenContext = createContext<{accessToken: string; setToken: React.Dispatch<React.SetStateAction<string>>}>({
     accessToken: "",
     setToken: () => {}
   })
   
-  export const TokenProvider = (children: string) =>{
+  export const TokenProvider = ({ children }: { children: ReactNode }) =>{
     const[accessToken, setToken] = useState<string>("");
     
     return (

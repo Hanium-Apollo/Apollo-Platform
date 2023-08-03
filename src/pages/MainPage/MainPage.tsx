@@ -8,10 +8,12 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import NumberList from "./components/RepoList";
-import { UserInfo } from "../../apis/UserServiceType";
 import { getRepoListService } from "../../apis/RepoService";
 import Signup from "./components/Signup";
 import { getAuthenticationService } from "../../apis/UserService";
+import useAuth from "../../hooks/authhook";
+import useToken from "../../hooks/tokenhook";
+import { defaultAuth } from "../../contexts/AuthContext";
 
 const buttonStyles = css`
   background-color: gray;
@@ -40,6 +42,8 @@ const StyledButton = styled(MaterialButton)`
 const Main = () => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
+  const {auth, setAuth} = useAuth();
+  const {accessToken} = useToken();
 
   const handleCallback = useCallback(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -49,7 +53,7 @@ const Main = () => {
       getAuthenticationService(code)
         .then((res) => {
           console.log(res);
-          localStorage.setItem("userInfo", JSON.stringify(res.data));
+          setAuth(res.data);
           navigate("/wait");
         })
         .catch((err) => {
@@ -59,17 +63,15 @@ const Main = () => {
     } else {
       console.log("Error: code not found");
     }
-  }, [navigate]);
+  }, [navigate, setAuth]);
 
   useEffect(() => {
     handleCallback();
   }, [handleCallback]);
 
-  const accessToken = localStorage.getItem("accessToken");
   const getRepo = useCallback(() => {
-    let info = localStorage.getItem("userInfo");
-    let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
-    let userLogin = parsedInfo?.login;
+    if (auth === defaultAuth) return ;
+    let userLogin = auth.login;
     if (accessToken && userLogin) {
       getRepoListService(userLogin)
         .then((response) => {
@@ -80,7 +82,7 @@ const Main = () => {
           console.error("Error fetching data:", error);
         });
     }
-  }, [accessToken]);
+  }, [accessToken, auth]);
 
   useEffect(() => {
     getRepo();

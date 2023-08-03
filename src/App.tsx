@@ -10,10 +10,29 @@ import NightSky from "./pages/MainPage/NightSky";
 import Rendering from "./pages/RenderingPage/RenderingPage";
 import Wait from "./pages/Wait/WaitPage";
 import DeployList from "./pages/DeployListPage/DeployList";
+import { AuthProvider} from "./contexts/AuthContext";
+import { ReactNode } from "react";
+import { TokenProvider } from "./contexts/TokenContext";
 
 function App() {
+
+  interface AppProviderProps {
+    contexts: React.ComponentType<any>[]; // Context 컴포넌트 배열
+    children: ReactNode; // 자식 컴포넌트
+  }
+  
+  const AppProvider: React.FC<AppProviderProps> = ({ contexts, children }) => {
+    const mergedContexts = contexts.reduceRight(
+      (prev, ContextComponent) => <ContextComponent>{prev}</ContextComponent>,
+      children
+    );
+  
+    return <>{mergedContexts}</>;
+  };
+  
   return (
     <div className="App">
+      <AppProvider contexts={[AuthProvider, TokenProvider]}>
       <BrowserRouter>
         <Nav />
         <Routes>
@@ -28,6 +47,7 @@ function App() {
         </Routes>
         <NightSky />
       </BrowserRouter>
+      </AppProvider>
     </div>
   );
 }

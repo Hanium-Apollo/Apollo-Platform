@@ -3,16 +3,16 @@ import { useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/images/logoname.png";
 import "../../assets/css/Nav.css";
 import { handleLogout } from "../MainPage/components/LoginButton";
-import { UserInfo } from "../../apis/UserServiceType";
+import useToken from "../../hooks/tokenhook";
+import useAuth from "../../hooks/authhook";
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  let info = localStorage.getItem("userInfo");
-  let parsedInfo = info ? JSON.parse(info) as UserInfo : null;
-  let userLogin = parsedInfo?.login;
-  let profile = parsedInfo?.avatar_url;
-  const accessToken = localStorage.getItem("accessToken");
+  const {auth} = useAuth();
+  let userLogin = auth.login;
+  let profile = auth.avatar_url;
+  const {accessToken} = useToken();
   const GotoMain = () => {
     navigate("/"); // Navigate to another route
   };

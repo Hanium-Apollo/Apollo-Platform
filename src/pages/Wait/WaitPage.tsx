@@ -50,10 +50,7 @@ const Wait = () => {
         .catch((error) => {
           console.log("error: ", error);
           alert("에러가 발생했습니다: " + error.response);
-          setTimeout(() => {
-            navigate("/");
-          }, 3000);
-          return "error";
+          navigate("/");
         });
     } else if (action === "userSignIn") {
       getUserSignInService(userLogin, userId)
@@ -71,9 +68,7 @@ const Wait = () => {
         .catch((error) => {
           console.log(error.response.data);
           alert("에러가 발생했습니다: " + error.response);
-          setTimeout(() => {
-            navigate("/");
-          }, 3000);
+          navigate("/");
           return error;
         });
     }

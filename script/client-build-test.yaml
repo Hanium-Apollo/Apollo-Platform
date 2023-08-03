@@ -74,7 +74,7 @@ Resources:
       Source:
         Type: GITHUB
         Location: !Ref RepoLocation
-        BuildSpec: |
+        BuildSpec: !Sub |
         version: 0.2
         phases:
           install:

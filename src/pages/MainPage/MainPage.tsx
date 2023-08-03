@@ -53,7 +53,7 @@ const Main = () => {
       getAuthenticationService(code)
         .then((res) => {
           console.log(res);
-          setAuth(res.data);
+          setAuth({type: "SET_AUTH", payload:res.data})
           navigate("/wait");
         })
         .catch((err) => {

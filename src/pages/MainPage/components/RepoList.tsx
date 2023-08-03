@@ -42,15 +42,15 @@ const ListItem = ({ repoName, repoUrl }: ListItemProps) => {
       </li>
       {showButton === repoName ? (
         <>
-        <button className="deploybtn1" onClick={() => handleClick}>
+        <button className="deploybtn1" onClick={handleClick}>
         client
         </button>
-        <button className="deploybtn2" onClick={() => handleClick}>
+        <button className="deploybtn2" onClick={handleClick}>
         server
         </button>
         </>
       ): (
-        <button className="selectbtn" onClick={() => handleButton}>
+        <button className="selectbtn" onClick={() => handleButton(repoName)}>
         배포
         </button>
       )}

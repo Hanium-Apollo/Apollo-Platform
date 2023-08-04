@@ -9,9 +9,9 @@ phases:
       - npm install
   build:
     commands:
-      - echo "building project..."
+      - echo "Building project..."
       - npm run build
   post_build:
     commands:
-      - echo "uploading build artifact to S3..."
+      - echo "Uploading build artifact to S3..."
       - aws s3 sync build s3://apollo-client-bucket --delete

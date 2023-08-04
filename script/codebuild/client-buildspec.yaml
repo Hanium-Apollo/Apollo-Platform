@@ -16,4 +16,4 @@ phases:
   post_build:
     commands:
       - echo "uploading build artifact to S3..."
-      - aws s3 sync bulid s3://apollo-client-bucket --delete
+      - aws s3 sync build s3://apollo-client-bucket --delete

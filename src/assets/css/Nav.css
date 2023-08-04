@@ -15,6 +15,7 @@
 
 
 .navbar {
+    position: fixed !important;
     height: 50px;
     background-color: #333333;
     text-align: right;

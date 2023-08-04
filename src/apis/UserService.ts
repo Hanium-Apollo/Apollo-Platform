@@ -18,6 +18,6 @@ export const getUserSignInService = (userLogin: String, userId: String) => {
       userLogin: userLogin,
       userId: userId,
     },
-    { withCredentials : true }
+    { withCredentials: true }
   );
 };

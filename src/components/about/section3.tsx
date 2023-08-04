@@ -21,7 +21,8 @@ const Text = styled.div`
   margin: 30px 0;
   @font-face {
     font-family: "One";
-    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/ONE-Mobile-Regular.ttf") format("truetype");
+    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/ONE-Mobile-Regular.ttf")
+      format("truetype");
   }
   font-family: "One";
 

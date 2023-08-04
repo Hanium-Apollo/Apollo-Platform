@@ -9,17 +9,17 @@ function Rendering() {
   const repoName = location.state?.repoName;
 
   const startDeploy = useCallback(() => {
-    if (repoName){
+    if (repoName) {
       console.log("repoName: ", repoName);
       postRepoCreateService(repoName)
-      .then((response) => {
-        console.log("success");
-        console.log(response);
-        navigate("/success", { state: { repoName } });
-      })
-      .catch((error) => {
-        console.log("error: ", error);
-      });
+        .then((response) => {
+          console.log("success");
+          console.log(response);
+          navigate("/success", { state: { repoName } });
+        })
+        .catch((error) => {
+          console.log("error: ", error);
+        });
     }
   }, [repoName, navigate]);
   useEffect(() => {

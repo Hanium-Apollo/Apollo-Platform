@@ -11,7 +11,7 @@ const SectionContainer = styled(Grid)`
   align-items: center;
   padding: 50px 0 30px 0;
   width: 100vw;
-  height: 100vh;  
+  height: 100vh;
   text-align: center;
   max-width: 1440px;
 `;
@@ -26,13 +26,14 @@ const Text = styled.div`
 
   @font-face {
     font-family: "AppleBold";
-    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoB.ttf") format("truetype");
+    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoB.ttf")
+      format("truetype");
   }
 
   font-family: "AppleBold";
 
   span.highlight {
-    color: #4CBCCC;
+    color: #4cbccc;
   }
 
   @media (max-width: 600px) {

@@ -24,11 +24,13 @@ const ListItem = ({ repoName, repoUrl }: ListItemProps) => {
     window.open(repoUrl, "_blank", "noopener, noreferrer");
   };
   const navigate = useNavigate();
-  const handleButton = (name:string) => {
+  const handleButton = (name: string) => {
     setButton(name);
-  }
+  };
 
-  const handleClick = () => {navigate("/rendering", { state: { repoName } })};
+  const handleClick = () => {
+    navigate("/rendering", { state: { repoName } });
+  };
   return (
     <div
       style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}
@@ -42,16 +44,16 @@ const ListItem = ({ repoName, repoUrl }: ListItemProps) => {
       </li>
       {showButton === repoName ? (
         <>
-        <button className="deploybtn1" onClick={handleClick}>
-        client
-        </button>
-        <button className="deploybtn2" onClick={handleClick}>
-        server
-        </button>
+          <button className="deploybtn1" onClick={handleClick}>
+            client
+          </button>
+          <button className="deploybtn2" onClick={handleClick}>
+            server
+          </button>
         </>
-      ): (
+      ) : (
         <button className="selectbtn" onClick={() => handleButton(repoName)}>
-        배포
+          배포
         </button>
       )}
     </div>

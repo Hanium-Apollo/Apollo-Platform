@@ -42,8 +42,8 @@ const StyledButton = styled(MaterialButton)`
 const Main = () => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
-  const {auth, setAuth} = useAuth();
-  const {accessToken} = useToken();
+  const { auth, setAuth } = useAuth();
+  const { accessToken } = useToken();
 
   const handleCallback = useCallback(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -53,7 +53,7 @@ const Main = () => {
       getAuthenticationService(code)
         .then((res) => {
           console.log(res);
-          setAuth({type: "SET_AUTH", payload:res.data})
+          setAuth({ type: "SET_AUTH", payload: res.data });
           navigate("/wait");
         })
         .catch((err) => {
@@ -70,7 +70,7 @@ const Main = () => {
   }, [handleCallback]);
 
   const getRepo = useCallback(() => {
-    if (auth === defaultAuth) return ;
+    if (auth === defaultAuth) return;
     let userLogin = auth.login;
     if (accessToken && userLogin) {
       getRepoListService(userLogin)
@@ -103,7 +103,14 @@ const Main = () => {
           {repoData !== null && <NumberList repo={repoData} />}
         </>
       ) : (
-        <div style={ {display:"flex", justifyContent:"center", flexDirection:"column", alignItems:"center"} }>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <LoginButton />
           <Signup />
         </div>

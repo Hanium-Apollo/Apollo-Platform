@@ -9,13 +9,11 @@ import { apiClient } from "../../apis/ApiClient";
 import useAuth from "../../hooks/authhook";
 import { defaultAuth } from "../../contexts/AuthContext";
 import useToken from "../../hooks/tokenhook";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import styled from "@emotion/styled";
 
-
 export const StyledToastContainer = styled(ToastContainer)`
-
   .Toastify__toast {
     background-color: gray;
     color: white;
@@ -26,14 +24,14 @@ export const StyledToastContainer = styled(ToastContainer)`
     padding: 20px 40px 20px 40px;
     white-space: nowrap;
   }
-`
+`;
 
 const Wait = () => {
   const navigate = useNavigate();
   const action = localStorage.getItem("action");
   const [isFinish, SetFinish] = useState("");
-  const {auth, setAuth} = useAuth();
-  const {setToken} = useToken();
+  const { auth, setAuth } = useAuth();
+  const { setToken } = useToken();
   const handleLogin = useCallback(() => {
     let userLogin = auth.login;
     let userId = auth.id;
@@ -44,7 +42,7 @@ const Wait = () => {
           console.log("success");
           console.log(response);
           localStorage.removeItem("action");
-          setAuth({type: "SET_AUTH", payload:defaultAuth});
+          setAuth({ type: "SET_AUTH", payload: defaultAuth });
           SetFinish("signup");
           return "success";
         })
@@ -62,7 +60,10 @@ const Wait = () => {
             "auth"
           ] = `${response.data.result.grantType} ${response.data.result.accessToken}`;
           localStorage.removeItem("action");
-          setToken({ type: "SET_TOKEN", payload: response.data.result.accessToken });
+          setToken({
+            type: "SET_TOKEN",
+            payload: response.data.result.accessToken,
+          });
           SetFinish("signin");
           return response.data;
         })
@@ -76,14 +77,14 @@ const Wait = () => {
   }, [action, auth, setAuth, setToken, navigate]);
 
   useEffect(() => {
-    const notify = (message:string) => toast(message, {
-      onClose: () => navigate("/")
-    });
+    const notify = (message: string) =>
+      toast(message, {
+        onClose: () => navigate("/"),
+      });
     handleLogin();
-    if (isFinish === "signup"){
+    if (isFinish === "signup") {
       notify("회원가입이 완료되었습니다.");
-    }
-    else if (isFinish === "signin"){
+    } else if (isFinish === "signin") {
       notify("로그인이 완료되었습니다.");
     }
   }, [handleLogin, isFinish, navigate]);
@@ -100,24 +101,24 @@ const Wait = () => {
         closeButton={false}
       />
       <div className="contentWrap">
-      <div
-        style={{
-          position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        <FadeLoader
-          color="white"
-          height={15}
-          width={5}
-          radius={2}
-          margin={2}
-        />
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <FadeLoader
+            color="white"
+            height={15}
+            width={5}
+            radius={2}
+            margin={2}
+          />
+        </div>
       </div>
-    </div>
-  </>
+    </>
   );
 };
 

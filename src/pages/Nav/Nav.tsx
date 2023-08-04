@@ -9,10 +9,10 @@ import useAuth from "../../hooks/authhook";
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const {auth} = useAuth();
+  const { auth } = useAuth();
   let userLogin = auth.login;
   let profile = auth.avatar_url;
-  const {accessToken} = useToken();
+  const { accessToken } = useToken();
   const GotoMain = () => {
     navigate("/"); // Navigate to another route
   };
@@ -38,7 +38,11 @@ const Nav = () => {
       <div className="dropdown">
         {accessToken && (
           <>
-            <img src = {profile} alt="profile" style={{height: "100%", borderRadius: "50%"}}/>
+            <img
+              src={profile}
+              alt="profile"
+              style={{ height: "100%", borderRadius: "50%" }}
+            />
             <button className="dropdown-toggle" onClick={toggleDropdown}>
               {userLogin}
             </button>
@@ -87,6 +91,6 @@ const Nav = () => {
       </div>
     </nav>
   );
-}
+};
 
 export default Nav;

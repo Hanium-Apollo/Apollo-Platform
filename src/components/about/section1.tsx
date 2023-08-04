@@ -11,7 +11,7 @@ const SectionContainer = styled(Grid)`
   z-index: 1;
   padding: 50px 0 50px 0;
   width: 100vw;
-`
+`;
 
 const TextContainer = styled(Grid)`
   display: flex;
@@ -36,12 +36,13 @@ const Text = styled.div`
   margin: 15px 0;
   @font-face {
     font-family: "AppleBold";
-    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoEB.ttf") format("truetype");
+    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoEB.ttf")
+      format("truetype");
   }
   font-family: "AppleBold";
 
   span.highlight {
-    color: #4CBCCC;
+    color: #4cbccc;
   }
 
   @media (max-width: 600px) {
@@ -60,7 +61,8 @@ const InnerText = styled.div`
   padding: 12px 0;
   @font-face {
     font-family: "Apple";
-    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoB.ttf") format("truetype");
+    src: url("https://cdn.jsdelivr.net/gh/cho1n/Apollo-Frontend@latest/src/assets/fonts/AppleSDGothicNeoB.ttf")
+      format("truetype");
   }
   font-family: "Apple";
 

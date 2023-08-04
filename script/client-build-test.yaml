@@ -80,7 +80,7 @@ Resources:
           phases:
             install:
               runtime-versions:
-                nodejs: 18
+                nodejs: 12
             pre_build:
               commands:
                 - echo "Installing..."

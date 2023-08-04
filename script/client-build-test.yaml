@@ -147,7 +147,7 @@ Resources:
               Configuration:
                 Owner: !Ref UserLogin
                 Repo: !Ref RepoName
-                Branch: develop
+                Branch: main
                 OAuthToken: !Ref GithubToken
               RunOrder: 1
         - Name: Build

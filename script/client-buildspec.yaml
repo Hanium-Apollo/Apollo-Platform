@@ -11,7 +11,8 @@ phases:
     commands:
       - echo "building project..."
       - npm run build
-  post_build:
-    commands:
-      - echo "uploading build artifact to S3..."
-      - aws s3 sync build s3://apollo-client-bucket --delete
+
+artifacts:
+  files:
+    - "**/*"
+  base-directory: "build"

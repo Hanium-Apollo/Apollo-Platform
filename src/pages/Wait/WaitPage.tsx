@@ -22,8 +22,9 @@ export const StyledToastContainer = styled(ToastContainer)`
     font-weight: bold;
     border-radius: 10px;
     font-size: 30px;
-    height: 100px;
-    width: 300px;
+    display: inline-block;
+    padding: 20px 40px 20px 40px;
+    white-space: nowrap;
   }
 `
 
@@ -89,16 +90,15 @@ const Wait = () => {
 
   return (
     <>
-    {isFinish ? (
       <StyledToastContainer
         position="top-center"
         limit={1}
         closeOnClick
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar
         pauseOnHover
+        closeButton={false}
       />
-    ) : (
       <div className="contentWrap">
       <div
         style={{
@@ -117,7 +117,6 @@ const Wait = () => {
         />
       </div>
     </div>
-    )}
   </>
   );
 };

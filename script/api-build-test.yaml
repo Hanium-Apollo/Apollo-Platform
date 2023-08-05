@@ -1,0 +1,73 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ECS Cluster and CodePipeline to Build from Github
+
+Parameters:
+  AWSRegion:
+    Type: String
+    Description: AWS Region
+
+Resources:
+  # VPC 생성
+  APIVpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.1.0.0/16
+      EnabledDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: APIVpc
+  # Subnet 생성
+  # public a -> region-a
+  APISubnetPublicA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.1.0.0/24
+      VpcId: !Ref APIVpc
+      AvailabilityZone: !Sub ${AWSRegion}a
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: API-subnet-public-a
+        - Key: Type
+          Value: Public
+  # public c -> region-c
+  APISubnetPublicC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.1.1.0/24
+      VpcId: !Ref APIVpc
+      AvailabilityZone: !Sub ${AWSRegion}c
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: API-subnet-public-c
+        - Key: Type
+          Value: Public
+  # private a -> region-a
+  APISubnetPrivateA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.1.8.0/24
+      VpcId: !Ref APIVpc
+      AvailabilityZone: !Sub ${AWSRegion}a
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: API-subnet-private-a
+        - Key: Type
+          Value: Isolated
+  # private c -> region-c
+  APISubnetPrivateC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.1.9.0/24
+      VpcId: !Ref APIVpc
+      AvailabilityZone: !Sub ${AWSRegion}c
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: API-subnet-private-c
+        - Key: Type
+          Value: Isolated

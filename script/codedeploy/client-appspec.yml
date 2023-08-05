@@ -1,0 +1,24 @@
+version: 0.0
+os: linux
+
+resources:
+  - MyCodeDeployGroup: # CodeDeploy 배포 그룹 이름
+      Type: AWS::CodeDeploy::DeploymentGroup
+      Properties:
+        ApplicationName: MyCodeDeployApp # CodeDeploy 애플리케이션의 이름
+        DeploymentGroupName: MyDeploymentGroup # 배포 그룹의 이름
+        DeploymentConfigName: CodeDeployDefault.AllAtOnce # 배포 구성의 이름 (옵션)
+        ServiceRoleArn: arn:aws:iam::YOUR_AWS_ACCOUNT_ID:role/YourCodeDeployServiceRole # CodeDeploy 서비스 역할의 ARN
+
+hooks:
+  BeforeInstall: # ECR에 로그인
+    - location: scripts/docker-login.sh 
+      runas: codedeployuser
+  AfterInstall: # 이전 버전의 컨테이너 정리
+    - location: scripts/docker-cleanup.sh 
+      timeout: 300
+      runas: codedeployuser
+  ApplicationStart: # 애플리케이션 시작
+    - location: scripts/start-server.sh 
+      timeout: 300
+      runas: codedeployuser

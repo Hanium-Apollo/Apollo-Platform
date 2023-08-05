@@ -12,13 +12,13 @@ resources:
 
 hooks:
   BeforeInstall: # ECR에 로그인
-    - location: scripts/docker-login.sh 
+    - location: script/codedeploy/docker-login.sh 
       runas: codedeployuser
   AfterInstall: # 이전 버전의 컨테이너 정리
-    - location: scripts/docker-cleanup.sh 
+    - location: script/codedeploy/docker-cleanup.sh 
       timeout: 300
       runas: codedeployuser
   ApplicationStart: # 애플리케이션 시작
-    - location: scripts/start-server.sh 
+    - location: script/codedeploy/start-server.sh 
       timeout: 300
       runas: codedeployuser

@@ -68,6 +68,7 @@ const TextContainer = styled(Grid)`
 
 export const Section1Inner: React.FC<Section1Props> = ({ children }) => {
   const navigate = useNavigate();
+
   return (
     <SectionContainer container>
       <TextContainer item xs={12}>

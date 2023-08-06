@@ -1,21 +1,5 @@
 import github from "../../../assets/images/github_logo.png";
 import "../../../assets/css/button.css";
-import useAuth from "../../../hooks/authhook";
-import useToken from "../../../hooks/tokenhook";
-import { defaultAuth } from "../../../contexts/AuthContext";
-
-export function HandleLogout() {
-  const { setAuth } = useAuth();
-  const { setToken } = useToken();
-  localStorage.removeItem("userInfo");
-  localStorage.removeItem("accessToken");
-  setAuth({ type: "SET_AUTH", payload: defaultAuth });
-  setToken({
-    type: "SET_TOKEN",
-    payload: "",
-  });
-  window.location.href = "/";
-}
 
 const LoginButton = () => {
   const handleLogin = () => {

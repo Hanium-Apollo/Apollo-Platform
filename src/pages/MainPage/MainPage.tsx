@@ -11,9 +11,7 @@ import NumberList from "./components/RepoList";
 import { getRepoListService } from "../../apis/RepoService";
 import { Signup } from "./components/Signup";
 import { getAuthenticationService } from "../../apis/UserService";
-import useAuth from "../../hooks/authhook";
-import useToken from "../../hooks/tokenhook";
-import { defaultAuth } from "../../contexts/AuthContext";
+import { UserInfo } from "../../apis/UserServiceType";
 
 const buttonStyles = css`
   background-color: gray;
@@ -42,8 +40,6 @@ const StyledButton = styled(MaterialButton)`
 const Main = () => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
-  const { auth, setAuth } = useAuth();
-  const { accessToken } = useToken();
 
   const handleCallback = useCallback(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -53,7 +49,6 @@ const Main = () => {
       getAuthenticationService(code)
         .then((res) => {
           console.log(res);
-          setAuth({ type: "SET_AUTH", payload: res.data });
           localStorage.setItem("userInfo", JSON.stringify(res.data));
           navigate("/wait");
         })
@@ -64,15 +59,18 @@ const Main = () => {
     } else {
       console.log("Error: code not found");
     }
-  }, [navigate, setAuth]);
+  }, [navigate]);
 
   useEffect(() => {
     handleCallback();
   }, [handleCallback]);
 
   const getRepo = useCallback(() => {
-    if (auth === defaultAuth) return;
-    let userLogin = auth.login;
+    let info = localStorage.getItem("userInfo");
+    let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
+    let accessToken = localStorage.getItem("accessToken");
+    if (!parsedInfo) return;
+    let userLogin = parsedInfo.login;
     if (accessToken && userLogin) {
       getRepoListService(userLogin)
         .then((response) => {
@@ -83,7 +81,7 @@ const Main = () => {
           console.error("Error fetching data:", error);
         });
     }
-  }, [accessToken, auth]);
+  }, []);
 
   useEffect(() => {
     getRepo();
@@ -92,7 +90,7 @@ const Main = () => {
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
-      {accessToken ? (
+      {localStorage.getItem("accessToken") ? (
         <>
           <StyledButton
             variant="contained"

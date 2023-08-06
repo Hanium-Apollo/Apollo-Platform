@@ -2,17 +2,28 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/images/logoname.png";
 import "../../assets/css/Nav.css";
-import { HandleLogout } from "../MainPage/components/LoginButton";
 import useToken from "../../hooks/tokenhook";
 import useAuth from "../../hooks/authhook";
+import { defaultAuth } from "../../contexts/AuthContext";
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
+  const { setToken } = useToken();
   let userLogin = auth.login;
   let profile = auth.avatar_url;
   const { accessToken } = useToken();
+  const HandleLogout = () => {
+    localStorage.removeItem("userInfo");
+    localStorage.removeItem("accessToken");
+    setAuth({ type: "SET_AUTH", payload: defaultAuth });
+    setToken({
+      type: "SET_TOKEN",
+      payload: "",
+    });
+    window.location.href = "/";
+  };
   const GotoMain = () => {
     navigate("/"); // Navigate to another route
   };

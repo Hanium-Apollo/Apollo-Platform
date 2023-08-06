@@ -20,9 +20,9 @@ import { UserInfo } from "./apis/UserServiceType";
 function App() {
   const { setAuth } = useAuth();
   const { setToken } = useToken();
-  const localStorageUserCheck = localStorage.getItem("userInfo");
-  const localStorageTokenCheck = localStorage.getItem("token");
   useEffect(() => {
+    const localStorageUserCheck = localStorage.getItem("userInfo");
+    const localStorageTokenCheck = localStorage.getItem("token");
     if (localStorageTokenCheck && localStorageUserCheck) {
       const info = JSON.parse(localStorageUserCheck) as UserInfo;
       setAuth({ type: "SET_AUTH", payload: info });
@@ -31,7 +31,7 @@ function App() {
         payload: localStorageTokenCheck,
       });
     }
-  });
+  }, [setAuth, setToken]);
   return (
     <div className="App">
       <AuthProvider>

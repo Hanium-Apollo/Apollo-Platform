@@ -5,6 +5,7 @@ import Fail from "./pages/ResultPage/FailPage";
 import Nav from "./pages/Nav/Nav";
 import Monitor from "./pages/Monitoring/Monitor";
 import About from "./pages/About/About";
+import { Register } from "./pages/register/register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NightSky from "./pages/MainPage/NightSky";
 import Rendering from "./pages/RenderingPage/RenderingPage";
@@ -29,6 +30,7 @@ function App() {
               <Route path="/About" element={<About />}></Route>
               <Route path="/wait" element={<Wait />}></Route>
               <Route path="deploy" element={<DeployList />}></Route>
+              <Route path="/register" element={<Register />}></Route>
             </Routes>
             <NightSky />
           </BrowserRouter>

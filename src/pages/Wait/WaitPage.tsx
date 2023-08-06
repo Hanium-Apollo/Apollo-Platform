@@ -58,7 +58,7 @@ const Wait = () => {
           console.log(response);
           apiClient.defaults.headers.common[
             "auth"
-          ] = `${response.data.result.grantType} ${response.data.result.accessToken}`;
+          ] = `Bearer ${response.data.result.accessToken}`;
           localStorage.removeItem("action");
           setToken({
             type: "SET_TOKEN",

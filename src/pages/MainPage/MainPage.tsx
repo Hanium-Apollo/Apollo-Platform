@@ -9,7 +9,7 @@ import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import NumberList from "./components/RepoList";
 import { getRepoListService } from "../../apis/RepoService";
-import Signup from "./components/Signup";
+import { Signup } from "./components/Signup";
 import { getAuthenticationService } from "../../apis/UserService";
 import useAuth from "../../hooks/authhook";
 import useToken from "../../hooks/tokenhook";

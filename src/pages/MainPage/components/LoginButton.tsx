@@ -4,7 +4,7 @@ import useAuth from "../../../hooks/authhook";
 import useToken from "../../../hooks/tokenhook";
 import { defaultAuth } from "../../../contexts/AuthContext";
 
-export function handleLogout() {
+export function HandleLogout() {
   const { setAuth } = useAuth();
   const { setToken } = useToken();
   localStorage.removeItem("userInfo");

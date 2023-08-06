@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/images/logoname.png";
 import "../../assets/css/Nav.css";
-import { handleLogout } from "../MainPage/components/LoginButton";
+import { HandleLogout } from "../MainPage/components/LoginButton";
 import useToken from "../../hooks/tokenhook";
 import useAuth from "../../hooks/authhook";
 
@@ -81,7 +81,7 @@ const Nav = () => {
             </li>
             <li
               className="menu"
-              onClick={() => handleLogout()}
+              onClick={() => HandleLogout()}
               style={{ cursor: "pointer" }}
             >
               Logout

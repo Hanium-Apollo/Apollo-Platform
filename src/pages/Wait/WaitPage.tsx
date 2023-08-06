@@ -11,7 +11,7 @@ import useToken from "../../hooks/tokenhook";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "@emotion/styled";
-import { UserInfo } from "../../apis/UserServiceType";
+import { defaultAuth } from "../../contexts/AuthContext";
 
 export const StyledToastContainer = styled(ToastContainer)`
   .Toastify__toast {
@@ -30,22 +30,20 @@ const Wait = () => {
   const navigate = useNavigate();
   const action = localStorage.getItem("action");
   const [isFinish, SetFinish] = useState("");
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const { setToken } = useToken();
   const handleLogin = useCallback(() => {
-    let info = localStorage.getItem("userInfo");
-    if (!info) return;
-    let parsedInfo = JSON.parse(info) as UserInfo;
-    let userLogin = parsedInfo.login;
-    let userId = parsedInfo.id;
+    let userLogin = auth.login;
+    let userId = auth.id;
 
     if (action === "userSignUp") {
-      getUserSignUpService(parsedInfo)
+      getUserSignUpService(auth)
         .then((response) => {
           console.log("success");
           console.log(response);
           localStorage.removeItem("action");
           localStorage.removeItem("userInfo");
+          setAuth({ type: "SET_AUTH", payload: defaultAuth });
           SetFinish("signup");
           return "success";
         })
@@ -67,7 +65,6 @@ const Wait = () => {
             "token",
             JSON.stringify(response.data.result.accessToken)
           );
-          setAuth({ type: "SET_AUTH", payload: response.data });
           setToken({
             type: "SET_TOKEN",
             payload: response.data.result.accessToken,
@@ -82,7 +79,7 @@ const Wait = () => {
           return error;
         });
     }
-  }, [action, setAuth, setToken, navigate]);
+  }, [action, setAuth, auth, setToken, navigate]);
 
   useEffect(() => {
     const notify = (message: string) =>

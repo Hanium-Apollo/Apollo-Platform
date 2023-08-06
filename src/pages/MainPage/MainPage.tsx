@@ -53,6 +53,7 @@ const Main = () => {
       getAuthenticationService(code)
         .then((res) => {
           console.log(res);
+          setAuth({ type: "SET_AUTH", payload: res.data });
           localStorage.setItem("userInfo", JSON.stringify(res.data));
           navigate("/wait");
         })

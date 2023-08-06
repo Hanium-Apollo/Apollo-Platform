@@ -220,7 +220,7 @@ Resources:
       GroupDescription: API WAS Security Group
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
-          Descirption: Allow all outbound traffic by default
+          Description: Allow all outbound traffic by default
           IpProtocol: -1
       SecurityGroupIngress:
         - Description: Allow all inbound traffic by default

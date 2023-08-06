@@ -234,6 +234,15 @@ Resources:
           Value: API-WAS-SG
       VpcId: !Ref APIVpc
 
+  APITargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: API-TargetGroup
+      Port: 8080
+      Protocol: HTTP
+      VpcId: !Ref APIVpc
+      TargetType: ip
+
   APILoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:

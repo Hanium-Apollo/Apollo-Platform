@@ -28,10 +28,15 @@ const Wait = () => {
   const navigate = useNavigate();
   const action = localStorage.getItem("action");
   const [isFinish, SetFinish] = useState("");
-  let info = localStorage.getItem("userInfo");
-  let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
-  let userLogin = parsedInfo?.login;
-  let userId = parsedInfo?.id;
+  const [parsedInfo, SetParsedInfo] = useState<UserInfo | null>(null);
+
+  useEffect(() => {
+    const info = localStorage.getItem("userInfo");
+    const infoParsed = info ? (JSON.parse(info) as UserInfo) : null;
+
+    SetParsedInfo(infoParsed);
+  }, []);
+
   const handleLogin = useCallback(() => {
     if (action === "userSignUp" && parsedInfo) {
       getUserSignUpService(parsedInfo)
@@ -48,8 +53,8 @@ const Wait = () => {
           alert("에러가 발생했습니다: " + error.response);
           navigate("/");
         });
-    } else if (action === "userSignIn" && userLogin && userId) {
-      getUserSignInService(userLogin, userId)
+    } else if (action === "userSignIn" && parsedInfo) {
+      getUserSignInService(parsedInfo.login, parsedInfo.id)
         .then((response) => {
           console.log("success");
           console.log(response);
@@ -71,7 +76,7 @@ const Wait = () => {
           return error;
         });
     }
-  }, [action, navigate]);
+  }, [action, parsedInfo, navigate]);
 
   useEffect(() => {
     const notify = (message: string) =>
@@ -80,11 +85,13 @@ const Wait = () => {
       });
     handleLogin();
     if (isFinish === "signup") {
-      navigate("/register" , {state: { userId }});
+      navigate("/register", {
+        state: { userId: parsedInfo?.id },
+      });
     } else if (isFinish === "signin") {
       notify("로그인이 완료되었습니다.");
     }
-  }, [handleLogin, isFinish, navigate]);
+  }, [handleLogin, isFinish, navigate, parsedInfo]);
 
   return (
     <>

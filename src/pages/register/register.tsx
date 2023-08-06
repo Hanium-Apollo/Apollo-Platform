@@ -10,7 +10,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import { apiClient } from "../../apis/ApiClient";
-import { getUserSignInService } from "../../apis/UserService";
 import { useLocation } from "react-router-dom";
 
 const theme = createTheme();
@@ -30,34 +29,30 @@ const ContainerWrapper = styled.div`
 export const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const userLogin = location.state?.userLogin as string;
   const userId = location.state?.userId as string;
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    try {
-      const { data: signInResponse } = await getUserSignInService(
-        userLogin,
-        userId
-      );
-      const credentials = {
-        AWSAccountId: data.get("awsAccountID"),
-        AWSRegion: data.get("region"),
-        AWSAccessKey: data.get("accessKey"),
-        AWSSecretKey: data.get("secretKey"),
-        GithubOAuthToken: data.get("githubOAuthToken"),
-      };
-      const response = await apiClient.post(
-        "/api/credential/" + signInResponse.userId,
-        credentials
-      );
-      alert("회원가입이 완료되었습니다.");
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
+    const credentials = {
+      AWSAccountId: data.get("awsAccountID"),
+      AWSRegion: data.get("region"),
+      AWSAccessKey: data.get("accessKey"),
+      AWSSecretKey: data.get("secretKey"),
+      GithubOAuthToken: data.get("githubOAuthToken"),
+    };
+    console.log(userId);
+    const response = await apiClient
+      .post(`/api/credential/${userId}`, credentials)
+      .then((response) => {
+        console.log(response);
+        alert("회원가입이 완료되었습니다.");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   };
 
   return (

@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
+import { apiClient } from "../../apis/ApiClient";
 
 const theme = createTheme();
 
@@ -24,13 +26,30 @@ const ContainerWrapper = styled.div`
 `;
 
 export const Register = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    const credentials = {
+      awsAccountID: data.get("AWS_ID"),
+      region: data.get("region"),
+      accessKey: data.get("AWS_Access_Key"),
+      secretKey: data.get("AWS_Secret_Key"),
+      githubOAuthToken: data.get("githubOAuthToken"),
+    };
+
+    try {
+      const response = await apiClient.post(
+        "/api/credential/{userId}",
+        credentials
+      );
+      alert("회원가입이 완료되었습니다.");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -46,7 +65,7 @@ export const Register = () => {
               alignItems: "center",
               backgroundColor: "white",
               borderRadius: "10px",
-                padding: "10px",
+              padding: "10px",
             }}
           >
             <Typography component="h1" variant="h5">
@@ -63,10 +82,10 @@ export const Register = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    name="firstName"
+                    name="AWS_ID"
                     required
                     fullWidth
-                    id="firstName"
+                    id="AWS_ID"
                     label="AWS ID"
                     autoFocus
                   />
@@ -75,42 +94,38 @@ export const Register = () => {
                   <TextField
                     required
                     fullWidth
-                    id="lastName"
-                    label="AWS Personal Key"
-                    name="lastName"
-                    autoComplete="family-name"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="email"
-                    label="AWS Access key"
-                    name="email"
-                    autoComplete="email"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="password"
+                    name="region"
                     label="Region"
-                    type="password"
-                    id="password"
-                    autoComplete="new-password"
+                    id="region"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
-                    name="password"
+                    id="AWS_Access_Key"
+                    label="AWS Access key"
+                    name="AWS_Access_Key"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="AWS_Secret_Key"
+                    label="AWS Secret Key"
+                    name="AWS_Secret_Key"
+                    type="password"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="githubOAuthToken"
                     label="GithubOAuthToken"
                     type="password"
-                    id="password"
-                    autoComplete="new-password"
+                    id="githubOAuthToken"
                   />
                 </Grid>
               </Grid>
@@ -118,9 +133,14 @@ export const Register = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: "black" }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "black",
+                  fontSize: "20px",
+                }}
               >
-                Sign Up
+                회원가입
               </Button>
             </Box>
           </Box>

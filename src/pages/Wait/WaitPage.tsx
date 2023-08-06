@@ -6,12 +6,10 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import FadeLoader from "react-spinners/FadeLoader";
 import { apiClient } from "../../apis/ApiClient";
-import useAuth from "../../hooks/authhook";
-import useToken from "../../hooks/tokenhook";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "@emotion/styled";
-import { defaultAuth } from "../../contexts/AuthContext";
+import { UserInfo } from "../../apis/UserServiceType";
 
 export const StyledToastContainer = styled(ToastContainer)`
   .Toastify__toast {
@@ -30,20 +28,18 @@ const Wait = () => {
   const navigate = useNavigate();
   const action = localStorage.getItem("action");
   const [isFinish, SetFinish] = useState("");
-  const { auth, setAuth } = useAuth();
-  const { setToken } = useToken();
   const handleLogin = useCallback(() => {
-    let userLogin = auth.login;
-    let userId = auth.id;
-
-    if (action === "userSignUp") {
-      getUserSignUpService(auth)
+    let info = localStorage.getItem("userInfo");
+    let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
+    let userLogin = parsedInfo?.login;
+    let userId = parsedInfo?.id;
+    if (action === "userSignUp" && parsedInfo) {
+      getUserSignUpService(parsedInfo)
         .then((response) => {
           console.log("success");
           console.log(response);
           localStorage.removeItem("action");
           localStorage.removeItem("userInfo");
-          setAuth({ type: "SET_AUTH", payload: defaultAuth });
           SetFinish("signup");
           return "success";
         })
@@ -52,7 +48,7 @@ const Wait = () => {
           alert("에러가 발생했습니다: " + error.response);
           navigate("/");
         });
-    } else if (action === "userSignIn") {
+    } else if (action === "userSignIn" && userLogin && userId) {
       getUserSignInService(userLogin, userId)
         .then((response) => {
           console.log("success");
@@ -65,10 +61,6 @@ const Wait = () => {
             "token",
             JSON.stringify(response.data.result.accessToken)
           );
-          setToken({
-            type: "SET_TOKEN",
-            payload: response.data.result.accessToken,
-          });
           SetFinish("signin");
           return response.data;
         })
@@ -79,7 +71,7 @@ const Wait = () => {
           return error;
         });
     }
-  }, [action, setAuth, auth, setToken, navigate]);
+  }, [action, navigate]);
 
   useEffect(() => {
     const notify = (message: string) =>

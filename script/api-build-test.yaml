@@ -72,18 +72,6 @@ Resources:
         - Key: Type
           Value: Isolated
 
-  APIPublicSubnetANetworkAclAssociation:
-    Type: AWS::EC2::SubnetNetworkAclAssociation
-    Properties:
-      SubnetId: !Ref APIPublicSubnetA
-      NetworkAclId: !Ref APIPublicNetworkAcl
-
-  APIPublicSubnetCNetworkAclAssociation:
-    Type: AWS::EC2::SubnetNetworkAclAssociation
-    Properties:
-      SubnetId: !Ref APIPublicSubnetC
-      NetworkAclId: !Ref APIPublicNetworkAcl
-
   APIPublicSubnetNetworkAcl:
     Type: AWS::EC2::NetworkAcl
     Properties:
@@ -91,6 +79,18 @@ Resources:
       Tags:
         - Key: Name
           Value: API-public-subnet-network-acl
+
+  APIPublicSubnetANetworkAclAssociation:
+    Type: AWS::EC2::SubnetNetworkAclAssociation
+    Properties:
+      SubnetId: !Ref APIPublicSubnetA
+      NetworkAclId: !Ref APIPublicSubnetNetworkAcl
+
+  APIPublicSubnetCNetworkAclAssociation:
+    Type: AWS::EC2::SubnetNetworkAclAssociation
+    Properties:
+      SubnetId: !Ref APIPublicSubnetC
+      NetworkAclId: !Ref APIPublicSubnetNetworkAcl
 
   APIPublicSubnetNetworkAclInboudRullAll:
     Type: AWS::EC2::NetworkAclEntry

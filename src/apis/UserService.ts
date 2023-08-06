@@ -1,6 +1,12 @@
 import { apiClient } from "./ApiClient";
 import { UserInfo } from "./UserServiceType";
-
+export interface Credentials {
+  AWSAccountId: string;
+  AWSRegion: string;
+  AWSAccessKey: string;
+  AWSSecretKey: string;
+  GithubOAuthToken: string;
+}
 export const getAuthenticationService = (code: String) => {
   return apiClient.post(`/api/authenticate`, {}, { params: { code } });
 };
@@ -19,5 +25,15 @@ export const getUserSignInService = (userLogin: String, userId: String) => {
       userId: userId,
     },
     { withCredentials: true }
+  );
+};
+
+export const getCredential = (userId: String, credentials: Credentials) => {
+  return apiClient.post(
+    `/api/credential/${userId}`,
+    JSON.stringify(credentials),
+    {
+      headers: { "Content-Type": "application/json" },
+    }
   );
 };

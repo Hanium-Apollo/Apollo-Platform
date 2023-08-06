@@ -9,8 +9,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import { apiClient } from "../../apis/ApiClient";
 import { useLocation } from "react-router-dom";
+import { Credentials, getCredential } from "../../apis/UserService";
 
 const theme = createTheme();
 
@@ -35,16 +35,15 @@ export const Register = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    const credentials = {
-      AWSAccountId: data.get("awsAccountID"),
-      AWSRegion: data.get("region"),
-      AWSAccessKey: data.get("accessKey"),
-      AWSSecretKey: data.get("secretKey") || "",
-      GithubOAuthToken: data.get("githubOAuthToken") || "",
+    let credentials: Credentials = {
+      AWSAccountId: data.get("awsAccountID") as string,
+      AWSRegion: data.get("region") as string,
+      AWSAccessKey: data.get("accessKey") as string,
+      AWSSecretKey: data.get("secretKey") as string,
+      GithubOAuthToken: data.get("githubOAuthToken") as string,
     };
     console.log(userId);
-    const response = await apiClient
-      .post(`/api/credential/${userId}`, credentials)
+    getCredential(userId, credentials)
       .then((response) => {
         console.log(response);
         alert("회원가입이 완료되었습니다.");

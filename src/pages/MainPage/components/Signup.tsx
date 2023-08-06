@@ -1,5 +1,4 @@
 import "../../../assets/css/MainPage.css";
-import { useNavigate } from "react-router-dom";
 
 export const Signup = () => {
   const handleSignup = () => {

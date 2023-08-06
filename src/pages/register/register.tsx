@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, FormEvent, ChangeEvent } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -8,9 +8,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "@emotion/styled";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import { Credentials, getCredential } from "../../apis/UserService";
+import { useNavigate, useLocation } from "react-router-dom";
+import { apiClient } from "../../apis/ApiClient";
 
 const theme = createTheme();
 
@@ -26,32 +25,55 @@ const ContainerWrapper = styled.div`
   margin-top: 100px;
 `;
 
+interface Credentials {
+  AWSAccountId: string | null;
+  AWSRegion: string | null;
+  AWSAccessKey: string | null;
+  AWSSecretKey: string;
+  GithubOAuthToken: string;
+}
+
 export const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const userId = location.state?.userId as string;
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const [secretKey, setSecretKey] = useState<string>("");
+  const [githubOAuthToken, setGithubOAuthToken] = useState<string>("");
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    let credentials: Credentials = {
+    const credentials: Credentials = {
       AWSAccountId: data.get("awsAccountID") as string,
       AWSRegion: data.get("region") as string,
       AWSAccessKey: data.get("accessKey") as string,
-      AWSSecretKey: data.get("secretKey") as string,
-      GithubOAuthToken: data.get("githubOAuthToken") as string,
+      AWSSecretKey: secretKey,
+      GithubOAuthToken: githubOAuthToken,
     };
+
     console.log(userId);
-    getCredential(userId, credentials)
-      .then((response) => {
-        console.log(response);
-        alert("회원가입이 완료되었습니다.");
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
+
+    try {
+      const response = await apiClient.post(
+        `/api/credential/${userId}`,
+        credentials
+      );
+      console.log(response);
+      alert("회원가입이 완료되었습니다.");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSecretKeyChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSecretKey(e.target.value);
+  };
+
+  const handleGithubTokenChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setGithubOAuthToken(e.target.value);
   };
 
   return (
@@ -118,6 +140,7 @@ export const Register = () => {
                     label="AWS Secret Key"
                     name="secrectKey"
                     type="password"
+                    onChange={handleSecretKeyChange}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -128,6 +151,7 @@ export const Register = () => {
                     label="GithubOAuthToken"
                     type="password"
                     id="githubOAuthToken"
+                    onChange={handleGithubTokenChange}
                   />
                 </Grid>
               </Grid>

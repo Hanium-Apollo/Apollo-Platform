@@ -39,8 +39,8 @@ export const Register = () => {
       AWSAccountId: data.get("awsAccountID"),
       AWSRegion: data.get("region"),
       AWSAccessKey: data.get("accessKey"),
-      AWSSecretKey: data.get("secretKey"),
-      GithubOAuthToken: data.get("githubOAuthToken"),
+      AWSSecretKey: data.get("secretKey") || "",
+      GithubOAuthToken: data.get("githubOAuthToken") || "",
     };
     console.log(userId);
     const response = await apiClient

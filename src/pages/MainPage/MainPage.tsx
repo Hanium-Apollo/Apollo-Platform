@@ -40,7 +40,8 @@ const StyledButton = styled(MaterialButton)`
 const Main = () => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
-
+  const accessToken = localStorage.getItem("token");
+  console.log(accessToken);
   const handleCallback = useCallback(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
@@ -68,7 +69,7 @@ const Main = () => {
   const getRepo = useCallback(() => {
     let info = localStorage.getItem("userInfo");
     let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
-    let accessToken = localStorage.getItem("accessToken");
+    let accessToken = localStorage.getItem("token");
     if (!parsedInfo) return;
     let userLogin = parsedInfo.login;
     if (accessToken && userLogin) {
@@ -90,7 +91,7 @@ const Main = () => {
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
-      {localStorage.getItem("accessToken") ? (
+      {accessToken ? (
         <>
           <StyledButton
             variant="contained"

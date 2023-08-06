@@ -10,12 +10,12 @@ const Nav = () => {
 
   let info = localStorage.getItem("userInfo");
   let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
-  let accessToken = localStorage.getItem("accessToken");
+  let accessToken = localStorage.getItem("token");
   let userLogin = parsedInfo?.login;
   let profile = parsedInfo?.avatar_url;
   const HandleLogout = () => {
     localStorage.removeItem("userInfo");
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem("token");
     window.location.href = "/";
   };
   const GotoMain = () => {

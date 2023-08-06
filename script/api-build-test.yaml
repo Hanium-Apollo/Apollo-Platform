@@ -198,7 +198,7 @@ Resources:
       GroupDescription: API Load Balancer Security Group
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
-          Descirption: Allow all outbound traffic by default
+          Description: Allow all outbound traffic by default
           IpProtocol: -1
       SecurityGroupIngress:
         - IpProtocol: tcp

@@ -11,6 +11,7 @@ import useToken from "../../hooks/tokenhook";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "@emotion/styled";
+import { UserInfo } from "../../apis/UserServiceType";
 
 export const StyledToastContainer = styled(ToastContainer)`
   .Toastify__toast {
@@ -29,14 +30,17 @@ const Wait = () => {
   const navigate = useNavigate();
   const action = localStorage.getItem("action");
   const [isFinish, SetFinish] = useState("");
-  const { auth, setAuth } = useAuth();
+  const { setAuth } = useAuth();
   const { setToken } = useToken();
   const handleLogin = useCallback(() => {
-    let userLogin = auth.login;
-    let userId = auth.id;
+    let info = localStorage.getItem("userInfo");
+    if (!info) return;
+    let parsedInfo = JSON.parse(info) as UserInfo;
+    let userLogin = parsedInfo.login;
+    let userId = parsedInfo.id;
 
     if (action === "userSignUp") {
-      getUserSignUpService(auth)
+      getUserSignUpService(parsedInfo)
         .then((response) => {
           console.log("success");
           console.log(response);
@@ -78,7 +82,7 @@ const Wait = () => {
           return error;
         });
     }
-  }, [action, auth, setAuth, setToken, navigate]);
+  }, [action, setAuth, setToken, navigate]);
 
   useEffect(() => {
     const notify = (message: string) =>

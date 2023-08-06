@@ -10,6 +10,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import { apiClient } from "../../apis/ApiClient";
+import { getUserSignInService } from "../../apis/UserService";
+import { useLocation } from "react-router-dom";
 
 const theme = createTheme();
 
@@ -27,22 +29,28 @@ const ContainerWrapper = styled.div`
 
 export const Register = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const userLogin = location.state?.userLogin as string;
+  const userId = location.state?.userId as string;
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    const credentials = {
-      awsAccountID: data.get("AWS_ID"),
-      region: data.get("region"),
-      accessKey: data.get("AWS_Access_Key"),
-      secretKey: data.get("AWS_Secret_Key"),
-      githubOAuthToken: data.get("githubOAuthToken"),
-    };
-
     try {
+      const { data: signInResponse } = await getUserSignInService(
+        userLogin,
+        userId
+      );
+      const credentials = {
+        AWSAccountId: data.get("awsAccountID"),
+        AWSRegion: data.get("region"),
+        AWSAccessKey: data.get("accessKey"),
+        AWSSecretKey: data.get("secretKey"),
+        GithubOAuthToken: data.get("githubOAuthToken"),
+      };
       const response = await apiClient.post(
-        "/api/credential/{userId}",
+        "/api/credential/" + signInResponse.userId,
         credentials
       );
       alert("회원가입이 완료되었습니다.");
@@ -82,10 +90,10 @@ export const Register = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    name="AWS_ID"
+                    name="awsAccountID"
                     required
                     fullWidth
-                    id="AWS_ID"
+                    id="awsAccountID"
                     label="AWS ID"
                     autoFocus
                   />
@@ -103,18 +111,18 @@ export const Register = () => {
                   <TextField
                     required
                     fullWidth
-                    id="AWS_Access_Key"
+                    id="accessKey"
                     label="AWS Access key"
-                    name="AWS_Access_Key"
+                    name="accessKey"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
-                    id="AWS_Secret_Key"
+                    id="secretKey"
                     label="AWS Secret Key"
-                    name="AWS_Secret_Key"
+                    name="secrectKey"
                     type="password"
                   />
                 </Grid>

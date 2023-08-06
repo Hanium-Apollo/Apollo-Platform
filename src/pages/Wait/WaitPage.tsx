@@ -28,11 +28,11 @@ const Wait = () => {
   const navigate = useNavigate();
   const action = localStorage.getItem("action");
   const [isFinish, SetFinish] = useState("");
+  let info = localStorage.getItem("userInfo");
+  let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
+  let userLogin = parsedInfo?.login;
+  let userId = parsedInfo?.id;
   const handleLogin = useCallback(() => {
-    let info = localStorage.getItem("userInfo");
-    let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
-    let userLogin = parsedInfo?.login;
-    let userId = parsedInfo?.id;
     if (action === "userSignUp" && parsedInfo) {
       getUserSignUpService(parsedInfo)
         .then((response) => {
@@ -80,7 +80,7 @@ const Wait = () => {
       });
     handleLogin();
     if (isFinish === "signup") {
-      notify("회원가입이 완료되었습니다.");
+      navigate("/register" , {state: { userId }});
     } else if (isFinish === "signin") {
       notify("로그인이 완료되었습니다.");
     }

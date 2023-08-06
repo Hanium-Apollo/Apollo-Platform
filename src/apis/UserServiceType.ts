@@ -5,11 +5,3 @@ export interface UserInfo {
   email: string;
   avatar_url: string;
 }
-
-export interface SignUpUser {
-  awsAccountID: string;
-  accessKey: string;
-  secretKey: string;
-  region: string;
-  githubOAuthToken: string;
-}

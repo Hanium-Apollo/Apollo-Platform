@@ -223,8 +223,7 @@ Resources:
           Descirption: Allow all outbound traffic by default
           IpProtocol: -1
       SecurityGroupIngress:
-        - CidrIp: 0.0.0.0/0
-          Description: Allow all inbound traffic by default
+        - Description: Allow all inbound traffic by default
           FromPort: 8080
           IpProtocol: tcp
           ToPort: 8080

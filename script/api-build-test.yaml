@@ -110,7 +110,7 @@ Resources:
       Protocol: -1
       RuleAction: allow
       Egress: true
-      CidrBlock:
+      CidrBlock: 0.0.0.0/0
 
   APIIgw:
     Type: AWS::EC2::InternetGateway

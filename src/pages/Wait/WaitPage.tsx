@@ -7,7 +7,6 @@ import { useCallback, useEffect, useState } from "react";
 import FadeLoader from "react-spinners/FadeLoader";
 import { apiClient } from "../../apis/ApiClient";
 import useAuth from "../../hooks/authhook";
-import { defaultAuth } from "../../contexts/AuthContext";
 import useToken from "../../hooks/tokenhook";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -42,7 +41,7 @@ const Wait = () => {
           console.log("success");
           console.log(response);
           localStorage.removeItem("action");
-          setAuth({ type: "SET_AUTH", payload: defaultAuth });
+          localStorage.removeItem("userInfo");
           SetFinish("signup");
           return "success";
         })
@@ -60,6 +59,11 @@ const Wait = () => {
             "auth"
           ] = `Bearer ${response.data.result.accessToken}`;
           localStorage.removeItem("action");
+          localStorage.setItem(
+            "token",
+            JSON.stringify(response.data.result.accessToken)
+          );
+          setAuth({ type: "SET_AUTH", payload: response.data });
           setToken({
             type: "SET_TOKEN",
             payload: response.data.result.accessToken,

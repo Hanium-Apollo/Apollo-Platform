@@ -1,27 +1,43 @@
 import { useEffect, useCallback } from "react";
 import "../../assets/css/RenderingPage.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { postRepoCreateService } from "../../apis/RepoService";
+import {
+  clientRepoCreateService,
+  serverRepoCreateService,
+} from "../../apis/RepoService";
 
 function Rendering() {
   const location = useLocation();
   const navigate = useNavigate();
-  const repoName = location.state?.repoName;
-
+  const state = location.state;
+  const repoName = state?.repoName;
+  const type = state?.type;
   const startDeploy = useCallback(() => {
-    if (repoName) {
+    if (repoName & type) {
       console.log("repoName: ", repoName);
-      postRepoCreateService(repoName)
-        .then((response) => {
-          console.log("success");
-          console.log(response);
-          navigate("/success", { state: { repoName } });
-        })
-        .catch((error) => {
-          console.log("error: ", error);
-        });
+      if (type === "client") {
+        clientRepoCreateService(repoName)
+          .then((response) => {
+            console.log("success");
+            console.log(response);
+            navigate("/success", { state: { repoName } });
+          })
+          .catch((error) => {
+            console.log("error: ", error);
+          });
+      } else if (type === "server") {
+        serverRepoCreateService(repoName)
+          .then((response) => {
+            console.log("success");
+            console.log(response);
+            navigate("/success", { state: { repoName } });
+          })
+          .catch((error) => {
+            console.log("error: ", error);
+          });
+      }
     }
-  }, [repoName, navigate]);
+  }, [repoName, type, navigate]);
   useEffect(() => {
     startDeploy();
   }, [startDeploy]);

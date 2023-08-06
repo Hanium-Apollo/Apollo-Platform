@@ -28,8 +28,8 @@ const ListItem = ({ repoName, repoUrl }: ListItemProps) => {
     setButton(name);
   };
 
-  const handleClick = () => {
-    navigate("/rendering", { state: { repoName } });
+  const handleClick = (type: string) => {
+    navigate("/rendering", { state: { repoName: repoName, type: type } });
   };
   return (
     <div
@@ -44,10 +44,10 @@ const ListItem = ({ repoName, repoUrl }: ListItemProps) => {
       </li>
       {showButton === repoName ? (
         <>
-          <button className="deploybtn1" onClick={handleClick}>
+          <button className="deploybtn1" onClick={() => handleClick("client")}>
             client
           </button>
-          <button className="deploybtn2" onClick={handleClick}>
+          <button className="deploybtn2" onClick={() => handleClick("server")}>
             server
           </button>
         </>

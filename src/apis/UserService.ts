@@ -1,9 +1,9 @@
 import { apiClient } from "./ApiClient";
 import { UserInfo } from "./UserServiceType";
 export interface Credentials {
-  AWSAccountId: string;
-  AWSRegion: string;
-  AWSAccessKey: string;
+  AWSAccountId: string | null;
+  AWSRegion: string | null;
+  AWSAccessKey: string | null;
   AWSSecretKey: string;
   GithubOAuthToken: string;
 }

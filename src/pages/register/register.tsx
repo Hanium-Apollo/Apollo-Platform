@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "@emotion/styled";
 import { useNavigate, useLocation } from "react-router-dom";
 import { apiClient } from "../../apis/ApiClient";
+import { Credentials } from "../../apis/UserService";
 
 const theme = createTheme();
 
@@ -24,14 +25,6 @@ const ContainerWrapper = styled.div`
   transform: translate(-50%);
   margin-top: 100px;
 `;
-
-interface Credentials {
-  AWSAccountId: string | null;
-  AWSRegion: string | null;
-  AWSAccessKey: string | null;
-  AWSSecretKey: string;
-  GithubOAuthToken: string;
-}
 
 export const Register = () => {
   const navigate = useNavigate();

@@ -463,7 +463,7 @@ Resources:
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
-      Memory: "0.5GB"
+      Memory: 512
       CPU: 256
       ContainerDefinitions:
         - Name: "my-container"

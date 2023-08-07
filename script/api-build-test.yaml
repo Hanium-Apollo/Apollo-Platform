@@ -433,7 +433,7 @@ Resources:
   ECSTaskExcutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: ECSTaskExecutionRole
+      RoleName: ECSTaskExecutionRoleUnique
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:

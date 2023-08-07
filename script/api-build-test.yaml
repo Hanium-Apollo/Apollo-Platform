@@ -331,9 +331,9 @@ Resources:
                 - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
                 - echo "Pushing Docker image..."
                 - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
-        Artifacts:
-          Type: "NO_ARTIFACTS"
-        Environment:
-          Type: "LINUX_CONTAINER"
-          ComputeType: "BUILD_GENERAL1_SMALL"
-          Image: "aws/codebuild/standard:4.0"
+      Artifacts:
+        Type: "NO_ARTIFACTS"
+      Environment:
+        Type: "LINUX_CONTAINER"
+        ComputeType: "BUILD_GENERAL1_SMALL"
+        Image: "aws/codebuild/standard:4.0"

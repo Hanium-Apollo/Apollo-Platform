@@ -314,7 +314,7 @@ Resources:
       Source:
         Type: GITHUB
         Location: !Ref RepoLocation
-        BuildSepc: !Sub |
+        BuildSpcc: !Sub |
           version: 0.2
           phases:
             pre_build:

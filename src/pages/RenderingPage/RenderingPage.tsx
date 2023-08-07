@@ -13,8 +13,8 @@ function Rendering() {
   const repoName = state?.repoName;
   const type = state?.type;
   const startDeploy = useCallback(() => {
-    if (repoName & type) {
-      console.log("repoName: ", repoName);
+    if (repoName && type) {
+      console.log("repoName: ", repoName, "is ", type);
       if (type === "client") {
         clientRepoCreateService(repoName)
           .then((response) => {

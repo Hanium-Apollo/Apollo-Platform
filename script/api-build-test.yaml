@@ -14,6 +14,9 @@ Parameters:
   RepoLogin:
     Type: String
     Description: Github User Login
+  RepoLocation:
+    Type: String
+    Description: Github Repository URL
 
 Resources:
   # VPC 생성

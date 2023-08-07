@@ -439,7 +439,7 @@ Resources:
         - FARGATE
       Memory: "0.5GB"
       CPU: 256
-      ContainerDefinition:
+      ContainerDefinitions:
         - Name: "my-container"
           Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
           PortMappings:

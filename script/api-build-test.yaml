@@ -375,7 +375,7 @@ Resources:
     Properties:
       Name: Apollo-server-pipeline
       RoleArn: !GetAtt CodePipelineServiceRole.Arn
-      ArtifactStroe:
+      ArtifactStore:
         Type: S3
         Location: !Ref CodePipelineArtifactStore
       Stages:

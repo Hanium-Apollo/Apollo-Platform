@@ -327,7 +327,7 @@ Resources:
             build:
               commands:
                 - echo "Building Docker image..."
-                - docker build -t ${GithubRepositoryName}:latest 
+                - docker build -t ${GithubRepositoryName}:latest . 
             post_build:
               commands:
                 - echo "Tagging Docker image..."

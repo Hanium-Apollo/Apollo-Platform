@@ -5,7 +5,7 @@ Parameters:
   AWSRegion:
     Type: String
     Description: AWS Region
-  AWSAccountId:
+  accountId:
     Type: String
     Description: AWS Account ID
   GithubRepositoryName:
@@ -320,7 +320,7 @@ Resources:
             pre_build:
               commands:
                 - echo Logging in to Amazon ECR...
-                - aws ecr get-login-password --region ${AWSRegion} | docker login --username AWS --password-stdin ${AWSAccountID}.dkr.ecr.${AWSRegion}.amazonaws.com
+                - aws ecr get-login-password --region ${AWSRegion} | docker login --username AWS --password-stdin ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com
             build:
               commands:
                 - echo "Building Docker image..."
@@ -328,6 +328,6 @@ Resources:
             post_build:
               commands:
                 - echo "Tagging Docker image..."
-                - docker tag ${GithubRepositoryName}:latest ${AWSAccountID}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+                - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
                 - echo "Pushing Docker image..."
-                - docker push ${AWSAccountID}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+                - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest

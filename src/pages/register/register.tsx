@@ -37,6 +37,27 @@ export const Register = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    
+    const requiredFields = ["awsAccountID", "region", "accessKey"];
+    for (const field of requiredFields) {
+      const fieldValue = data.get(field) as string;
+      if (fieldValue === null || !fieldValue.trim()) {
+        alert(`${field}칸이 누락되어 있습니다. 다시 입력해주세요.`);
+        return;
+      }
+    }
+
+    const secretKeyValue = secretKey.trim();
+    if (!secretKeyValue) {
+      alert("AWS Secret Key칸이 누락되어 있습니다. 다시 입력해주세요.");
+      return;
+    }
+
+    const githubTokenValue = githubOAuthToken.trim();
+    if (!githubTokenValue) {
+      alert("Github OAuth Token칸이 누락되어 있습니다. 다시 입력해주세요.");
+      return;
+    }
 
     const credentials: Credentials = {
       AWSAccountId: data.get("awsAccountID") as string,
@@ -45,8 +66,6 @@ export const Register = () => {
       AWSSecretKey: secretKey,
       GithubOAuthToken: githubOAuthToken,
     };
-
-    console.log(userId);
 
     try {
       const response = await apiClient.post(

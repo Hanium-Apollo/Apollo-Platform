@@ -482,7 +482,8 @@ Resources:
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
-          VPCID: !Ref APIVpc
+          SecurityGroups:
+            - !Ref APIWASSecurityGroup
           Subnets:
             - !Ref APIPrivatSubneteA
             - !Ref APIPrivatSubneteC

@@ -460,13 +460,6 @@ Resources:
     Properties:
       Family: "my-task-definition"
       ExecutionRoleArn: !GetAtt ECSTaskExcutionRole.Arn
-      NetworkConfiguration:
-        AwsvpcConfiguration:
-          AssignPublicIp: ENABLED
-          VPCID: !Ref APIVpc
-          Subnets:
-            - !Ref APIPrivatSubneteA
-            - !Ref APIPrivatSubneteC
       RequiresCompatibilities:
         - FARGATE
       Memory: "0.5GB"
@@ -483,9 +476,16 @@ Resources:
     Type: AWS::ECS::Service
     Properties:
       Cluster: !Ref ECSCluster
-      DesiredCount: 2
+      DesiredCount: 1
       TaskDefinition: !Ref ECSTaskDefinition
       LaunchType: FARGATE
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          VPCID: !Ref APIVpc
+          Subnets:
+            - !Ref APIPrivatSubneteA
+            - !Ref APIPrivatSubneteC
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role

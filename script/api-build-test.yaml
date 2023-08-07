@@ -430,10 +430,36 @@ Resources:
     Properties:
       ClusterName: Apollo-Server-Cluster
 
+  ECSTaskExcutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ECSTaskExecutionRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: ECRTaskExcutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:GetDownloadUrlForLayer
+                Resource: "*"
+
   ECSTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
       Family: "my-task-definition"
+      ExecutionRoleArn: !GetAtt ECSTaskExcutionRole.Arn
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
@@ -454,6 +480,29 @@ Resources:
       DesiredCount: 2
       TaskDefinition: !Ref ECSTaskDefinition
       LaunchType: FARGATE
+
+  CodeDeployServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: CodeDeployServiceRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codedeploy.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: CodeDeployPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              Effect: Allow
+              Action:
+                - elasticloadbalancing:*
+              Resource: "*"
 
   CodeDeployApplication:
     Type: AWS::CodeDeploy::Application

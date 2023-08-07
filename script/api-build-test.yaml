@@ -17,6 +17,9 @@ Parameters:
   RepoLocation:
     Type: String
     Description: Github Repository URL
+  GithubToken:
+    Type: String
+    Description: Github OAuth Token
 
 Resources:
   # VPC 생성
@@ -337,3 +340,73 @@ Resources:
         Type: "LINUX_CONTAINER"
         ComputeType: "BUILD_GENERAL1_SMALL"
         Image: "aws/codebuild/standard:4.0"
+
+  CodePipelineServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
+
+  CodePipelineArtifactStore:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: apollo-server-artifacts
+      VersioningConfiguration:
+        Status: Enabled
+
+  CodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: Apollo-server-pipeline
+      RoleArn: !GetAtt CodePipelineServiceRole.Arn
+      ArtifactStroe:
+        Type: S3
+        Location: !Ref CodePipelineArtifactStore
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: SourceAction
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              OutputArtifacts:
+                - Name: SourceOutput
+              Configuration:
+                Owner: !Ref RepoLogin
+                Repo: !Ref GithubRepositoryName
+                Branch: main
+                OAuthToken: !Ref GithubToken
+              RunOrder: 1
+        - Name: Build
+          Actions:
+            - Name: BuildAction
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: 1
+                Provider: CodeBuild
+              InputArtifacts:
+                - Name: SourceOutput
+              OutputArtifacts:
+                - Name: BuildOutput
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+              RunOrder: 1

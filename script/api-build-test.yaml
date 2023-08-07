@@ -464,7 +464,7 @@ Resources:
     Type: AWS::CodeDeploy::DeploymentGroup
     Properties:
       ApplicationName: !Ref CodeDeployApplication
-      ServiceRoleArn: !GetAtt CodeDeployServiceRole.Arn
+      ServiceRoleArn: !GetAtt CodePipelineServiceRole.Arn
       DeploymentConfigName: CodeDeployDefault.ECSAllAtOnce
       DeploymentStyle:
         DeploymentType: BLUE_GREEN

@@ -460,7 +460,13 @@ Resources:
     Properties:
       Family: "my-task-definition"
       ExecutionRoleArn: !GetAtt ECSTaskExcutionRole.Arn
-      NetworkMode: awsvpc
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          VPCID: !Ref APIVpc
+          Subnets:
+            - !Ref APIPrivatSubneteA
+            - !Ref APIPrivatSubneteC
       RequiresCompatibilities:
         - FARGATE
       Memory: "0.5GB"

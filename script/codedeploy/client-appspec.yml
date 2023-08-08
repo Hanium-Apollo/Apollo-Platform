@@ -7,8 +7,8 @@ resources:
       Properties:
         ApplicationName: MyCodeDeployApp # CodeDeploy 애플리케이션의 이름
         DeploymentGroupName: MyDeploymentGroup # 배포 그룹의 이름
-        DeploymentConfigName: CodeDeployDefault.AllAtOnce # 배포 구성의 이름 (옵션)
-        ServiceRoleArn: arn:aws:iam::YOUR_AWS_ACCOUNT_ID:role/YourCodeDeployServiceRole # CodeDeploy 서비스 역할의 ARN
+        DeploymentConfigName: CodeDeployDefault.AllAtOnce # 배포 구성의 이름 
+        ServiceRoleArn: arn:aws:iam::YOUR_AWS_ACCOUNT_ID:role/CodeDeployServiceRole # 그전에 역할 생성해줘야함. CodeDeploy 서비스 역할의 ARN
 
 hooks:
   BeforeInstall: # ECR에 로그인

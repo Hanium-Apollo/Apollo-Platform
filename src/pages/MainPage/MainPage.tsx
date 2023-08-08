@@ -12,6 +12,7 @@ import { getRepoListService } from "../../apis/RepoService";
 import { Signup } from "./components/Signup";
 import { getAuthenticationService } from "../../apis/UserService";
 import { UserInfo } from "../../apis/UserServiceType";
+import { useCookies } from "react-cookie";
 
 const buttonStyles = css`
   background-color: gray;
@@ -40,8 +41,10 @@ const StyledButton = styled(MaterialButton)`
 const Main = () => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
-  const accessToken = localStorage.getItem("token");
-  console.log(accessToken);
+  const [cookies, setCookie] = useCookies(["token"]);
+
+  const accessToken = cookies.token;
+
   const handleCallback = useCallback(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
@@ -50,6 +53,10 @@ const Main = () => {
       getAuthenticationService(code)
         .then((res) => {
           console.log(res);
+          setCookie("token", res.data.accessToken, {
+            path: "/",
+            expires: new Date(Date.now() + 3 * 60 * 60 * 1000),
+          });
           localStorage.setItem("userInfo", JSON.stringify(res.data));
           navigate("/wait");
         })
@@ -60,7 +67,7 @@ const Main = () => {
     } else {
       console.log("Error: code not found");
     }
-  }, [navigate]);
+  }, [navigate, setCookie]);
 
   useEffect(() => {
     handleCallback();

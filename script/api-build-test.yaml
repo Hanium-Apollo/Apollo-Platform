@@ -475,6 +475,7 @@ Resources:
 
   ECSService:
     Type: AWS::ECS::Service
+    DependsOn: APILoadBalancerListener
     Properties:
       Cluster: !Ref ECSCluster
       DesiredCount: 1
@@ -488,10 +489,6 @@ Resources:
           Subnets:
             - !Ref APIPrivatSubneteA
             - !Ref APIPrivatSubneteC
-      LoadBalancers:
-        - ContainerName: "my-container"
-          ContainerPort: 8080
-          TargetGroupArn: !Ref APITargetGroup
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role

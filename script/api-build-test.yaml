@@ -463,15 +463,15 @@ Resources:
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE
-      Memory: 512
-      CPU: 256
+      Memory: 1024
+      CPU: 521
       ContainerDefinitions:
         - Name: "my-container"
           Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
           PortMappings:
             - ContainerPort: 8080
-          Memory: 512
-          Cpu: 256
+          Memory: 1024
+          Cpu: 512
 
   ECSService:
     Type: AWS::ECS::Service
@@ -488,6 +488,10 @@ Resources:
           Subnets:
             - !Ref APIPrivatSubneteA
             - !Ref APIPrivatSubneteC
+      LoadBalancers:
+        - ContainerName: "my-container"
+          ContainerPort: 8080
+          TargetGroupArn: !Ref APIALBTargetGroup
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role

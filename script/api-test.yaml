@@ -1,7 +1,28 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Network resource
+Description: ECS Cluster and CodePipeline to Build from Github
+
+Parameters:
+  AWSRegion:
+    Type: String
+    Description: AWS Region
+  accountId:
+    Type: String
+    Description: AWS Account ID
+  GithubRepositoryName:
+    Type: String
+    Description: Github Repository Name
+  RepoLogin:
+    Type: String
+    Description: Github User Login
+  RepoLocation:
+    Type: String
+    Description: Github Repository URL
+  GithubToken:
+    Type: String
+    Description: Github OAuth Token
+
 Resources:
-  # VPC 설정
+  # VPC 생성
   APIVpc:
     Type: AWS::EC2::VPC
     Properties:
@@ -12,118 +33,100 @@ Resources:
       Tags:
         - Key: Name
           Value: APIVpc
-
-  # subnet 설정
-  ## public 1a.1c private 1a,1c
-  APISubnetPrivate1A:
-    Type: AWS::EC2::Subnet
-    Properties:
-      CidrBlock: 10.1.8.0/24
-      VpcId:
-        Ref: APIVpc
-      AvailabilityZone: 
-        Fn::Select: 
-          - 0
-          - Fn::GetAZs: ""
-      MapPublicIpOnLaunch: false
-      Tags:
-        - Key: Name
-          Value: API-subnet-private-1a
-        - Key: Type
-          Value: Isolated
-  APISubnetPrivate1C:
-    Type: AWS::EC2::Subnet
-    Properties:
-      CidrBlock: 10.1.9.0/24
-      VpcId:
-        Ref: APIVpc
-      AvailabilityZone: 
-        Fn::Select: 
-          - 1
-          - Fn::GetAZs: ""
-      MapPublicIpOnLaunch: false
-      Tags:
-        - Key: Name
-          Value: API-subnet-private-1c
-        - Key: Type
-          Value: Isolated
-
-  # 퍼블릭 액세스를 위해 서브넷 구성 업데이트
-  APISubnetPublic1A:
+  # Subnet 생성
+  # public a -> region-a
+  APIPublicSubnetA:
     Type: AWS::EC2::Subnet
     Properties:
       CidrBlock: 10.1.0.0/24
       VpcId: !Ref APIVpc
-      AvailabilityZone: 
-        Fn::Select: 
-          - 0
-          - Fn::GetAZs: ""
+      AvailabilityZone: !Sub ${AWSRegion}a
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: API-subnet-public-1a
+          Value: API-public-subnet-a
         - Key: Type
           Value: Public
-
-  APISubnetPublic1C:
+  # public c -> region-c
+  APIPublicSubnetC:
     Type: AWS::EC2::Subnet
     Properties:
       CidrBlock: 10.1.1.0/24
       VpcId: !Ref APIVpc
-      AvailabilityZone: 
-        Fn::Select: 
-          - 1
-          - Fn::GetAZs: ""
+      AvailabilityZone: !Sub ${AWSRegion}c
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: API-subnet-public-1c
+          Value: API-public-subnet-c
         - Key: Type
           Value: Public
-
-  # 네트워크 acl
-  APISubnetPublic1ANetworkAclAssociation:
-    Type: AWS::EC2::SubnetNetworkAclAssociation
+  # private a -> region-a
+  APIPrivatSubneteA:
+    Type: AWS::EC2::Subnet
     Properties:
-      SubnetId: !Ref APISubnetPublic1A
-      NetworkAclId: !Ref APISubnetPublicNetworkAcl
-
-  APISubnetPublic1CNetworkAclAssociation:
-    Type: AWS::EC2::SubnetNetworkAclAssociation
+      CidrBlock: 10.1.8.0/24
+      VpcId: !Ref APIVpc
+      AvailabilityZone: !Sub ${AWSRegion}a
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: API-private-subnet-a
+        - Key: Type
+          Value: Isolated
+  # private c -> region-c
+  APIPrivatSubneteC:
+    Type: AWS::EC2::Subnet
     Properties:
-      SubnetId: !Ref APISubnetPublic1C
-      NetworkAclId: !Ref APISubnetPublicNetworkAcl
+      CidrBlock: 10.1.9.0/24
+      VpcId: !Ref APIVpc
+      AvailabilityZone: !Sub ${AWSRegion}c
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: API-private-subnet-c
+        - Key: Type
+          Value: Isolated
 
-  APISubnetPublicNetworkAcl:
+  APIPublicSubnetNetworkAcl:
     Type: AWS::EC2::NetworkAcl
     Properties:
       VpcId: !Ref APIVpc
       Tags:
         - Key: Name
-          Value: API-subnet-public-network-acl
+          Value: API-public-subnet-network-acl
 
-  # 네트워크 ACL의 인바운드와 아웃바운드 트래픽을 모두 허용
-  APISubnetPublicNetworkAclInboundRuleAll:
+  APIPublicSubnetANetworkAclAssociation:
+    Type: AWS::EC2::SubnetNetworkAclAssociation
+    Properties:
+      SubnetId: !Ref APIPublicSubnetA
+      NetworkAclId: !Ref APIPublicSubnetNetworkAcl
+
+  APIPublicSubnetCNetworkAclAssociation:
+    Type: AWS::EC2::SubnetNetworkAclAssociation
+    Properties:
+      SubnetId: !Ref APIPublicSubnetC
+      NetworkAclId: !Ref APIPublicSubnetNetworkAcl
+
+  APIPublicSubnetNetworkAclInboudRullAll:
     Type: AWS::EC2::NetworkAclEntry
     Properties:
-      NetworkAclId: !Ref APISubnetPublicNetworkAcl
+      NetworkAclId: !Ref APIPublicSubnetNetworkAcl
       RuleNumber: 100
       Protocol: -1
       RuleAction: allow
       Egress: false
       CidrBlock: 0.0.0.0/0
 
-  APISubnetPublicNetworkAclOutboundRuleAll:
+  APIPublicSubnetNetworkAclOutboundRuleAll:
     Type: AWS::EC2::NetworkAclEntry
     Properties:
-      NetworkAclId: !Ref APISubnetPublicNetworkAcl
+      NetworkAclId: !Ref APIPublicSubnetNetworkAcl
       RuleNumber: 100
       Protocol: -1
       RuleAction: allow
       Egress: true
       CidrBlock: 0.0.0.0/0
 
-  # 인터넷 게이트웨이 생성
   APIIgw:
     Type: AWS::EC2::InternetGateway
     Properties:
@@ -131,129 +134,87 @@ Resources:
         - Key: Name
           Value: API-igw
 
-  APIVpcgwAttachment:
+  APIVpcGatewayAttachment:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
-      VpcId:
-        Ref: APIVpc
-      InternetGatewayId:
-        Ref: APIIgw
+      VpcId: !Ref APIVpc
+      InternetGatewayId: !Ref APIIgw
 
-  APIVpcgwAttachment:
-    Type: AWS::EC2::VPCGatewayAttachment
-    Properties:
-      VpcId:
-        Ref: APIVpc
-      InternetGatewayId:
-        Ref: APIIgw
-
-  #NAT 게이트웨이 생성
   APINatGatewayEIP:
     Type: AWS::EC2::EIP
     Properties:
-      Domain : vpc
+      Domain: vpc
 
   APINatGateway:
     Type: AWS::EC2::NatGateway
     Properties:
-      AllocationID: !GetAtt APINatGatewayEIP.AllocationId
-      SubnetId: !Ref APISubnetPublic1A
+      AllocationId: !GetAtt APINatGatewayEIP.AllocationId
+      SubnetId: !Ref APIPublicSubnetA
 
-  # 라우팅 테이블
-  ## public routing table, private routing table
-  APIPublicrtb:
+  APIPublicRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
-      VpcId: 
-        Ref: APIVpc
+      VpcId: !Ref APIVpc
       Tags:
         - Key: Name
-          Value: API-public-rtb
+          Value: API-public-route-table
 
   APIPublicRoute:
     Type: AWS::EC2::Route
-    DependsOn: APIVpcgwAttachment
+    DependsOn: APIVpcGatewayAttachment
     Properties:
-      RouteTableId:
-        Ref: APIPublicrtb
+      RouteTableId: !Ref APIPublicRouteTable
       DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: 
-        Ref: APIIgw
+      GatewayId: !Ref APIIgw
 
-  APISubnetPublic1ARouteTableAssociation:
+  APIPublicSubnetARouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      RouteTableId:
-        Ref: APIPublicrtb
-      SubnetId:
-        Ref: APISubnetPublic1A
-  APISubnetPublic1CRouteTableAssociation:
+      SubnetId: !Ref APIPublicSubnetA
+      RouteTableId: !Ref APIPublicRouteTable
+
+  APIPublicSubnetCRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      RouteTableId:
-        Ref: APIPublicrtb
-      SubnetId:
-        Ref: APISubnetPublic1C
+      SubnetId: !Ref APIPublicSubnetC
+      RouteTableId: !Ref APIPublicRouteTable
 
-  APIPrivatertb:
+  APIPrivateRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
-      VpcId: 
-        Ref: APIVpc
+      VpcId: !Ref APIVpc
       Tags:
         - Key: Name
-          Value: API-private-rtb
-  
-  APIPrivatertbRoute:
+          Value: API-private-route-table
+
+  APIPrivateRoute:
     Type: AWS::EC2::Route
-    DependsOn: APIVpcgwAttachment
+    DependsOn: APIVpcGatewayAttachment
     Properties:
-      RouteTableId: !Ref APIPrivatertb
+      RouteTableId: !Ref APIPrivateRouteTable
       DestinationCidrBlock: 0.0.0.0/0
       NatGatewayId: !Ref APINatGateway
- 
-  APISubnetPrivate1ARouteTableAssociation:
+
+  APIPrivateSubnetARouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref APISubnetPrivate1A
-      RouteTableId: !Ref APIPrivatertb
+      SubnetId: !Ref APIPrivatSubneteA
+      RouteTableId: !Ref APIPrivateRouteTable
 
-  APISubnetPrivate1CRouteTableAssociation:
+  APIPrivateSubnetCRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref APISubnetPrivate1C
-      RouteTableId: !Ref APIPrivatertb
+      SubnetId: !Ref APIPrivatSubneteC
+      RouteTableId: !Ref APIPrivateRouteTable
 
-  # 보안 그룹
-  ## was sg, load balancer sg
-  APIWASSecurityGroup:
+  APILoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: WAS Security Group
+      GroupDescription: API Load Balancer Security Group
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
-          Description: Allow all outbound traffic 
-          IpProtocol: "-1"
-      SecurityGroupIngress:
-        - CidrIp: 0.0.0.0/0
-          Description: from 0.0.0.0/0:8080
-          FromPort: 8080
-          IpProtocol: tcp
-          ToPort: 8080
-      Tags:
-        - Key: Name
-          Value: API-WAS-sg
-      VpcId:
-        Ref: APIVpc
-  
-  LoadBalancerSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: LoadBalancer Security Group
-      SecurityGroupEgress:
-        - CidrIp: 0.0.0.0/0
-          Description: Allow all outbound traffic 
-          IpProtocol: "-1"
+          Description: Allow all outbound traffic by default
+          IpProtocol: -1
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
@@ -265,55 +226,188 @@ Resources:
           CidrIp: 0.0.0.0/0
       Tags:
         - Key: Name
-          Value: API-lb-sg
-      VpcId:
-        Ref: APIVpc
-  
-  #대상그룹
+          Value: API-LB-SG
+      VpcId: !Ref APIVpc
+
+  APIWASSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: API WAS Security Group
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: -1
+      SecurityGroupIngress:
+        - Description: Allow all inbound traffic by default
+          FromPort: 8080
+          IpProtocol: tcp
+          ToPort: 8080
+          SourceSecurityGroupId: !Ref APILoadBalancerSecurityGroup
+      Tags:
+        - Key: Name
+          Value: API-WAS-SG
+      VpcId: !Ref APIVpc
+
   APITargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: API-tg
-      Protocol: HTTP
+      Name: API-TargetGroup
       Port: 8080
+      Protocol: HTTP
+      VpcId: !Ref APIVpc
       TargetType: ip
-      VpcId: APIVpc
 
-  #로드 밸런서
   APILoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: API-LoadBalancer
+      Name: API-LoadBalanecer
       Subnets:
-        - API-subnet-private-1a
-        - API-subnet-private-1c
+        - !Ref APIPublicSubnetA
+        - !Ref APIPublicSubnetC
       SecurityGroups:
-        - !Ref LoadBalancerSecurityGroup
+        - !Ref APILoadBalancerSecurityGroup
       Type: application
       Tags:
         - Key: Name
           Value: API-LoadBalancer
 
-  # 로드 밸런서에 대상 그룹 연결
   APILoadBalancerListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
       LoadBalancerArn: !Ref APILoadBalancer
-      Protocol: HTTP
       Port: 80
+      Protocol: HTTP
       DefaultActions:
         - Type: forward
           TargetGroupArn: !Ref APITargetGroup
 
-##############################################################
-  #ecr 생성
-  BackendECRRepository:
+  APIECRRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: backend
-  
-  #ecs cluster 생성
-  APICluster:
-    Type: AWS::ECS::Cluster
+      RepositoryName: !Ref GithubRepositoryName
+
+  CodeBuildServiceRole:
+    Type: AWS::IAM::Role
     Properties:
-      ClusterName: API-cluster
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
+
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: Apollo-Server-Build
+      Description: Apollo server build project
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      Source:
+        Type: GITHUB
+        Location: !Ref RepoLocation
+        BuildSpec: !Sub |
+          version: 0.2
+          phases:
+            pre_build:
+              commands:
+                - echo Logging in to Amazon ECR...
+                - aws ecr get-login-password --region ${AWSRegion} | docker login --username AWS --password-stdin ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com
+            build:
+              commands:
+                - echo "Building Docker image..."
+                - docker build -t ${GithubRepositoryName}:latest . 
+            post_build:
+              commands:
+                - echo "Tagging Docker image..."
+                - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+                - echo "Pushing Docker image..."
+                - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+      Artifacts:
+        Type: "NO_ARTIFACTS"
+      Environment:
+        Type: "LINUX_CONTAINER"
+        ComputeType: "BUILD_GENERAL1_SMALL"
+        Image: "aws/codebuild/standard:4.0"
+        PrivilegedMode: true
+
+  CodePipelineServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
+
+  CodePipelineArtifactStore:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: apollo-server-artifacts
+      VersioningConfiguration:
+        Status: Enabled
+
+  CodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: Apollo-server-pipeline
+      RoleArn: !GetAtt CodePipelineServiceRole.Arn
+      ArtifactStore:
+        Type: S3
+        Location: !Ref CodePipelineArtifactStore
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: SourceAction
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              OutputArtifacts:
+                - Name: SourceOutput
+              Configuration:
+                Owner: !Ref RepoLogin
+                Repo: !Ref GithubRepositoryName
+                Branch: main
+                OAuthToken: !Ref GithubToken
+              RunOrder: 1
+        - Name: Build
+          Actions:
+            - Name: BuildAction
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: 1
+                Provider: CodeBuild
+              InputArtifacts:
+                - Name: SourceOutput
+              OutputArtifacts:
+                - Name: BuildOutput
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+              RunOrder: 1

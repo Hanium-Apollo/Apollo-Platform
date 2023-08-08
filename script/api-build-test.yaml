@@ -464,7 +464,7 @@ Resources:
       RequiresCompatibilities:
         - FARGATE
       Memory: 1024
-      CPU: 521
+      CPU: 512
       ContainerDefinitions:
         - Name: "my-container"
           Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest

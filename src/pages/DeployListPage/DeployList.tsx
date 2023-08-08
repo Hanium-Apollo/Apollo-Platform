@@ -42,7 +42,7 @@ function ListItem({ repoName, type }: deployData) {
           console.error("Error fetching data:", error);
         });
     }
-    navigate("/deploylist");
+    navigate("/deploy");
   };
   return (
     <div

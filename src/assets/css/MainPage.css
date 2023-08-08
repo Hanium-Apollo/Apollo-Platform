@@ -105,3 +105,8 @@
   border-top-right-radius: 1000px;
   border-bottom-right-radius: 1000px;
 }
+
+.deploybtn1 {
+  border-top-left-radius: 1000px;
+  border-bottom-left-radius: 1000px;
+}

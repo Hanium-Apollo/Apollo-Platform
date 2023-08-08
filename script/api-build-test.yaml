@@ -491,7 +491,7 @@ Resources:
       LoadBalancers:
         - ContainerName: "my-container"
           ContainerPort: 8080
-          TargetGroupArn: !Ref APIALBTargetGroup
+          TargetGroupArn: !Ref APITargetGroup
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role

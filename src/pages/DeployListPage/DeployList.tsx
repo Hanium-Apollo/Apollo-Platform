@@ -4,8 +4,7 @@ import Button from "../../components/button/Button";
 import { useCallback, useEffect, useState } from "react";
 import {
   clientRepoDeleteService,
-  getClientDeployListService,
-  getServerDeployListService,
+  getDeployListService,
   serverRepoDeleteService,
 } from "../../apis/RepoService";
 import { UserInfo } from "../../apis/UserServiceType";
@@ -15,7 +14,6 @@ type deployData = {
 };
 type ListItemProps = {
   deploylist: deployData[];
-  type: string;
 };
 
 function ListItem({ repoName, type }: deployData) {
@@ -65,9 +63,13 @@ function ListItem({ repoName, type }: deployData) {
   );
 }
 
-function NumberList({ deploylist, type }: ListItemProps) {
+function NumberList({ deploylist }: ListItemProps) {
   const listItems = deploylist.map((item, index) => (
-    <ListItem key={index.toString()} repoName={item.repoName} type={type} />
+    <ListItem
+      key={index.toString()}
+      repoName={item.repoName}
+      type={item.type}
+    />
   ));
   return (
     <div className="deploylist">
@@ -77,8 +79,9 @@ function NumberList({ deploylist, type }: ListItemProps) {
 }
 
 function DeployList() {
-  const [ServerData, setServerData] = useState([]);
-  const [ClientData, setClientData] = useState([]);
+  const [DeployData, setDeployData] = useState<ListItemProps["deploylist"]>([]);
+  const ClientData: deployData[] = [];
+  const ServerData: deployData[] = [];
   const getDeploy = useCallback(() => {
     let info = localStorage.getItem("userInfo");
     let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
@@ -86,23 +89,23 @@ function DeployList() {
     if (!parsedInfo) return;
     let userLogin = parsedInfo.login;
     if (accessToken && userLogin) {
-      getServerDeployListService(userLogin)
+      getDeployListService(userLogin)
         .then((response) => {
           console.log(response.data);
-          setServerData(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-      getClientDeployListService(userLogin)
-        .then((response) => {
-          console.log(response.data);
-          setClientData(response.data);
+          setDeployData(response.data);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
     }
+
+    DeployData.forEach((item) => {
+      if (item.type === "client") {
+        ClientData.push(item);
+      } else if (item.type === "server") {
+        ServerData.push(item);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -112,15 +115,11 @@ function DeployList() {
     <div className="deploy">
       <div>
         <div className="name">배포 중 client</div>
-        {ClientData !== null && (
-          <NumberList deploylist={ClientData} type="client" />
-        )}
+        {ClientData !== null && <NumberList deploylist={ClientData} />}
       </div>
       <div>
         <div className="name">배포 중 server</div>
-        {ServerData !== null && (
-          <NumberList deploylist={ServerData} type="server" />
-        )}
+        {ServerData !== null && <NumberList deploylist={ServerData} />}
         <Button css={"fhomebtn"} text={"home"} />
       </div>
     </div>

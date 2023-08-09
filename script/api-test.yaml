@@ -304,96 +304,96 @@ Resources:
         Image: "aws/codebuild/standard:4.0"
         PrivilegedMode: true
 
-  # ECSCluster:
-  #   Type: AWS::ECS::Cluster
-  #   Properties:
-  #     ClusterName: Apollo-Server-Cluster
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: Apollo-Server-Cluster
 
-  # ECSTaskRole:
-  #   Type: "AWS::IAM::Role"
-  #   Properties:
-  #     AssumeRolePolicyDocument:
-  #       Version: "2012-10-17"
-  #       Statement:
-  #         - Effect: "Allow"
-  #           Principal:
-  #             Service:
-  #               - "ecs-tasks.amazonaws.com"
-  #           Action:
-  #             - "sts:AssumeRole"
-  #     Path: "/"
-  #     Policies:
-  #       - PolicyName: "S3FullAccessPolicy"
-  #         PolicyDocument:
-  #           Version: "2012-10-17"
-  #           Statement:
-  #             - Effect: "Allow"
-  #               Action:
-  #                 - "s3:*"
-  #               Resource:
-  #                 - "*"
-  # ECSTaskExecutionRole:
-  #   Type: AWS::IAM::Role
-  #   Properties:
-  #     RoleName: ECSTaskExecutionRoleUnique
-  #     AssumeRolePolicyDocument:
-  #       Version: "2012-10-17"
-  #       Statement:
-  #         - Effect: Allow
-  #           Principal:
-  #             Service:
-  #               - ecs-tasks.amazonaws.com
-  #           Action:
-  #             - sts:AssumeRole
-  #     Policies:
-  #       - PolicyName: ECRTaskExcutionPolicy
-  #         PolicyDocument:
-  #           Version: "2012-10-17"
-  #           Statement:
-  #             - Effect: Allow
-  #               Action:
-  #                 - ecr:GetAuthorizationToken
-  #                 - ecr:BatchCheckLayerAvailability
-  #                 - ecr:GetDownloadUrlForLayer
-  #               Resource: "*"
+  ECSTaskRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "ecs-tasks.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+      Policies:
+        - PolicyName: "S3FullAccessPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "s3:*"
+                Resource:
+                  - "*"
+  ECSTaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ECSTaskExecutionRoleUnique
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: ECRTaskExcutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:GetDownloadUrlForLayer
+                Resource: "*"
 
-  # ECSTaskDefinition:
-  #   Type: AWS::ECS::TaskDefinition
-  #   Properties:
-  #     Family: "my-task-definition"
-  #     TaskRoleArn: !GetAtt ECSTaskRole.Arn
-  #     ExecutionRoleArn: !GetAtt ECSTaskExecutionRole.Arn
-  #     NetworkMode: awsvpc
-  #     RequiresCompatibilities:
-  #       - FARGATE
-  #     Memory: 3072
-  #     Cpu: 1024
-  #     ContainerDefinitions:
-  #       - Name: "my-container"
-  #         Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
-  #         PortMappings:
-  #           - ContainerPort: 8080
+  ECSTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: "my-task-definition"
+      TaskRoleArn: !GetAtt ECSTaskRole.Arn
+      ExecutionRoleArn: !GetAtt ECSTaskExecutionRole.Arn
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      Memory: 3072
+      Cpu: 1024
+      ContainerDefinitions:
+        - Name: "my-container"
+          Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+          PortMappings:
+            - ContainerPort: 8080
 
-  # ECSService:
-  #   Type: AWS::ECS::Service
-  #   DependsOn: APILoadBalancerListener
-  #   Properties:
-  #     Cluster: !Ref ECSCluster
-  #     DesiredCount: 1
-  #     TaskDefinition: !Ref ECSTaskDefinition
-  #     LaunchType: FARGATE
-  #     LoadBalancers:
-  #       - TargetGroupArn: !Ref APITargetGroup
-  #         ContainerName: "my-container"
-  #         ContainerPort: 8080
-  #     NetworkConfiguration:
-  #       AwsvpcConfiguration:
-  #         AssignPublicIp: ENABLED
-  #         SecurityGroups:
-  #           - !Ref APIWASSecurityGroup
-  #         Subnets:
-  #           - !Ref APIPrivatSubneteA
-  #           - !Ref APIPrivatSubneteC
+  ECSService:
+    Type: AWS::ECS::Service
+    DependsOn: APILoadBalancerListener
+    Properties:
+      Cluster: !Ref ECSCluster
+      DesiredCount: 1
+      TaskDefinition: !Ref ECSTaskDefinition
+      LaunchType: FARGATE
+      LoadBalancers:
+        - TargetGroupArn: !Ref APITargetGroup
+          ContainerName: "my-container"
+          ContainerPort: 8080
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          SecurityGroups:
+            - !Ref APIWASSecurityGroup
+          Subnets:
+            - !Ref APIPrivatSubneteA
+            - !Ref APIPrivatSubneteC
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

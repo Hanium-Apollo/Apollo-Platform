@@ -1,7 +1,5 @@
 import "./App.css";
 import Main from "./pages/MainPage/MainPage";
-import Success from "./pages/ResultPage/SuccessPage";
-import Fail from "./pages/ResultPage/FailPage";
 import Nav from "./pages/Nav/Nav";
 import Monitor from "./pages/Monitoring/Monitor";
 import About from "./pages/About/About";
@@ -19,8 +17,6 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/" element={<Main />}></Route>
-          <Route path="/success" element={<Success />}></Route>
-          <Route path="/fail" element={<Fail />}></Route>
           <Route path="/monitor" element={<Monitor />}></Route>
           <Route path="/rendering" element={<Rendering />}></Route>
           <Route path="/About" element={<About />}></Route>

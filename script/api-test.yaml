@@ -366,15 +366,13 @@ Resources:
   #     NetworkMode: awsvpc
   #     RequiresCompatibilities:
   #       - FARGATE
-  #     Memory: 1024
-  #     Cpu: 512
+  #     Memory: 3072
+  #     Cpu: 1024
   #     ContainerDefinitions:
   #       - Name: "my-container"
   #         Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
   #         PortMappings:
   #           - ContainerPort: 8080
-  #         Memory: 1024
-  #         Cpu: 512
 
   # ECSService:
   #   Type: AWS::ECS::Service

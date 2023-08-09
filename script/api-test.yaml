@@ -310,28 +310,28 @@ Resources:
       ClusterName: Apollo-Server-Cluster
 
   ECSTaskRole:
-    Type: "AWS::IAM::Role"
+    Type: AWS::IAM::Role
     Properties:
+      RoleName: MyECSTaskRole
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
-          - Effect: "Allow"
+          - Effect: Allow
             Principal:
               Service:
-                - "ecs-tasks.amazonaws.com"
+                - ecs-tasks.amazonaws.com
             Action:
-              - "sts:AssumeRole"
-      Path: "/"
+              - sts:AssumeRole
       Policies:
-        - PolicyName: "S3FullAccessPolicy"
+        - PolicyName: MyECSTaskS3Policy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Effect: "Allow"
+              - Effect: Allow
                 Action:
-                  - "s3:*"
-                Resource:
-                  - "*"
+                  - s3:*
+                Resource: "*"
+
   ECSTaskExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -355,7 +355,16 @@ Resources:
                   - ecr:GetAuthorizationToken
                   - ecr:BatchCheckLayerAvailability
                   - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchGetImage
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
                 Resource: "*"
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "arn:aws:logs:*:*:*"
 
   ECSTaskDefinition:
     Type: AWS::ECS::TaskDefinition

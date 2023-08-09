@@ -309,7 +309,7 @@ Resources:
     Properties:
       ClusterName: Apollo-Server-Cluster
 
-  ECSTaskRole:
+  MyECSTaskRole:
     Type: AWS::IAM::Role
     Properties:
       RoleName: MyECSTaskRole
@@ -327,12 +327,29 @@ Resources:
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Effect: Allow
+              - Sid: VisualEditor0
+                Effect: Allow
                 Action:
-                  - s3:*
+                  - s3:ListStorageLensConfigurations
+                  - s3:ListAccessPointsForObjectLambda
+                  - s3:GetAccessPoint
+                  - s3:PutAccountPublicAccessBlock
+                  - s3:GetAccountPublicAccessBlock
+                  - s3:ListAllMyBuckets
+                  - s3:ListAccessPoints
+                  - s3:PutAccessPointPublicAccessBlock
+                  - s3:ListJobs
+                  - s3:PutStorageLensConfiguration
+                  - s3:ListMultiRegionAccessPoints
+                  - s3:CreateJob
+                  - s3:
                 Resource: "*"
+              - Sid: VisualEditor1
+                Effect: Allow
+                Action: s3:*
+                Resource: arn:aws:s3:::*
 
-  ECSTaskExecutionRole:
+  MyECSTaskExecutionRole:
     Type: AWS::IAM::Role
     Properties:
       RoleName: ECSTaskExecutionRoleUnique
@@ -370,8 +387,8 @@ Resources:
     Type: AWS::ECS::TaskDefinition
     Properties:
       Family: "my-task-definition"
-      TaskRoleArn: !GetAtt ECSTaskRole.Arn
-      ExecutionRoleArn: !GetAtt ECSTaskExecutionRole.Arn
+      TaskRoleArn: !GetAtt MyECSTaskRole.Arn
+      ExecutionRoleArn: !GetAtt MyECSTaskExecutionRole.Arn
       NetworkMode: awsvpc
       RequiresCompatibilities:
         - FARGATE

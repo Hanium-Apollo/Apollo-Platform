@@ -41,7 +41,7 @@ const StyledButton = styled(MaterialButton)`
 const Main = () => {
   const navigate = useNavigate();
   const [repoData, setRepoData] = useState([]);
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
 
   const accessToken = cookies.token;
 
@@ -53,10 +53,10 @@ const Main = () => {
       getAuthenticationService(code)
         .then((res) => {
           console.log(res);
-          setCookie("token", res.data.accessToken, {
-            path: "/",
-            expires: new Date(Date.now() + 3 * 60 * 60 * 1000),
-          });
+          // setCookie("token", res.data.accessToken, {
+          //   path: "/",
+          //   expires: new Date(Date.now() + 3 * 60 * 60 * 1000),
+          // });
           localStorage.setItem("userInfo", JSON.stringify(res.data));
           navigate("/wait");
         })
@@ -67,7 +67,7 @@ const Main = () => {
     } else {
       console.log("Error: code not found");
     }
-  }, [navigate, setCookie]);
+  }, [navigate]);
 
   useEffect(() => {
     handleCallback();
@@ -76,7 +76,6 @@ const Main = () => {
   const getRepo = useCallback(() => {
     let info = localStorage.getItem("userInfo");
     let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
-    let accessToken = localStorage.getItem("token");
     if (!parsedInfo) return;
     let userLogin = parsedInfo.login;
     if (accessToken && userLogin) {
@@ -89,7 +88,7 @@ const Main = () => {
           console.error("Error fetching data:", error);
         });
     }
-  }, []);
+  }, [accessToken]);
 
   useEffect(() => {
     getRepo();

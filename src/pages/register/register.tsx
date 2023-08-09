@@ -11,6 +11,7 @@ import styled from "@emotion/styled";
 import { useNavigate, useLocation } from "react-router-dom";
 import { apiClient } from "../../apis/ApiClient";
 import { Credentials } from "../../apis/UserService";
+import { useCookies } from "react-cookie";
 
 const theme = createTheme();
 
@@ -34,10 +35,13 @@ export const Register = () => {
   const [secretKey, setSecretKey] = useState<string>("");
   const [githubOAuthToken, setGithubOAuthToken] = useState<string>("");
 
+  const [cookies] = useCookies(["token"]);
+  const accessToken = cookies.token;
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
+
     const requiredFields = ["awsAccountID", "region", "accessKey"];
     for (const field of requiredFields) {
       const fieldValue = data.get(field) as string;
@@ -70,7 +74,12 @@ export const Register = () => {
     try {
       const response = await apiClient.post(
         `/api/credential/${userId}`,
-        credentials
+        credentials,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
       console.log(response);
       alert("회원가입이 완료되었습니다.");

@@ -40,7 +40,7 @@ Resources:
   APIPublicSubnetA:
     Type: AWS::EC2::Subnet
     Properties:
-      CidrBlock: 10.1.0.0/24
+      CidrBlock: 10.1.1.0/24
       VpcId: !Ref APIVpc
       AvailabilityZone: !Sub ${AWSRegion}a
       MapPublicIpOnLaunch: true
@@ -53,7 +53,7 @@ Resources:
   APIPublicSubnetC:
     Type: AWS::EC2::Subnet
     Properties:
-      CidrBlock: 10.1.1.0/24
+      CidrBlock: 10.1.2.0/24
       VpcId: !Ref APIVpc
       AvailabilityZone: !Sub ${AWSRegion}c
       MapPublicIpOnLaunch: true
@@ -66,7 +66,7 @@ Resources:
   APIPrivatSubneteA:
     Type: AWS::EC2::Subnet
     Properties:
-      CidrBlock: 10.1.8.0/24
+      CidrBlock: 10.1.10.0/24
       VpcId: !Ref APIVpc
       AvailabilityZone: !Sub ${AWSRegion}a
       MapPublicIpOnLaunch: false
@@ -79,7 +79,7 @@ Resources:
   APIPrivatSubneteC:
     Type: AWS::EC2::Subnet
     Properties:
-      CidrBlock: 10.1.9.0/24
+      CidrBlock: 10.1.11.0/24
       VpcId: !Ref APIVpc
       AvailabilityZone: !Sub ${AWSRegion}c
       MapPublicIpOnLaunch: false

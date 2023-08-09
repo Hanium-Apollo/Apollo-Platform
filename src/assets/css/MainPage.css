@@ -87,26 +87,3 @@
 .signup:hover {
   font-weight: bold;
 }
-
-.deploybtn1,
-.deploybtn2 {
-  width: 10%;
-  height: 40px;
-  background-color: gray;
-  opacity: 1;
-  color: white;
-  font-family: ONE-Mobile-Bold;
-  font-size: 1vw;
-  text-align: center;
-  border: none;
-  overflow: hidden;
-}
-.deploybtn2 {
-  border-top-right-radius: 1000px;
-  border-bottom-right-radius: 1000px;
-}
-
-.deploybtn1:hover,
-.deploybtn2:hover {
-  background-color: black;
-}

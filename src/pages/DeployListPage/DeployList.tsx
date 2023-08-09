@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../../assets/css/deploy.css";
 import Button from "../../components/button/Button";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   clientRepoDeleteService,
   getDeployListService,
@@ -19,7 +19,6 @@ type ListItemProps = {
 function ListItem({ repoName, type }: deployData) {
   const navigate = useNavigate();
   const handleSubmit = () => {
-    console.log(repoName);
     navigate("/monitor", { state: { repoName } });
   };
   const handleClick = () => {
@@ -47,30 +46,36 @@ function ListItem({ repoName, type }: deployData) {
       style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}
     >
       <li className="list">{repoName}</li>
-      type === "client" ? (
-      <button className="selectbtn" onClick={() => handleClick()}>
-        삭제
-      </button>
+      {type === "client" ? (
+        <button className="selectbtn" onClick={() => handleClick()}>
+          삭제
+        </button>
       ) : (
-      <button className="deploybtn1" onClick={handleSubmit}>
-        모니터링
-      </button>
-      <button className="deploybtn2" onClick={() => handleClick()}>
-        삭제
-      </button>
-      )
+        <>
+          <button className="deploybtn1" onClick={handleSubmit}>
+            모니터링
+          </button>
+          <button className="deploybtn2" onClick={() => handleClick()}>
+            삭제
+          </button>
+        </>
+      )}
     </div>
   );
 }
 
 function NumberList({ deploylist }: ListItemProps) {
-  const listItems = deploylist.map((item, index) => (
-    <ListItem
-      key={index.toString()}
-      repoName={item.repoName}
-      type={item.type}
-    />
-  ));
+  const listItems = deploylist.map(
+    (item, index) => (
+      (
+        <ListItem
+          key={index.toString()}
+          repoName={item.repoName}
+          type={item.type}
+        />
+      )
+    )
+  );
   return (
     <div className="deploylist">
       <ul style={{ padding: "0px" }}>{listItems}</ul>
@@ -80,8 +85,13 @@ function NumberList({ deploylist }: ListItemProps) {
 
 function DeployList() {
   const [DeployData, setDeployData] = useState<ListItemProps["deploylist"]>([]);
-  const ClientData: deployData[] = [];
-  const ServerData: deployData[] = [];
+  const ClientData = useMemo(() => {
+    return DeployData.filter((item) => item.type === "client");
+  }, [DeployData]);
+
+  const ServerData = useMemo(() => {
+    return DeployData.filter((item) => item.type === "server");
+  }, [DeployData]);
   const getDeploy = useCallback(() => {
     let info = localStorage.getItem("userInfo");
     let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
@@ -98,14 +108,6 @@ function DeployList() {
           console.error("Error fetching data:", error);
         });
     }
-
-    DeployData.forEach((item) => {
-      if (item.type === "client") {
-        ClientData.push(item);
-      } else if (item.type === "server") {
-        ServerData.push(item);
-      }
-    });
   }, []);
 
   useEffect(() => {

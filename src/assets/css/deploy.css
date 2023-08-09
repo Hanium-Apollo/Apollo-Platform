@@ -25,6 +25,7 @@
   height: 100vh;
   position: absolute;
   left: 50%;
+  top: 50px;
   transform: translate(-50%);
   align-items: center;
 }
@@ -47,6 +48,7 @@
 .deploylist {
   margin-top: 5%;
   height: 60%;
+  max-height: 250px;
   overflow: auto;
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
 }

@@ -21,7 +21,7 @@ function Rendering() {
           .then((response) => {
             console.log("success");
             console.log(response);
-            navigate("/success", { state: { repoName } });
+            navigate("/deploy");
           })
           .catch((error) => {
             console.log("error: ", error);
@@ -31,7 +31,7 @@ function Rendering() {
           .then((response) => {
             console.log("success");
             console.log(response);
-            navigate("/success", { state: { repoName } });
+            navigate("/deploy");
           })
           .catch((error) => {
             console.log("error: ", error);

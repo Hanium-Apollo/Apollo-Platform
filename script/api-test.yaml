@@ -1,3 +1,5 @@
+# reset용
+
 AWSTemplateFormatVersion: "2010-09-09"
 Description: ECS Cluster and CodePipeline to Build from Github
 
@@ -363,7 +365,7 @@ Resources:
               - Effect: Allow
                 Action: "*"
                 Resource: "*"
-  
+
   CodePipelineArtifactStore:
     Type: AWS::S3::Bucket
     Properties:

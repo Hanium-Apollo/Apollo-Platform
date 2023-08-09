@@ -11,6 +11,26 @@
   font-family: "Inter";
   src: url(../fonts/Inter-Regular.ttf) format("truetype");
 }
+.fhomebtn {
+  margin-top: 5%;
+  width: 17%;
+  height: 55px;
+  background-color: gray;
+  opacity: 1;
+  color: white;
+  font-family: ONE-Mobile-Bold;
+  font-size: 1.8vw;
+  text-align: center;
+  border-radius: 1000px;
+  border: none;
+  overflow: hidden;
+  @media (max-width: 600px) {
+    width: 22%;
+    margin-top: 10%;
+    font-size: 2.5vw;
+    height: 40px;
+  }
+}
 
 .mhomebtn,
 .mbackbtn {
@@ -39,6 +59,7 @@
 .mhomebtn {
   margin-right: 2%;
 }
+.fhomebtn:hover,
 .mbackbtn:hover,
 .mhomebtn:hover {
   background-color: black;

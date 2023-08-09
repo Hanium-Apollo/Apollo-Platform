@@ -4,12 +4,8 @@ export const getRepoListService = (userLogin: String) => {
   return apiClient.get(`/api/repository/list/${userLogin}`, {});
 };
 
-export const getServerDeployListService = (userLogin: String) => {
-  return apiClient.get(`api/cloudformation/server/${userLogin}`, {});
-};
-
-export const getClientDeployListService = (userLogin: String) => {
-  return apiClient.get(`api/cloudformation/client/${userLogin}`, {});
+export const getDeployListService = (userLogin: String) => {
+  return apiClient.get(`api/cloudformation/${userLogin}`, {});
 };
 
 export const clientRepoCreateService = (repoName: String) => {

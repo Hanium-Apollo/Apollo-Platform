@@ -342,11 +342,10 @@ Resources:
                   - s3:PutStorageLensConfiguration
                   - s3:ListMultiRegionAccessPoints
                   - s3:CreateJob
-                  - s3:
                 Resource: "*"
               - Sid: VisualEditor1
                 Effect: Allow
-                Action: s3:*
+                Action: "s3:*"
                 Resource: arn:aws:s3:::*
 
   MyECSTaskExecutionRole:

@@ -460,7 +460,7 @@ Resources:
       DeploymentGroupName: Apollo-server-DeploymentGroup
       DeploymentConfigName: CodeDeployDefault.ECSAllAtOnce
       DeploymentStyle:
-        DeploymentType: IN_PLACE
+        DeploymentType: BLUE_GREEN
         DeploymentOption: WITH_TRAFFIC_CONTROL
       BlueGreenDeploymentConfiguration:
         TerminateBlueInstancesOnDeploymentSuccess:
@@ -468,9 +468,9 @@ Resources:
           TerminationWaitTimeInMinutes: 5
         DeploymentReadyOption:
           ActionOnTimeout: CONTINUE_DEPLOYMENT
-        EcsServices:
-          - ClusterName: !Ref ECSCluster
-            ServiceName: !Ref ECSService
+      EcsServices:
+        - ClusterName: !Ref ECSCluster
+          ServiceName: !Ref ECSService
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

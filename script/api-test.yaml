@@ -404,7 +404,7 @@ Resources:
     DependsOn: APILoadBalancerListener
     Properties:
       Cluster: !Ref ECSCluster
-      DesiredCount: 1
+      DesiredCount: 0
       TaskDefinition: !Ref ECSTaskDefinition
       LaunchType: FARGATE
       DeploymentController:

@@ -31,7 +31,6 @@ const Wait = () => {
   const [isFinish, SetFinish] = useState("");
   const [parsedInfo, SetParsedInfo] = useState<UserInfo | null>(null);
   const [cookies, setCookie] = useCookies(["token"]); // cookies와 setCookie 추가
-  const accessToken = cookies.token;
 
   useEffect(() => {
     const info = localStorage.getItem("userInfo");

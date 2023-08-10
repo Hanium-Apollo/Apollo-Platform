@@ -468,7 +468,7 @@ Resources:
           TerminationWaitTimeInMinutes: 5
         DeploymentReadyOption:
           ActionOnTimeout: CONTINUE_DEPLOYMENT
-        ECSServices:
+        EcsServices:
           - ClusterName: !Ref ECSCluster
             ServiceName: !Ref ECSService
 

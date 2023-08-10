@@ -469,7 +469,7 @@ Resources:
           TerminationWaitTimeInMinutes: 5
         DeploymentReadyOption:
           ActionOnTimeout: CONTINUE_DEPLOYMENT
-      EcsService:
+      environmentVariables:
         - ClusterName: !Ref ECSCluster
           ServiceName: !Ref ECSService
 

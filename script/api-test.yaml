@@ -474,7 +474,7 @@ Resources:
           - ProdTrafficRoute:
               ListenerArns:
                 - !Ref APILoadBalancerListener
-            TargetGroup:
+            TargetGroups:
               Name: !Ref APITargetGroup
 
   CodePipelineServiceRole:

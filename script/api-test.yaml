@@ -407,6 +407,8 @@ Resources:
       DesiredCount: 1
       TaskDefinition: !Ref ECSTaskDefinition
       LaunchType: FARGATE
+      DeploymentController:
+        Type: CODE_DEPLOY
       LoadBalancers:
         - TargetGroupArn: !Ref APITargetGroup
           ContainerName: "my-container"

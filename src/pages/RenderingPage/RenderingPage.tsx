@@ -45,10 +45,11 @@ function Rendering() {
 
   return (
     <div className="loading-container">
+      
       <p className="rmessage">WAIT A MINUTE !</p>
-      {/* <div className="moving-image"></div> */}
       <div
         style={{
+          marginTop: "10%",
           position: "fixed",
           top: "50%",
           left: "50%",

@@ -469,9 +469,6 @@ Resources:
           TerminationWaitTimeInMinutes: 5
         DeploymentReadyOption:
           ActionOnTimeout: CONTINUE_DEPLOYMENT
-      ResourceProperties:
-        - ClusterName: !Ref ECSCluster
-          ServiceName: !Ref ECSService
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role
@@ -553,6 +550,8 @@ Resources:
               InputArtifacts:
                 - Name: BuildOutput
               Configuration:
+                ClusterName: !Ref ECSCluster
+                ServiceName: !Ref ECSService
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
               RunOrder: 1

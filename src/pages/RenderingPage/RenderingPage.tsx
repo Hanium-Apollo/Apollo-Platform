@@ -45,6 +45,7 @@ function Rendering() {
 
   return (
     <div className="loading-container">
+      
       <p className="rmessage">WAIT A MINUTE !</p>
       <div
         style={{

@@ -475,7 +475,7 @@ Resources:
               ListenerArns:
                 - !Ref APILoadBalancerListener
             TargetGroups:
-              - TargetGroupArn: !Ref APITargetGroup
+              - Name: !Ref APITargetGroup
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

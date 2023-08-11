@@ -272,7 +272,7 @@ Resources:
       TargetType: ip
 
   # Load Balancer 생성
- APITestLoadBalancer: # 이름에 "test" 추가
+ APITestLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       Name: API-Test-LoadBalancer # 이름에 "test" 추가
@@ -281,11 +281,14 @@ Resources:
         - !Ref APIPublicSubnetC
       SecurityGroups:
         - !Ref APILoadBalancerSecurityGroup
+      Scheme: internet-facing # Add this line to specify it's an internet-facing load balancer
+      LoadBalancerAttributes:
+        - Key: idle_timeout.timeout_seconds
+          Value: '60' # Specify the idle timeout value in seconds
       Type: application
       Tags:
         - Key: Name
           Value: API-Test-LoadBalancer # 이름에 "test" 추가
-
   # Load Balancer Listener 생성
   APILoadBalancerListener:
     Type: AWS::ElasticLoadBalancingV2::Listener

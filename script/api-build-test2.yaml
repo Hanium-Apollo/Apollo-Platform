@@ -516,7 +516,7 @@ Resources:
         - ClusterName: !Ref ECSCluster
           ServiceName: !Ref ECSService
 
-  CodePipelineServiceRole:
+   CodePipelineServiceRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -530,16 +530,24 @@ Resources:
               - sts:AssumeRole
       Path: "/"
       Policies:
-        - PolicyName: root
+        - PolicyName: CloudFormationS3AccessPolicy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: "*"
-                Resource: "*"
+                Action:
+                  - s3:CreateBucket
+                  - s3:GetBucketLocation
+                  - s3:ListBucket
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:DeleteObject
+                Resource: 
+                  - "arn:aws:s3:::apollo-server-test-artifacts"
+                  - "arn:aws:s3:::apollo-server-test-artifacts/*"
 
   # Code Pipeline Artifact 저장소 생성
-  CodePipelineArtifactStore:
+  CodePipelineTestArtifactStore:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: apollo-server-test-artifacts # 이름에 "test" 추가
@@ -554,7 +562,7 @@ Resources:
       RoleArn: !GetAtt CodePipelineServiceRole.Arn
       ArtifactStore:
         Type: S3
-        Location: !Ref CodePipelineArtifactStore
+        Location: !Ref CodePipelineTestArtifactStore
       Stages:
         - Name: Source
           Actions:

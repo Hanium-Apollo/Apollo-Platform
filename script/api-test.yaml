@@ -487,15 +487,6 @@ Resources:
             ContainerPort: 8080
             TargetGroupArn: !Ref APITargetGroupBlue
 
-    PrimaryTaskSet:
-      Type: AWS::ECS::PrimaryTaskSet
-      Properties:
-        Cluster: !Ref ECSCluster
-        Service: !Ref ECSService
-        TaskSetId: !GetAtt
-          - BlueTaskSet
-          - Id
-
   # ECSService:
   #   Type: AWS::ECS::Service
   #   DependsOn: APILoadBalancerListener

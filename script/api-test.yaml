@@ -521,9 +521,9 @@ Resources:
           - ProdTrafficRoute:
               ListenerArns:
                 - !Ref APILoadBalancerListener
-          TargetGroups:
-            - Name: !Ref APITargetGroupBlue
-            - Name: !Ref APITargetGroupGreen
+            TargetGroups:
+              - Name: !Ref APITargetGroupBlue
+              - Name: !Ref APITargetGroupGreen
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

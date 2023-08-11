@@ -452,12 +452,12 @@ Resources:
     Properties:
       Cluster: !Ref ECSCluster
       DesiredCount: 0
-      TaskDefinition: !Ref ECSTaskDefinition
+      TaskDefinition: !Ref ECSBlueTaskDefinition
       LaunchType: FARGATE
       DeploymentController:
         Type: CODE_DEPLOY
       LoadBalancers:
-        - TargetGroupArn: !Ref APITargetGroup
+        - TargetGroupArn: !Ref APITargetGroupBlue
           ContainerName: "my-container"
           ContainerPort: 8080
       NetworkConfiguration:

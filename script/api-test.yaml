@@ -508,7 +508,6 @@ Resources:
       DeploymentGroupName: Apollo-server-DeploymentGroup
       DeploymentConfigName: CodeDeployDefault.ECSAllAtOnce
       DeploymentStyle:
-        DeploymentType: BLUE_GREEN
         DeploymentOption: WITH_TRAFFIC_CONTROL
       BlueGreenDeploymentConfiguration:
         TerminateBlueInstancesOnDeploymentSuccess:

@@ -41,5 +41,7 @@ export const getCredentials = (userId: String) => {
 };
 
 export const patchCredentials = (userId: String, credentials: Credentials) => {
-  return apiClient.patch(`/api/credential/${userId}`, credentials, { withCredentials: true });
+  return apiClient.patch(`/api/credential/${userId}`, credentials, {
+    withCredentials: true,
+  });
 };

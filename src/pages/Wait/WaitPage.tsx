@@ -79,12 +79,11 @@ const Wait = () => {
         });
     }
   }, [action, parsedInfo, navigate, setCookie]);
-
+  const notify = (message: string) =>
+    toast(message, {
+      onClose: () => navigate("/"),
+    });
   useEffect(() => {
-    const notify = (message: string) =>
-      toast(message, {
-        onClose: () => navigate("/"),
-      });
     handleLogin();
     if (isFinish === "signup") {
       navigate("/register", {

@@ -53,10 +53,6 @@ const Main = () => {
       postAuthenticationService(code)
         .then((res) => {
           console.log(res);
-          // setCookie("token", res.data.accessToken, {
-          //   path: "/",
-          //   expires: new Date(Date.now() + 3 * 60 * 60 * 1000),
-          // });
           localStorage.setItem("userInfo", JSON.stringify(res.data));
           navigate("/wait");
         })

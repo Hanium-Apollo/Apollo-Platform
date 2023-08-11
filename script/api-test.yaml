@@ -535,10 +535,9 @@ Resources:
       DeploymentStyle:
         DeploymentType: BLUE_GREEN
         DeploymentOption: WITH_TRAFFIC_CONTROL
-      LoadBalancerInfo:
-        TargetGroupInfoList:
-          - Name: !Ref APITargetGroupBlue
-          - Name: !Ref APITargetGroupGreen
+      TargetGroupInfoList:
+        - Name: !Ref APITargetGroupBlue
+        - Name: !Ref APITargetGroupGreen
       BlueGreenDeploymentConfiguration:
         TerminateBlueInstancesOnDeploymentSuccess:
           Action: TERMINATE

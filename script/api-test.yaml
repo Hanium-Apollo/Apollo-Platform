@@ -23,26 +23,26 @@ Parameters:
     Type: String
     Description: Github OAuth Token
 
-Transform:
-  - AWS::CodeDeployBlueGreen
+# Transform:
+#   - AWS::CodeDeployBlueGreen
 
-Hooks:
-  CodeDeployBlueGreenHook:
-    Properties:
-      TrafficRoutingConfig:
-        Type: TimeBasedCAnary
-        TimeBAsedCAnary:
-          StepPercentage: 15
-          BakeTimeMins: 5
-      Application:
-        - Target:
-            Type: AWS::ECS::Service
-            LogicalID: APIService
-          ECSAttributes:
-            TaskDefinitions:
-              - !Ref APITaskDefinition
-            TaskSets:
-              - !Ref APITaskSet
+# Hooks:
+#   CodeDeployBlueGreenHook:
+#     Properties:
+#       TrafficRoutingConfig:
+#         Type: TimeBasedCAnary
+#         TimeBAsedCAnary:
+#           StepPercentage: 15
+#           BakeTimeMins: 5
+#       Application:
+#         - Target:
+#             Type: AWS::ECS::Service
+#             LogicalID: APIService
+#           ECSAttributes:
+#             TaskDefinitions:
+#               - !Ref APITaskDefinition
+#             TaskSets:
+#               - !Ref APITaskSet
 
 Resources:
   # VPC 생성
@@ -450,6 +450,7 @@ Resources:
       Type: AWS::ECS::Service
       DependsOn: APILoadBalancerListener
       Properties:
+        Name: Apollo-Server-Service
         Cluster: !Ref ECSCluster
         DesiredCount: 0
         DeploymentController:

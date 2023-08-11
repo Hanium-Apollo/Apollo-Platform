@@ -9,8 +9,11 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "@emotion/styled";
 import { useNavigate, useLocation } from "react-router-dom";
+import { apiClient } from "../../apis/ApiClient";
 import { Credentials, postCredential } from "../../apis/UserService";
 import { useCookies } from "react-cookie";
+import { toast } from "react-toastify";
+import { StyledToastContainer } from "../Wait/WaitPage";
 
 const theme = createTheme();
 
@@ -61,6 +64,10 @@ export const Register = () => {
       alert("Github OAuth Token칸이 누락되어 있습니다. 다시 입력해주세요.");
       return;
     }
+    const notify = (message: string) =>
+      toast(message, {
+        onClose: () => navigate("/"),
+      });
 
     const credentials: Credentials = {
       AWSAccountId: data.get("awsAccountID") as string,
@@ -73,14 +80,13 @@ export const Register = () => {
     postCredential(userId, credentials)
       .then((response) => {
         console.log(response);
-        alert("회원가입이 완료되었습니다.");
-        navigate("/");
+        notify("회원가입이 완료되었습니다.");
       })
       .catch((error) => {
         console.log(error.response.data);
         alert("에러가 발생했습니다: " + error.response.data);
-      }
-    );
+      });
+  };
 
   const handleSecretKeyChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSecretKey(e.target.value);
@@ -93,6 +99,15 @@ export const Register = () => {
   return (
     <ContainerWrapper>
       <ThemeProvider theme={theme}>
+        <StyledToastContainer
+          position="top-center"
+          limit={1}
+          closeOnClick
+          autoClose={3000}
+          hideProgressBar
+          pauseOnHover
+          closeButton={false}
+        />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -188,5 +203,4 @@ export const Register = () => {
       </ThemeProvider>
     </ContainerWrapper>
   );
-};
 };

@@ -451,6 +451,7 @@ Resources:
     DependsOn: APILoadBalancerListener
     Properties:
       Cluster: !Ref ECSCluster
+      ServiceName: Apollo-Server-Service
       DesiredCount: 0
       TaskDefinition: !Ref ECSBlueTaskDefinition
       LaunchType: FARGATE
@@ -500,34 +501,10 @@ Resources:
       ApplicationName: Apollo-server-Application
       ComputePlatform: ECS
 
-  # CodeDeployDeploymentGroup:
-  #   Type: AWS::CodeDeploy::DeploymentGroup
-  #   Properties:
-  #     ApplicationName: !Ref CodeDeployApplication
-  #     ServiceRoleArn: !GetAtt CodeDeployServiceRole.Arn
-  #     DeploymentGroupName: Apollo-server-DeploymentGroup
-  #     DeploymentConfigName: CodeDeployDefault.ECSAllAtOnce
-  #     DeploymentStyle:
-  #       DeploymentType: BLUE_GREEN
-  #       DeploymentOption: WITH_TRAFFIC_CONTROL
-  #     BlueGreenDeploymentConfiguration:
-  #       TerminateBlueInstancesOnDeploymentSuccess:
-  #         Action: TERMINATE
-  #         TerminationWaitTimeInMinutes: 5
-  #       DeploymentReadyOption:
-  #         ActionOnTimeout: CONTINUE_DEPLOYMENT
-  #     LoadBalancerInfo:
-  #       TargetGroupPairInfoList:
-  #         - ProdTrafficRoute:
-  #             ListenerArns:
-  #               - !Ref APILoadBalancerListener
-  #           TargetGroups:
-  #             - Name: !Ref APITargetGroupBlue
-  #             - Name: !Ref APITargetGroupGreen
-
-CodeDeployDeploymentGroup:
+  CodeDeployDeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
     Properties:
+      DependsOn: ECSServiceStackSet
       ApplicationName: !Ref CodeDeployApplication
       ServiceRoleArn: !GetAtt CodeDeployServiceRole.Arn
       DeploymentGroupName: Apollo-server-DeploymentGroup
@@ -535,21 +512,18 @@ CodeDeployDeploymentGroup:
       DeploymentStyle:
         DeploymentType: BLUE_GREEN
         DeploymentOption: WITH_TRAFFIC_CONTROL
-      LoadBalancerInfo:
-        TargetGroupPairInfoList:
-          - TargetGroups:
-              - Name: !Ref APITargetGroupBlue
-            ProdTrafficRoute:
-              Type: TimeBasedCanary
-              TimeBasedCanary:
-                CanaryPercentage: 10
-              ListenerArns: [!Ref APILoadBalancerListener]
       BlueGreenDeploymentConfiguration:
         TerminateBlueInstancesOnDeploymentSuccess:
           Action: TERMINATE
           TerminationWaitTimeInMinutes: 5
         DeploymentReadyOption:
           ActionOnTimeout: CONTINUE_DEPLOYMENT
+      LoadBalancerInfo:
+        TargetGroupInfoList:
+          - Name: !Ref APITargetGroupBlue
+      ECSServices:
+        - ClusterName: !Ref ECSCluster
+          ServiceName: Apollo-Server-Service
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

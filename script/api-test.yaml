@@ -504,7 +504,7 @@ Resources:
   CodeDeployDeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
     Properties:
-      DependsOn: !Ref ECSService
+      DependsOn: ECSServiceStackSet
       ApplicationName: !Ref CodeDeployApplication
       ServiceRoleArn: !GetAtt CodeDeployServiceRole.Arn
       DeploymentGroupName: Apollo-server-DeploymentGroup

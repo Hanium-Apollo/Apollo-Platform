@@ -468,7 +468,6 @@ Resources:
             - !Ref APITestPrivatSubneteA
             - !Ref APITestPrivatSubneteC
       ServiceName: !Sub ${AWS::StackName}-ECSService
-      Role: !GetAtt ECSTaskRole.Arn
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role

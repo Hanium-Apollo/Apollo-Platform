@@ -363,7 +363,6 @@ Resources:
         ComputeType: "BUILD_GENERAL1_SMALL"
         Image: "aws/codebuild/standard:4.0"
         PrivilegedMode: true
-
   # ECS Cluster 생성
   ECSCluster:
     Type: AWS::ECS::Cluster
@@ -468,6 +467,8 @@ Resources:
           Subnets:
             - !Ref APITestPrivatSubneteA
             - !Ref APITestPrivatSubneteC
+      ServiceName: !Sub ${AWS::StackName}-ECSService
+      Role: !GetAtt ECSTaskRole.Arn
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role
@@ -606,5 +607,20 @@ Resources:
               InputArtifacts:
                 - Name: BuildOutput
               Configuration:
+                AppSpecTemplate: #AppSpec 
+                  Fn::Sub:
+                    - |
+                      resources:
+                        - TargetService:
+                            Type: AWS::ECS::Service
+                            Properties:
+                              TaskDefinition: !GetAtt ECSTaskDefinition
+                              LoadBalancerInfo:
+                                ContainerName: Test-container
+                                ContainerPort: 8080
+                      version: 0.0
+                    - ECSTaskDefinition: !Ref ECSTaskDefinition
+                AppSpecTemplateArtifact: SourceOutput
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
+              RunOrder: 1

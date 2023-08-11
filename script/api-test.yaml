@@ -454,6 +454,14 @@ Resources:
         DesiredCount: 0
         DeploymentController:
           Type: EXTERNAL
+        NetworkConfiguration:
+          AwsvpcConfiguration:
+            AssignPublicIp: ENABLED
+            SecurityGroups:
+              - !Ref APIWASSecurityGroup
+            Subnets:
+              - !Ref APIPrivatSubneteA
+              - !Ref APIPrivatSubneteC
 
     BlueTaskSet:
       Type: AWS::ECS::TaskSet

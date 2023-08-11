@@ -538,7 +538,7 @@ Resources:
       LoadBalancerInfo:
         TargetGroupInfoList:
           - Name: !Ref APITargetGroupBlue
-            Weight: 100
+          - Name: !Ref APITargetGroupGreen
       BlueGreenDeploymentConfiguration:
         TerminateBlueInstancesOnDeploymentSuccess:
           Action: TERMINATE

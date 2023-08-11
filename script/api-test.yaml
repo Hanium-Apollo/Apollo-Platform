@@ -453,7 +453,7 @@ Resources:
         Cluster: !Ref ECSCluster
         DesiredCount: 0
         DeploymentController:
-          Type: EXTERNAL
+          Type: CODE_DEPLOY
         NetworkConfiguration:
           AwsvpcConfiguration:
             AssignPublicIp: ENABLED

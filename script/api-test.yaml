@@ -451,6 +451,7 @@ Resources:
     DependsOn: APILoadBalancerListener
     Properties:
       Cluster: !Ref ECSCluster
+      ServiceName: Apollo-Server-Service
       DesiredCount: 0
       TaskDefinition: !Ref ECSBlueTaskDefinition
       LaunchType: FARGATE
@@ -520,7 +521,7 @@ Resources:
           - Name: !Ref APITargetGroupBlue
       ECSServices:
         - ClusterName: !Ref ECSCluster
-          ServiceName: !Ref ECSService
+          ServiceName: Apollo-Server-Service
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

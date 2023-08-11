@@ -500,6 +500,31 @@ Resources:
       ApplicationName: Apollo-server-Application
       ComputePlatform: ECS
 
+  # CodeDeployDeploymentGroup:
+  #   Type: AWS::CodeDeploy::DeploymentGroup
+  #   Properties:
+  #     ApplicationName: !Ref CodeDeployApplication
+  #     ServiceRoleArn: !GetAtt CodeDeployServiceRole.Arn
+  #     DeploymentGroupName: Apollo-server-DeploymentGroup
+  #     DeploymentConfigName: CodeDeployDefault.ECSAllAtOnce
+  #     DeploymentStyle:
+  #       DeploymentType: BLUE_GREEN
+  #       DeploymentOption: WITH_TRAFFIC_CONTROL
+  #     BlueGreenDeploymentConfiguration:
+  #       TerminateBlueInstancesOnDeploymentSuccess:
+  #         Action: TERMINATE
+  #         TerminationWaitTimeInMinutes: 5
+  #       DeploymentReadyOption:
+  #         ActionOnTimeout: CONTINUE_DEPLOYMENT
+  #     LoadBalancerInfo:
+  #       TargetGroupPairInfoList:
+  #         - ProdTrafficRoute:
+  #             ListenerArns:
+  #               - !Ref APILoadBalancerListener
+  #           TargetGroups:
+  #             - Name: !Ref APITargetGroupBlue
+  #             - Name: !Ref APITargetGroupGreen
+
   CodeDeployDeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
     Properties:
@@ -510,20 +535,16 @@ Resources:
       DeploymentStyle:
         DeploymentType: BLUE_GREEN
         DeploymentOption: WITH_TRAFFIC_CONTROL
+      LoadBalancerInfo:
+        TargetGroupInfoList:
+          - Name: !Ref APITargetGroupBlue
+            Weight: 100
       BlueGreenDeploymentConfiguration:
         TerminateBlueInstancesOnDeploymentSuccess:
           Action: TERMINATE
           TerminationWaitTimeInMinutes: 5
         DeploymentReadyOption:
           ActionOnTimeout: CONTINUE_DEPLOYMENT
-      LoadBalancerInfo:
-        TargetGroupPairInfoList:
-          - ProdTrafficRoute:
-              ListenerArns:
-                - !Ref APILoadBalancerListener
-            TargetGroups:
-              - Name: !Ref APITargetGroupBlue
-              - Name: !Ref APITargetGroupGreen
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

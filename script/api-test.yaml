@@ -23,6 +23,27 @@ Parameters:
     Type: String
     Description: Github OAuth Token
 
+Transform:
+  - AWS::CodeDeployBlueGreen
+
+Hooks:
+  CodeDeployBlueGreenHook:
+    Properties:
+      TrafficRoutingConfig:
+        Type: TimeBasedCAnary
+        TimeBAsedCAnary:
+          StepPercentage: 15
+          BakeTimeMins: 5
+      Application:
+        - Target:
+            Type: AWS::ECS::Service
+            LogicalID: APIService
+          ECSAttributes:
+            TaskDefinitions:
+              - !Ref APITaskDefinition
+            TaskSets:
+              - !Ref APITaskSet
+
 Resources:
   # VPC 생성
   APIVpc:
@@ -210,7 +231,16 @@ Resources:
           Value: API-WAS-SG
       VpcId: !Ref APIVpc
 
-  APITargetGroup:
+  APITargetGroupBlue:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: API-TargetGroup
+      Port: 8080
+      Protocol: HTTP
+      VpcId: !Ref APIVpc
+      TargetType: ip
+
+  APITargetGroupGreen:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       Name: API-TargetGroup
@@ -241,7 +271,7 @@ Resources:
       Protocol: HTTP
       DefaultActions:
         - Type: forward
-          TargetGroupArn: !Ref APITargetGroup
+          TargetGroupArn: !Ref APITargetGroupBlue
 
   APIECRRepository:
     Type: AWS::ECR::Repository
@@ -382,7 +412,7 @@ Resources:
                   - logs:PutLogEvents
                 Resource: "arn:aws:logs:*:*:*"
 
-  ECSTaskDefinition:
+  ECSBlueTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
       Family: "my-task-definition"
@@ -399,28 +429,87 @@ Resources:
           PortMappings:
             - ContainerPort: 8080
 
-  ECSService:
-    Type: AWS::ECS::Service
-    DependsOn: APILoadBalancerListener
+  ECSGreenTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
     Properties:
-      Cluster: !Ref ECSCluster
-      DesiredCount: 0
-      TaskDefinition: !Ref ECSTaskDefinition
-      LaunchType: FARGATE
-      DeploymentController:
-        Type: CODE_DEPLOY
-      LoadBalancers:
-        - TargetGroupArn: !Ref APITargetGroup
-          ContainerName: "my-container"
-          ContainerPort: 8080
-      NetworkConfiguration:
-        AwsvpcConfiguration:
-          AssignPublicIp: ENABLED
-          SecurityGroups:
-            - !Ref APIWASSecurityGroup
-          Subnets:
-            - !Ref APIPrivatSubneteA
-            - !Ref APIPrivatSubneteC
+      Family: "my-task-definition"
+      TaskRoleArn: !GetAtt MyECSTaskRole.Arn
+      ExecutionRoleArn: !GetAtt MyECSTaskExecutionRole.Arn
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      Memory: 3072
+      Cpu: 1024
+      ContainerDefinitions:
+        - Name: "my-container"
+          Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+          PortMappings:
+            - ContainerPort: 8080
+
+    ECSService:
+      Type: AWS::ECS::Service
+      DependsOn: APILoadBalancerListener
+      Properties:
+        Cluster: !Ref ECSCluster
+        DesiredCount: 0
+        DeploymentController:
+          Type: EXTERNAL
+
+    BlueTaskSet:
+      Type: AWS::ECS::TaskSet
+      Properties:
+        Cluster: !Ref ECSCluster
+        LaunchType: FARGATE
+        NetworkConfiguration:
+          AwsvpcConfiguration:
+            AssignPublicIp: ENABLED
+            SecurityGroups:
+              - !Ref APIWASSecurityGroup
+            Subnets:
+              - !Ref APIPrivatSubneteA
+              - !Ref APIPrivatSubneteC
+        PlatformVersion: LATEST
+        Scale:
+          Unit: PERCENT
+          Value: 100
+        Service: !Ref ECSService
+        TaskDefinition: !Ref ECSBlueTaskDefinition
+        LoadBalancers:
+          - ContainerName: "my-container"
+            ContainerPort: 8080
+            TargetGroupArn: !Ref APITargetGroupBlue
+
+    PrimaryTaskSet:
+      Type: AWS::ECS::PrimaryTaskSet
+      Properties:
+        Cluster: !Ref ECSCluster
+        Service: !Ref ECSService
+        TaskSetId: !GetAtt
+          - BlueTaskSet
+          - Id
+
+  # ECSService:
+  #   Type: AWS::ECS::Service
+  #   DependsOn: APILoadBalancerListener
+  #   Properties:
+  #     Cluster: !Ref ECSCluster
+  #     DesiredCount: 0
+  #     TaskDefinition: !Ref ECSTaskDefinition
+  #     LaunchType: FARGATE
+  #     DeploymentController:
+  #       Type: CODE_DEPLOY
+  #     LoadBalancers:
+  #       - TargetGroupArn: !Ref APITargetGroup
+  #         ContainerName: "my-container"
+  #         ContainerPort: 8080
+  #     NetworkConfiguration:
+  #       AwsvpcConfiguration:
+  #         AssignPublicIp: ENABLED
+  #         SecurityGroups:
+  #           - !Ref APIWASSecurityGroup
+  #         Subnets:
+  #           - !Ref APIPrivatSubneteA
+  #           - !Ref APIPrivatSubneteC
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role
@@ -469,13 +558,14 @@ Resources:
           TerminationWaitTimeInMinutes: 5
         DeploymentReadyOption:
           ActionOnTimeout: CONTINUE_DEPLOYMENT
-      # LoadBalancerInfo:
-      #   TargetGroupPairInfoList:
-      #     - ProdTrafficRoute:
-      #         ListenerArns:
-      #           - !Ref APILoadBalancerListener
-      #       TargetGroups:
-      #         - Name: !Ref APITargetGroup
+      LoadBalancerInfo:
+        TargetGroupPairInfoList:
+          - ProdTrafficRoute:
+              ListenerArns:
+                - !Ref APILoadBalancerListener
+            TargetGroups:
+              - Name: !Ref APITargetGroupBlue
+              - Name: !Ref APITargetGroupGreen
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

@@ -539,9 +539,8 @@ Resources:
         TargetGroupPairInfoList:
           - TargetGroups:
               - Name: !Ref APITargetGroupBlue
-          ProdTrafficRoute:
-            ListenerArns: !Ref APILoadBalancerListener
-
+        ProdTrafficRoute:
+          ListenerArns: !Ref APILoadBalancerListener
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

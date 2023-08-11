@@ -272,7 +272,7 @@ Resources:
       TargetType: ip
 
   # Load Balancer 생성
- APITestLoadBalancer:
+  APITestLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       Name: API-Test-LoadBalancer # 이름에 "test" 추가

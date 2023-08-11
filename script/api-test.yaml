@@ -518,16 +518,13 @@ Resources:
           ActionOnTimeout: CONTINUE_DEPLOYMENT
       LoadBalancerInfo:
         TargetGroupPairInfoList:
-          - TargetGroups:
-              - Name: !Ref APITargetGroupBlue
-            ProdTrafficRoute:
+          - ProdTrafficRoute:
               ListenerArns:
                 - !Ref APILoadBalancerListener
-          - TargetGroups:
-              - Name: !Ref APITargetGroupGreen
-            ProdTrafficRoute:
-              ListenerArns:
-                - !Ref APILoadBalancerListener
+            TargetGroups:
+              - TargetGroupInfo:
+                  - Name: !Ref APITargetGroupBlue
+                  - Name: !Ref APITargetGroupGreen
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

@@ -234,7 +234,7 @@ Resources:
   APITargetGroupBlue:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: API-TargetGroup
+      Name: API-TargetGroupBlue
       Port: 8080
       Protocol: HTTP
       VpcId: !Ref APIVpc
@@ -243,7 +243,7 @@ Resources:
   APITargetGroupGreen:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: API-TargetGroup
+      Name: API-TargetGroupGreen
       Port: 8080
       Protocol: HTTP
       VpcId: !Ref APIVpc
@@ -500,6 +500,31 @@ Resources:
       ApplicationName: Apollo-server-Application
       ComputePlatform: ECS
 
+  # CodeDeployDeploymentGroup:
+  #   Type: AWS::CodeDeploy::DeploymentGroup
+  #   Properties:
+  #     ApplicationName: !Ref CodeDeployApplication
+  #     ServiceRoleArn: !GetAtt CodeDeployServiceRole.Arn
+  #     DeploymentGroupName: Apollo-server-DeploymentGroup
+  #     DeploymentConfigName: CodeDeployDefault.ECSAllAtOnce
+  #     DeploymentStyle:
+  #       DeploymentType: BLUE_GREEN
+  #       DeploymentOption: WITH_TRAFFIC_CONTROL
+  #     BlueGreenDeploymentConfiguration:
+  #       TerminateBlueInstancesOnDeploymentSuccess:
+  #         Action: TERMINATE
+  #         TerminationWaitTimeInMinutes: 5
+  #       DeploymentReadyOption:
+  #         ActionOnTimeout: CONTINUE_DEPLOYMENT
+  #     LoadBalancerInfo:
+  #       TargetGroupPairInfoList:
+  #         - ProdTrafficRoute:
+  #             ListenerArns:
+  #               - !Ref APILoadBalancerListener
+  #           TargetGroups:
+  #             - Name: !Ref APITargetGroupBlue
+  #             - Name: !Ref APITargetGroupGreen
+
   CodeDeployDeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
     Properties:
@@ -510,20 +535,13 @@ Resources:
       DeploymentStyle:
         DeploymentType: BLUE_GREEN
         DeploymentOption: WITH_TRAFFIC_CONTROL
-      BlueGreenDeploymentConfiguration:
-        TerminateBlueInstancesOnDeploymentSuccess:
-          Action: TERMINATE
-          TerminationWaitTimeInMinutes: 5
-        DeploymentReadyOption:
-          ActionOnTimeout: CONTINUE_DEPLOYMENT
       LoadBalancerInfo:
         TargetGroupPairInfoList:
-          - ProdTrafficRoute:
-              ListenerArns:
-                - !Ref APILoadBalancerListener
-            TargetGroups:
+          - TargetGroups:
               - Name: !Ref APITargetGroupBlue
-              - Name: !Ref APITargetGroupGreen
+          ProdTrafficRoute:
+            ListenerArns: [!Ref APILoadBalancerListener]
+
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

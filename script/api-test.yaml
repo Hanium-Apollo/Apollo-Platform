@@ -540,7 +540,7 @@ Resources:
           - TargetGroups:
               - Name: !Ref APITargetGroupBlue
           ProdTrafficRoute:
-            ListenerArns: [!Ref APILoadBalancerListener]
+            ListenerArns: !Ref APILoadBalancerListener
 
 
   CodePipelineServiceRole:

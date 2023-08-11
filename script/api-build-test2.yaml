@@ -516,7 +516,7 @@ Resources:
         - ClusterName: !Ref ECSCluster
           ServiceName: !Ref ECSService
 
-   CodePipelineServiceRole:
+  CodePipelineServiceRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:

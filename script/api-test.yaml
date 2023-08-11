@@ -446,62 +446,28 @@ Resources:
           PortMappings:
             - ContainerPort: 8080
 
-    ECSService:
-      Type: AWS::ECS::Service
-      DependsOn: APILoadBalancerListener
-      Properties:
-        Name: Apollo-Server-Service
-        Cluster: !Ref ECSCluster
-        DesiredCount: 0
-        DeploymentController:
-          Type: CODE_DEPLOY
-
-    BlueTaskSet:
-      Type: AWS::ECS::TaskSet
-      Properties:
-        Cluster: !Ref ECSCluster
-        LaunchType: FARGATE
-        NetworkConfiguration:
-          AwsvpcConfiguration:
-            AssignPublicIp: ENABLED
-            SecurityGroups:
-              - !Ref APIWASSecurityGroup
-            Subnets:
-              - !Ref APIPrivatSubneteA
-              - !Ref APIPrivatSubneteC
-        PlatformVersion: LATEST
-        Scale:
-          Unit: PERCENT
-          Value: 100
-        Service: !Ref ECSService
-        TaskDefinition: !Ref ECSBlueTaskDefinition
-        LoadBalancers:
-          - ContainerName: "my-container"
-            ContainerPort: 8080
-            TargetGroupArn: !Ref APITargetGroupBlue
-
-  # ECSService:
-  #   Type: AWS::ECS::Service
-  #   DependsOn: APILoadBalancerListener
-  #   Properties:
-  #     Cluster: !Ref ECSCluster
-  #     DesiredCount: 0
-  #     TaskDefinition: !Ref ECSTaskDefinition
-  #     LaunchType: FARGATE
-  #     DeploymentController:
-  #       Type: CODE_DEPLOY
-  #     LoadBalancers:
-  #       - TargetGroupArn: !Ref APITargetGroup
-  #         ContainerName: "my-container"
-  #         ContainerPort: 8080
-  #     NetworkConfiguration:
-  #       AwsvpcConfiguration:
-  #         AssignPublicIp: ENABLED
-  #         SecurityGroups:
-  #           - !Ref APIWASSecurityGroup
-  #         Subnets:
-  #           - !Ref APIPrivatSubneteA
-  #           - !Ref APIPrivatSubneteC
+  ECSService:
+    Type: AWS::ECS::Service
+    DependsOn: APILoadBalancerListener
+    Properties:
+      Cluster: !Ref ECSCluster
+      DesiredCount: 0
+      TaskDefinition: !Ref ECSTaskDefinition
+      LaunchType: FARGATE
+      DeploymentController:
+        Type: CODE_DEPLOY
+      LoadBalancers:
+        - TargetGroupArn: !Ref APITargetGroup
+          ContainerName: "my-container"
+          ContainerPort: 8080
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          SecurityGroups:
+            - !Ref APIWASSecurityGroup
+          Subnets:
+            - !Ref APIPrivatSubneteA
+            - !Ref APIPrivatSubneteC
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role

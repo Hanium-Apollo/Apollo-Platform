@@ -454,14 +454,6 @@ Resources:
         DesiredCount: 0
         DeploymentController:
           Type: CODE_DEPLOY
-        NetworkConfiguration:
-          AwsvpcConfiguration:
-            AssignPublicIp: ENABLED
-            SecurityGroups:
-              - !Ref APIWASSecurityGroup
-            Subnets:
-              - !Ref APIPrivatSubneteA
-              - !Ref APIPrivatSubneteC
 
     BlueTaskSet:
       Type: AWS::ECS::TaskSet

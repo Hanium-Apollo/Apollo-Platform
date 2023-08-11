@@ -551,7 +551,6 @@ CodeDeployDeploymentGroup:
         DeploymentReadyOption:
           ActionOnTimeout: CONTINUE_DEPLOYMENT
 
-
   CodePipelineServiceRole:
     Type: AWS::IAM::Role
     Properties:

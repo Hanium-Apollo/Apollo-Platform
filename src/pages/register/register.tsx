@@ -9,8 +9,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "@emotion/styled";
 import { useNavigate, useLocation } from "react-router-dom";
-import { apiClient } from "../../apis/ApiClient";
-import { Credentials } from "../../apis/UserService";
+import { Credentials, postCredential } from "../../apis/UserService";
 import { useCookies } from "react-cookie";
 
 const theme = createTheme();
@@ -71,23 +70,17 @@ export const Register = () => {
       GithubOAuthToken: githubOAuthToken,
     };
 
-    try {
-      const response = await apiClient.post(
-        `/api/credential/${userId}`,
-        credentials,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      console.log(response);
-      alert("회원가입이 완료되었습니다.");
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    postCredential(userId, credentials)
+      .then((response) => {
+        console.log(response);
+        alert("회원가입이 완료되었습니다.");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+        alert("에러가 발생했습니다: " + error.response.data);
+      }
+    );
 
   const handleSecretKeyChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSecretKey(e.target.value);
@@ -195,4 +188,5 @@ export const Register = () => {
       </ThemeProvider>
     </ContainerWrapper>
   );
+};
 };

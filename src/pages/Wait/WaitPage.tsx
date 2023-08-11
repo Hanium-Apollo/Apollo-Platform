@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import {
-  getUserSignInService,
-  getUserSignUpService,
+  postUserSignInService,
+  postUserSignUpService,
 } from "../../apis/UserService";
 import { useCallback, useEffect, useState } from "react";
 import FadeLoader from "react-spinners/FadeLoader";
@@ -41,7 +41,7 @@ const Wait = () => {
 
   const handleLogin = useCallback(() => {
     if (action === "userSignUp" && parsedInfo) {
-      getUserSignUpService(parsedInfo)
+      postUserSignUpService(parsedInfo)
         .then((response) => {
           console.log("success");
           console.log(response);
@@ -56,7 +56,7 @@ const Wait = () => {
           navigate("/");
         });
     } else if (action === "userSignIn" && parsedInfo) {
-      getUserSignInService(parsedInfo.login, parsedInfo.id)
+      postUserSignInService(parsedInfo.login, parsedInfo.id)
         .then((response) => {
           console.log("success");
           console.log(response);

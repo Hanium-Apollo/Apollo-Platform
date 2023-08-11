@@ -24,7 +24,7 @@ Parameters:
 
 Resources:
   # VPC 생성
-  APITestVpc: # 이름에 "test" 추가
+  APITestVpc:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: 10.2.0.0/16
@@ -33,7 +33,7 @@ Resources:
       InstanceTenancy: default
       Tags:
         - Key: Name
-          Value: APITestVpc # 이름에 "test" 추가
+          Value: APITestVpc
   # Subnet 생성
   # public a -> region-a
   APIPublicSubnetA:
@@ -272,7 +272,7 @@ Resources:
       TargetType: ip
 
   # Load Balancer 생성
-  APITestLoadBalancer: # 이름에 "test" 추가
+ APITestLoadBalancer: # 이름에 "test" 추가
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       Name: API-Test-LoadBalancer # 이름에 "test" 추가
@@ -498,7 +498,7 @@ Resources:
     Type: AWS::CodeDeploy::DeploymentGroup
     Properties:
       ApplicationName: !Ref CodeDeployApplication
-      ServiceRoleArn: !GetAtt CodePipelineServiceRole.Arn
+      ServiceRoleArn: !GetAtt CodeDeployServiceRole.Arn
       DeploymentConfigName: CodeDeployDefault.ECSAllAtOnce
       DeploymentStyle:
         DeploymentType: BLUE_GREEN

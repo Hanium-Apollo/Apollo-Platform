@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import NumberList from "./components/RepoList";
 import { getRepoListService } from "../../apis/RepoService";
 import { Signup } from "./components/Signup";
-import { getAuthenticationService } from "../../apis/UserService";
+import { postAuthenticationService } from "../../apis/UserService";
 import { UserInfo } from "../../apis/UserServiceType";
 import { useCookies } from "react-cookie";
 
@@ -50,7 +50,7 @@ const Main = () => {
     const code = urlParams.get("code");
     if (code && localStorage.getItem("action")) {
       console.log(code);
-      getAuthenticationService(code)
+      postAuthenticationService(code)
         .then((res) => {
           console.log(res);
           // setCookie("token", res.data.accessToken, {

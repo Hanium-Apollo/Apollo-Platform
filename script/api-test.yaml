@@ -518,6 +518,9 @@ Resources:
       LoadBalancerInfo:
         TargetGroupInfoList:
           - Name: !Ref APITargetGroupBlue
+      ECSServices:
+        - ClusterName: !Ref ECSCluster
+          ServiceName: !Ref ECSService
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

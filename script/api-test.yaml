@@ -613,15 +613,5 @@ Resources:
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                AppSpecTemplate: !Sub |
-                  version: 0.0
-                  resources:
-                    - TargetService:
-                        Type: AWS::ECS::Service
-                        Properties:
-                          TaskDefinition: !Ref ECSBlueTaskDefinition
-                          LoadBalancerInfo:
-                            ContainerName: "my-container"
-                            ContainerPort: 8080
                 AppSpecTemplateArtifact: SourceOutput
               RunOrder: 1

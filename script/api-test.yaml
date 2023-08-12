@@ -562,9 +562,7 @@ Resources:
                   - s3:GetObject
                   - s3:PutObject
                   - s3:ListBucket
-                Resource:
-                  - !Sub "arn:aws:s3:::${CodePipelineArtifactStore}"
-                  - !Sub "arn:aws:s3:::${CodePipelineArtifactStore}/*"
+                Resource: "*"
 
   CodePipelineArtifactStore:
     Type: AWS::S3::Bucket

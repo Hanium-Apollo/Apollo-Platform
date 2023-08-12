@@ -559,7 +559,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                  - s3: "*"
+                  - s3:*
                 Resource: "*"
 
   CodePipelineArtifactStore:

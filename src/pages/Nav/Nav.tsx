@@ -34,6 +34,9 @@ const Nav = () => {
   const GotoDeployList = () => {
     navigate("/deploy");
   };
+  const GotoMyPage = () => {
+    navigate("/mypage");
+  };
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -86,6 +89,13 @@ const Nav = () => {
               style={{ cursor: "pointer" }}
             >
               DeployList
+            </li>
+            <li
+              className="menu"
+              onClick={GotoMyPage}
+              style={{ cursor: "pointer" }}
+            >
+              My Page
             </li>
             <li
               className="menu"

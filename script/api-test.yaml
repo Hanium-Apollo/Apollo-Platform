@@ -523,7 +523,7 @@ Resources:
           - Name: !Ref APITargetGroupBlue
       ECSServices:
         - ClusterName: !Ref ECSCluster
-          ServiceName: Apollo-Server-Service
+          ServiceName: !Ref ECSService
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

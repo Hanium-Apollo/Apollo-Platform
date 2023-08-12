@@ -519,8 +519,7 @@ Resources:
           ActionOnTimeout: CONTINUE_DEPLOYMENT
       LoadBalancerInfo:
         TargetGroupInfoList:
-          TargetGroupInfo:
-            - Name: !Ref APITargetGroupBlue
+          - Name: !Ref APITargetGroupBlue
       ECSServices:
         - ClusterName: Apollo-Server-Cluster
           ServiceName: Apollo-Server-Service

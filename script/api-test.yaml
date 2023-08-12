@@ -613,15 +613,17 @@ Resources:
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildOutput
-                TaskDefinitionTemplatePath: !Sub |
-                  version: 0.0
-                  resources:
-                    - TargetService:
-                        Type: AWS::ECS::Service
-                        Properties:
-                          TaskDefinition: !Ref ECSBlueTaskDefinition
-                          LoadBalancerInfo:
-                            ContainerName: "my-container"
-                            ContainerPort: 8080
+                AppSpecTemplate:
+                  !Sub |
+                    version: 0.0
+                    resources:
+                      - TargetService:
+                          Type: AWS::ECS::Service
+                          Properties:
+                            TaskDefinition: !Ref ECSBlueTaskDefinition
+                            LoadBalancerInfo:
+                              ContainerName: "my-container"
+                              ContainerPort: 8080
+                  - ECSTaskDefinition: !Ref ECSBlueTaskDefinition
+                AppSpecTemplateArtifact: SourceOutput
               RunOrder: 1

@@ -24,7 +24,7 @@ export const postUserSignInService = (userLogin: String, userId: String) => {
       userLogin: userLogin,
       userId: userId,
     },
-    { withCredentials: true }
+    { withCredentials: true, headers: { "Content-Type": "application/json" } }
   );
 };
 
@@ -32,7 +32,7 @@ export const postCredential = (userId: String, credentials: Credentials) => {
   return apiClient.post(
     `/api/credential/${userId}`,
     JSON.stringify(credentials),
-    { withCredentials: true }
+    { withCredentials: true, headers: { "Content-Type": "application/json" } }
   );
 };
 
@@ -43,5 +43,6 @@ export const getCredentials = (userId: String) => {
 export const patchCredentials = (userId: String, credentials: Credentials) => {
   return apiClient.patch(`/api/credential/${userId}`, credentials, {
     withCredentials: true,
+    headers: { "Content-Type": "application/json" },
   });
 };

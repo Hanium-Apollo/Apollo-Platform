@@ -78,6 +78,7 @@ export const MyPage = () => {
         setUserInfo(parsedInfo);
 
         if (parsedInfo) {
+          let userId = parsedInfo.id;
           const response = await getCredentials(userId);
           const credentials = response.data;
 
@@ -101,7 +102,7 @@ export const MyPage = () => {
   }, [userId]);
 
   const profile = userInfo?.avatar_url;
-  const name = userInfo?.username;
+  const name = userInfo?.login;
 
   return (
     <Container>
@@ -111,7 +112,7 @@ export const MyPage = () => {
           <ProfileImage src={profile} alt="Profile" />
         </ImageBox>
         <TextBox>{name}님 반갑습니다.</TextBox>
-        <TextBox>Wow</TextBox>
+        <TextBox>아래는 입력하신 Cred 정보입니다.</TextBox>
         <CredentialsBox>
           <div>AWS Account ID: {accountId}</div>
           <div>AWS Access Key: {accessKey}</div>

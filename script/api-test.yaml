@@ -524,9 +524,7 @@ Resources:
                 - !Ref APILoadBalancerListener
             TargetGroups:
               - Name: !Ref APITargetGroupBlue
-                Weight: 100
               - Name: !Ref APITargetGroupGreen
-                Weight: 0
       ECSServices:
         - ClusterName: Apollo-Server-Cluster
           ServiceName: Apollo-Server-Service

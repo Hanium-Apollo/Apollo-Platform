@@ -1,7 +1,9 @@
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
 import { UserInfo } from "../apis/UserServiceType";
-import Image from "../assets/images/github_logo.png";
+import { getCredentials } from "../apis/UserService";
 
 const Container = styled.div`
   min-height: 750px;
@@ -34,6 +36,14 @@ const ImageBox = styled(Grid)`
   align-items: center;
 `;
 
+const CredentialsBox = styled.div`
+  margin-top: 20px;
+  background-color: white;
+  opacity: 0.9;
+  border-radius: 10px;
+  padding: 10px;
+`;
+
 const ProfileImage = styled.img`
   border-radius: 50%;
   width: 150px;
@@ -50,23 +60,65 @@ const TextBox = styled(Grid)`
 `;
 
 export const MyPage = () => {
-  let info = localStorage.getItem("userInfo");
-  let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
-  let userLogin = parsedInfo?.login;
-  let profile = parsedInfo?.avatar_url;
-  let name = parsedInfo?.username;
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [accountId, setAccountId] = useState<string>("");
+  const [accessKey, setAccessKey] = useState<string>("");
+  const [secretKey, setSecretKey] = useState<string>("");
+  const [region, setRegion] = useState<string>("");
+  const [githubToken, setGithubToken] = useState<string>("");
+
+  const location = useLocation();
+  const userId = location.state?.userId as string;
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const info = localStorage.getItem("userInfo");
+        const parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
+        setUserInfo(parsedInfo);
+
+        if (parsedInfo) {
+          const response = await getCredentials(userId);
+          const credentials = response.data;
+
+          if (credentials) {
+            setAccountId(credentials.AWSAccountId);
+            setAccessKey(credentials.AWSAccessKey);
+            setSecretKey(credentials.AWSSecretKey);
+            setRegion(credentials.AWSRegion);
+            setGithubToken(credentials.GithubOAuthToken);
+
+            setUserInfo((prevInfo) => ({ ...prevInfo, ...credentials }));
+            console.log(credentials);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUserInfo();
+  }, [userId]);
+
+  const profile = userInfo?.avatar_url;
+  const name = userInfo?.username;
 
   return (
     <Container>
       <MyPageBox>
         <h1>마이페이지</h1>
         <ImageBox>
-          <ProfileImage src={Image} alt="Profile" />
+          <ProfileImage src={profile} alt="Profile" />
         </ImageBox>
-        <TextBox>
-          {name} {" 님 반갑습니다."}
-        </TextBox>
+        <TextBox>{name}님 반갑습니다.</TextBox>
         <TextBox>Wow</TextBox>
+        <CredentialsBox>
+          <div>AWS Account ID: {accountId}</div>
+          <div>AWS Access Key: {accessKey}</div>
+          <div>AWS Secret Key: {secretKey}</div>
+          <div>AWS Region: {region}</div>
+          <div>Github OAuth Token: {githubToken}</div>
+        </CredentialsBox>
       </MyPageBox>
     </Container>
   );

@@ -12,7 +12,7 @@ export const clientRepoCreateService = (repoName: String) => {
   return apiClient.post(
     `/api/cloudformation/client`,
     { repoName: repoName },
-    { withCredentials: true }
+    { withCredentials: true, headers: { "Content-Type": "application/json" } }
   );
 };
 
@@ -20,7 +20,7 @@ export const serverRepoCreateService = (repoName: String) => {
   return apiClient.post(
     `/api/cloudformation/server`,
     { repoName: repoName },
-    { withCredentials: true }
+    { withCredentials: true, headers: { "Content-Type": "application/json" } }
   );
 };
 

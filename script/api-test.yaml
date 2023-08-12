@@ -552,6 +552,18 @@ Resources:
               - Effect: Allow
                 Action: "*"
                 Resource: "*"
+        - PolicyName: CodePipelineS3BucketAccess
+          PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - s3:GetObject
+                - s3:PutObject
+                - s3:ListBucket
+              Resource:
+                - !Sub "arn:aws:s3:::${CodePipelineArtifactStore}"
+                - !Sub "arn:aws:s3:::${CodePipelineArtifactStore}/*"
 
   CodePipelineArtifactStore:
     Type: AWS::S3::Bucket

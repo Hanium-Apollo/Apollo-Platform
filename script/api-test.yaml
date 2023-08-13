@@ -328,7 +328,7 @@ Resources:
             files:
               - appspec.yaml
               - taskdef.json
-            base-directory: /
+            base-directory: .
       Artifacts:
         Type: CODEPIPELINE
       Environment:

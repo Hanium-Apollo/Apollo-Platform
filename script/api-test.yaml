@@ -291,6 +291,21 @@ Resources:
         BuildSpec: !Sub |
           version: 0.2
           phases:
+            install:
+              commands:
+                - echo "Creating appspec.yaml file..."
+                - |
+                  cat <<EOT >> appspec.yaml
+                  version: 0.0
+                  Resources:
+                    - TargetService:
+                        Type: AWS::ECS::Service
+                        Properties:
+                          TaskDefinition: !Ref ECSBlueTaskDefinition
+                          LoadBalancerInfo:
+                            ContainerName: "my-container"
+                            ContainerPort: 8080
+                  EOT
             pre_build:
               commands:
                 - echo Logging in to Amazon ECR...
@@ -305,6 +320,11 @@ Resources:
                 - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
                 - echo "Pushing Docker image..."
                 - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+            artifacts:
+              files:
+                - appspec.yaml
+              discard-paths: yes
+              base-directory: /
       Artifacts:
         Type: CODEPIPELINE
       Environment:
@@ -597,6 +617,8 @@ Resources:
                 Owner: AWS
                 Version: 1
                 Provider: CodeDeployToECS
+              InputArtifacts:
+                - Name: BuildOutput
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup

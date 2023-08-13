@@ -432,23 +432,23 @@ Resources:
 
   # ECS Task Definition 생성
   ECSTaskDefinition:
-    Type: AWS::ECS::TaskDefinition
-    Properties:
-      Family: "Test-task-definition"
-      TaskRoleArn: !GetAtt ECSTaskRole.Arn
-      ExecutionRoleArn: !GetAtt ECSTaskExcutionRole.Arn
-      NetworkMode: awsvpc
-      RequiresCompatibilities:
-        - FARGATE
-      Memory: 1024
-      CPU: 512
-      ContainerDefinitions:
-        - Name: "Test-container"
-          Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
-          PortMappings:
-            - ContainerPort: 8080
-          Memory: 1024
-          Cpu: 512
+  Type: AWS::ECS::TaskDefinition
+  Properties:
+    Family: "Test-task-definition"
+    TaskRoleArn: !GetAtt ECSTaskRole.Arn
+    ExecutionRoleArn: !GetAtt ECSTaskExcutionRole.Arn
+    NetworkMode: awsvpc
+    RequiresCompatibilities:
+      - FARGATE
+    Memory: "1024"
+    Cpu: "512"
+    ContainerDefinitions:
+      - Name: "Test-container"
+        Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+        PortMappings:
+          - ContainerPort: 8080
+        Memory: "1024"
+        Cpu: "512"
 
     # Code Pipeline 서비스 역할 생성
   ECSService:

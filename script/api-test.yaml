@@ -597,8 +597,6 @@ Resources:
                 Owner: AWS
                 Version: 1
                 Provider: CodeDeployToECS
-              InputArtifacts:
-                - Name: BuildOutput
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup

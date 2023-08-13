@@ -306,8 +306,7 @@ Resources:
                 - echo "Pushing Docker image..."
                 - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
       Artifacts:
-        Type: CODEPIPELINE
-        Files: imageDetail.json
+        Type: "CODEPIPELINE"
       Environment:
         Type: "LINUX_CONTAINER"
         ComputeType: "BUILD_GENERAL1_SMALL"

@@ -306,6 +306,8 @@ Resources:
                             ContainerName: "my-container"
                             ContainerPort: 8080
                   EOT
+                - echo "Creating taskdef.json file..."
+                - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
             pre_build:
               commands:
                 - echo Logging in to Amazon ECR...
@@ -323,6 +325,7 @@ Resources:
           artifacts:
             files:
               - appspec.yaml
+              - taskdef.json
       Artifacts:
         Type: CODEPIPELINE
       Environment:
@@ -620,6 +623,6 @@ Resources:
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildOutput
-                AppSpecTemplateArtifact: BuildOutput
+                TaskDefinitionTemplateArtifact: taskdef.json
+                AppSpecTemplateArtifact: appspec.yaml
               RunOrder: 1

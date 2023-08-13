@@ -73,9 +73,9 @@ const Main = () => {
     let info = localStorage.getItem("userInfo");
     let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
     if (!parsedInfo) return;
-    let userLogin = parsedInfo.login;
-    if (accessToken && userLogin) {
-      getRepoListService(userLogin)
+    let userId = parsedInfo.id;
+    if (accessToken && userId) {
+      getRepoListService(userId)
         .then((response) => {
           console.log(response.data);
           setRepoData(response.data);

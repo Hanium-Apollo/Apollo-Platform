@@ -323,8 +323,6 @@ Resources:
           artifacts:
             files:
               - appspec.yaml
-            discard-paths: yes
-            base-directory: /
       Artifacts:
         Type: CODEPIPELINE
       Environment:

@@ -569,7 +569,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - s3:GetObject
-                Resource: !GetArtifactAtt BuildOutput.Arn
+                Resource: !GetAtt BuildOutput.Arn
 
   CodePipelineArtifactStore:
     Type: AWS::S3::Bucket

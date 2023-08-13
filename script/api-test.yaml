@@ -23,27 +23,6 @@ Parameters:
     Type: String
     Description: Github OAuth Token
 
-# Transform:
-#   - AWS::CodeDeployBlueGreen
-
-# Hooks:
-#   CodeDeployBlueGreenHook:
-#     Properties:
-#       TrafficRoutingConfig:
-#         Type: TimeBasedCAnary
-#         TimeBAsedCAnary:
-#           StepPercentage: 15
-#           BakeTimeMins: 5
-#       Application:
-#         - Target:
-#             Type: AWS::ECS::Service
-#             LogicalID: APIService
-#           ECSAttributes:
-#             TaskDefinitions:
-#               - !Ref APITaskDefinition
-#             TaskSets:
-#               - !Ref APITaskSet
-
 Resources:
   # VPC 생성
   APIVpc:
@@ -606,7 +585,7 @@ Resources:
               InputArtifacts:
                 - Name: SourceOutput
               OutputArtifacts:
-                - Name: BuildOutput
+                - Name: SourceOutput
               Configuration:
                 ProjectName: !Ref CodeBuildProject
               RunOrder: 1
@@ -619,10 +598,10 @@ Resources:
                 Version: 1
                 Provider: CodeDeployToECS
               InputArtifacts:
-                - Name: BuildOutput
+                - Name: SourceOutput
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildOutput
-                AppSpecTemplateArtifact: BuildOutput
+                TaskDefinitionTemplateArtifact: SourceOutput
+                AppSpecTemplateArtifact: SourceOutput
               RunOrder: 1

@@ -320,11 +320,11 @@ Resources:
                 - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
                 - echo "Pushing Docker image..."
                 - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
-            artifacts:
-              files:
-                - appspec.yaml
-              discard-paths: yes
-              base-directory: /
+          artifacts:
+            files:
+              - appspec.yaml
+            discard-paths: yes
+            base-directory: /
       Artifacts:
         Type: CODEPIPELINE
       Environment:

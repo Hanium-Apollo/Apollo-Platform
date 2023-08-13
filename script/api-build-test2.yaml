@@ -271,7 +271,7 @@ Resources:
   #     VpcId: !Ref APITestVpc
   #     TargetType: ip
  
- APITestTargetGroupBlue:
+  APITestTargetGroupBlue:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       Name: API-TargetGroupBlue
@@ -394,7 +394,7 @@ Resources:
             files:"*"
             base-directory: .
       # Artifacts:
-      #   Type: CODEPIPELINE
+      #   Type: CODEPIPELINEㄴ
       Environment:
         Type: "LINUX_CONTAINER"
         ComputeType: "BUILD_GENERAL1_SMALL"

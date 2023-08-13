@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { Grid } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import { UserInfo } from "../apis/UserServiceType";
-import { getCredentials } from "../apis/UserService";
+import { getCredentials, patchCredentials } from "../apis/UserService";
 
 const Container = styled.div`
   min-height: 750px;
@@ -66,6 +66,7 @@ export const MyPage = () => {
   const [secretKey, setSecretKey] = useState<string>("");
   const [region, setRegion] = useState<string>("");
   const [githubToken, setGithubToken] = useState<string>("");
+  const [isEditing, setIsEditing] = useState(false);
 
   const location = useLocation();
   const userId = location.state?.userId as string;
@@ -90,7 +91,6 @@ export const MyPage = () => {
             setGithubToken(credentials.GithubOAuthToken);
 
             setUserInfo((prevInfo) => ({ ...prevInfo, ...credentials }));
-            console.log(credentials);
           }
         }
       } catch (error) {
@@ -104,6 +104,30 @@ export const MyPage = () => {
   const profile = userInfo?.avatar_url;
   const name = userInfo?.login;
 
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveClick = async () => {
+    try {
+      const updatedCredentials = {
+        AWSAccountId: accountId,
+        AWSAccessKey: accessKey,
+        AWSSecretKey: secretKey,
+        AWSRegion: region,
+        GithubOAuthToken: githubToken,
+      };
+
+      await patchCredentials(userId, updatedCredentials);
+
+      console.log("Credentials updated successfully");
+
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating credentials:", error);
+    }
+  };
+
   return (
     <Container>
       <MyPageBox>
@@ -114,11 +138,75 @@ export const MyPage = () => {
         <TextBox>{name}님 반갑습니다.</TextBox>
         <TextBox>아래는 입력하신 Cred 정보입니다.</TextBox>
         <CredentialsBox>
-          <div>AWS Account ID: {accountId}</div>
-          <div>AWS Access Key: {accessKey}</div>
-          <div>AWS Secret Key: {secretKey}</div>
-          <div>AWS Region: {region}</div>
-          <div>Github OAuth Token: {githubToken}</div>
+          <div>
+            AWS Account ID:{" "}
+            {isEditing ? (
+              <input
+                type="text"
+                value={accountId}
+                onChange={(e) => setAccountId(e.target.value)}
+              />
+            ) : (
+              accountId
+            )}
+          </div>
+          <div>
+            AWS Access Key:{" "}
+            {isEditing ? (
+              <input
+                type="text"
+                value={accessKey}
+                onChange={(e) => setAccessKey(e.target.value)}
+              />
+            ) : (
+              accessKey
+            )}
+          </div>
+          <div>
+            AWS Secret Key:{" "}
+            {isEditing ? (
+              <input
+                type="text"
+                value={secretKey}
+                onChange={(e) => setSecretKey(e.target.value)}
+              />
+            ) : (
+              secretKey
+            )}
+          </div>
+          <div>
+            AWS Region:{" "}
+            {isEditing ? (
+              <input
+                type="text"
+                value={region}
+                onChange={(e) => setRegion(e.target.value)}
+              />
+            ) : (
+              region
+            )}
+          </div>
+          <div>
+            Github OAuth Token:{" "}
+            {isEditing ? (
+              <input
+                type="text"
+                value={githubToken}
+                onChange={(e) => setGithubToken(e.target.value)}
+              />
+            ) : (
+              githubToken
+            )}
+          </div>
+          {isEditing ? (
+            <Button variant="outlined" onClick={handleSaveClick}>
+              저장하기
+            </Button>
+          ) : (
+            <Button variant="outlined" onClick={handleEditClick}>
+              수정하기
+            </Button>
+          )}
         </CredentialsBox>
       </MyPageBox>
     </Container>

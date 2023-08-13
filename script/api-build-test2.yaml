@@ -262,10 +262,28 @@ Resources:
       VpcId: !Ref APITestVpc
 
   # 대상그룹 설정
-  APITestTargetGroup:
+  # APITestTargetGroup:
+  #   Type: AWS::ElasticLoadBalancingV2::TargetGroup
+  #   Properties:
+  #     Name: API-Test-TargetGroup
+  #     Port: 8080
+  #     Protocol: HTTP
+  #     VpcId: !Ref APITestVpc
+  #     TargetType: ip
+ 
+ APITestTargetGroupBlue:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: API-Test-TargetGroup
+      Name: API-TargetGroupBlue
+      Port: 8080
+      Protocol: HTTP
+      VpcId: !Ref APITestVpc
+      TargetType: ip
+
+  APITestTargetGroupGreen:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: API-TargetGroupGreen
       Port: 8080
       Protocol: HTTP
       VpcId: !Ref APITestVpc
@@ -275,20 +293,17 @@ Resources:
   APITestLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: API-Test-LoadBalancer # 이름에 "test" 추가
+      Name: API-TestLoadBalanecer
       Subnets:
         - !Ref APITestPublicSubnetA
         - !Ref APITestPublicSubnetC
       SecurityGroups:
         - !Ref APITestLoadBalancerSecurityGroup
-      Scheme: internet-facing # Add this line to specify it's an internet-facing load balancer
-      LoadBalancerAttributes:
-        - Key: idle_timeout.timeout_seconds
-          Value: '60' # Specify the idle timeout value in seconds
       Type: application
       Tags:
         - Key: Name
-          Value: API-Test-LoadBalancer # 이름에 "test" 추가
+          Value: API-TestLoadBalancer
+
   # Load Balancer Listener 생성
   APITestLoadBalancerListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
@@ -333,8 +348,8 @@ Resources:
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: Apollo-Server-Test-Build-test
-      Description: Apollo server build project
+      Name: Server-Test-Build-test
+      Description: server build project
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
         Type: GITHUB
@@ -367,12 +382,13 @@ Resources:
   ECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: Apollo-Server-Test-Cluster
+      ClusterName: Server-Test-Cluster
 
   # ECS Task Role 생성
   ECSTaskRole:
     Type: "AWS::IAM::Role"
     Properties:
+    RoleName: TestECSTaskRole
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -384,7 +400,7 @@ Resources:
               - "sts:AssumeRole"
       Path: "/"
       Policies:
-        - PolicyName: "S3FullAccessPolicy"
+        - PolicyName: "TestS3FullAccessPolicy"
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
@@ -398,16 +414,25 @@ Resources:
   ECSTaskExcutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: ECSTaskExecutionRoleUnique
+      RoleName: TestECSTaskExecutionRole
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
           - Effect: Allow
-            Principal:
-              Service:
-                - ecs-tasks.amazonaws.com
-            Action:
-              - sts:AssumeRole
+                Action:
+                  - ecr:GetAuthorizationToken
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchGetImage
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "arn:aws:logs:*:*:*"
       Policies:
         - PolicyName: ECRTaskExcutionPolicy
           PolicyDocument:
@@ -431,7 +456,7 @@ Resources:
                 Resource: "*"
 
   # ECS Task Definition 생성
-  ECSTaskDefinition:
+  ECSTestGreenTaskDefinition:
   Type: AWS::ECS::TaskDefinition
   Properties:
     Family: "Test-task-definition"
@@ -440,16 +465,31 @@ Resources:
     NetworkMode: awsvpc
     RequiresCompatibilities:
       - FARGATE
-    Memory: "1024"
-    Cpu: "512"
+    Memory: 3072
+    Cpu: 1024
     ContainerDefinitions:
       - Name: "Test-container"
         Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
         PortMappings:
           - ContainerPort: 8080
-        Memory: "1024"
-        Cpu: "512"
-
+  
+  ECSTestBlueTaskDefinition:
+  Type: AWS::ECS::TaskDefinition
+  Properties:
+    Family: "Test-task-definition"
+    TaskRoleArn: !GetAtt ECSTaskRole.Arn
+    ExecutionRoleArn: !GetAtt ECSTaskExcutionRole.Arn
+    NetworkMode: awsvpc
+    RequiresCompatibilities:
+      - FARGATE
+    Memory: 3072
+    Cpu: 1024
+    ContainerDefinitions:
+      - Name: "Test-container"
+        Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+        PortMappings:
+          - ContainerPort: 8080
+####
     # Code Pipeline 서비스 역할 생성
   ECSService:
     Type: AWS::ECS::Service
@@ -459,6 +499,12 @@ Resources:
       DesiredCount: 1
       TaskDefinition: !Ref ECSTaskDefinition
       LaunchType: FARGATE
+      DeploymentController:
+        Type: CODE_DEPLOY
+      LoadBalancers:
+        - TargetGroupArn: !Ref APITestTargetGroupBlue
+          ContainerName: "Test-container"
+          ContainerPort: 8080
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED

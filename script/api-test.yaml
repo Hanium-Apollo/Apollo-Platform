@@ -286,7 +286,7 @@ Resources:
       Description: Apollo server build project
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
-        Type: GITHUB
+        Type: CODEPIPELINE
         Location: !Ref RepoLocation
         BuildSpec: !Sub |
           version: 0.2
@@ -306,7 +306,7 @@ Resources:
                 - echo "Pushing Docker image..."
                 - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
       Artifacts:
-        Type: "CODEPIPELINE"
+        Type: CODEPIPELINE
       Environment:
         Type: "LINUX_CONTAINER"
         ComputeType: "BUILD_GENERAL1_SMALL"

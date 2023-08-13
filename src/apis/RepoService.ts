@@ -1,11 +1,11 @@
 import { apiClient } from "./ApiClient";
 
-export const getRepoListService = (userLogin: String) => {
-  return apiClient.get(`/api/repository/list/${userLogin}`, {});
+export const getRepoListService = (userId: String) => {
+  return apiClient.get(`/api/repository/list/${userId}`, {});
 };
 
-export const getDeployListService = (userLogin: String) => {
-  return apiClient.get(`api/cloudformation/${userLogin}`, {});
+export const getDeployListService = (userId: String) => {
+  return apiClient.get(`api/cloudformation/${userId}`, {});
 };
 
 export const clientRepoCreateService = (repoName: String) => {

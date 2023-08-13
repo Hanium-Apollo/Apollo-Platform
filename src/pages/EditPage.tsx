@@ -14,14 +14,11 @@ const Container = styled.div`
   top: 50px;
   left: 50%;
   transform: translate(-50%);
-  alien-items: center;
-  justify-content: center;
 `;
 
 const MyPageBox = styled(Grid)`
   display: block;
   width: 60%;
-  margin-left: 20%;
   height: 85vh;
   margin-top: 50px;
   background-color: gray;

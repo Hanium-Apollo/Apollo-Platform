@@ -65,17 +65,13 @@ function ListItem({ repoName, type }: deployData) {
 }
 
 function NumberList({ deploylist }: ListItemProps) {
-  const listItems = deploylist.map(
-    (item, index) => (
-      (
-        <ListItem
-          key={index.toString()}
-          repoName={item.repoName}
-          type={item.type}
-        />
-      )
-    )
-  );
+  const listItems = deploylist.map((item, index) => (
+    <ListItem
+      key={index.toString()}
+      repoName={item.repoName}
+      type={item.type}
+    />
+  ));
   return (
     <div className="deploylist">
       <ul style={{ padding: "0px" }}>{listItems}</ul>
@@ -97,9 +93,9 @@ function DeployList() {
     let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
     let accessToken = localStorage.getItem("token");
     if (!parsedInfo) return;
-    let userLogin = parsedInfo.login;
-    if (accessToken && userLogin) {
-      getDeployListService(userLogin)
+    let userId = parsedInfo.id;
+    if (accessToken && userId) {
+      getDeployListService(userId)
         .then((response) => {
           console.log(response.data);
           setDeployData(response.data);

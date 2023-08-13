@@ -528,8 +528,8 @@ Resources:
               ListenerArns:
                 - !Ref APILoadBalancerListener
             TargetGroups:
-              - Name: !Ref APITargetGroupBlue
-              - Name: !Ref APITargetGroupGreen
+              - Name: API-TargetGroupBlue
+              - Name: API-TargetGroupGreen
       ECSServices:
         - ClusterName: Apollo-Server-Cluster
           ServiceName: Apollo-Server-Service

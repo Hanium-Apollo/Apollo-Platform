@@ -493,6 +493,7 @@ Resources:
                 - elasticloadbalancing:*
                 - autoscaling:*
                 - ecs:*
+                - codedeploy:*
                 - s3:*
               Resource: "*"
 

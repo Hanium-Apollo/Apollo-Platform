@@ -301,9 +301,9 @@ Resources:
                     - TargetService:
                         Type: AWS::ECS::Service
                         Properties:
-                          TaskDefinition: !Ref ECSBlueTaskDefinition
+                          TaskDefinition: my-task-definition
                           LoadBalancerInfo:
-                            ContainerName: "my-container"
+                            ContainerName: my-container
                             ContainerPort: 8080
                   EOT
                 - echo "Creating taskdef.json file..."

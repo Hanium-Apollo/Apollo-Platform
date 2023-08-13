@@ -357,6 +357,23 @@ Resources:
         BuildSpec: !Sub |
           version: 0.2
           phases:
+          install:
+              commands:
+                - echo "Creating appspec.yaml file..."
+                - |
+                  cat <<EOT >> appspec.yaml
+                  version: 0.0
+                  Resources:
+                    - TargetService:
+                        Type: AWS::ECS::Service
+                        Properties:
+                          TaskDefinition: my-task-definition
+                          LoadBalancerInfo:
+                            ContainerName: my-container
+                            ContainerPort: 8080
+                  EOT
+                - echo "Creating taskdef.json file..."
+                - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
             pre_build:
               commands:
                 - echo Logging in to Amazon ECR...
@@ -371,8 +388,13 @@ Resources:
                 - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
                 - echo "Pushing Docker image..."
                 - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+            artifacts:
+            files:
+              - appspec.yaml
+              - taskdef.json
+            base-directory: .
       Artifacts:
-        Type: "NO_ARTIFACTS"
+        Type: CODEPIPELINE
       Environment:
         Type: "LINUX_CONTAINER"
         ComputeType: "BUILD_GENERAL1_SMALL"
@@ -489,15 +511,16 @@ Resources:
         Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
         PortMappings:
           - ContainerPort: 8080
-####
+
     # Code Pipeline 서비스 역할 생성
   ECSService:
     Type: AWS::ECS::Service
     DependsOn: APITestLoadBalancerListener
     Properties:
+      ServiceName: Test-Server-Service
       Cluster: !Ref ECSCluster
-      DesiredCount: 1
-      TaskDefinition: !Ref ECSTaskDefinition
+      DesiredCount: 0 #유지해야할 작업 수
+      TaskDefinition: !Ref ECSTestBlueTaskDefinition
       LaunchType: FARGATE
       DeploymentController:
         Type: CODE_DEPLOY
@@ -513,7 +536,7 @@ Resources:
           Subnets:
             - !Ref APITestPrivatSubneteA
             - !Ref APITestPrivatSubneteC
-      ServiceName: !Sub ${AWS::StackName}-ECSService
+      # ServiceName: !Sub ${AWS::StackName}-ECSService
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role
@@ -536,12 +559,16 @@ Resources:
               Effect: Allow
               Action:
                 - elasticloadbalancing:*
+                - autoscaling:*
+                - ecs:*
+                - codedeploy:*
+                - s3:*
               Resource: "*"
 
   CodeDeployApplication:
     Type: AWS::CodeDeploy::Application
     Properties:
-      ComputePlatform: ECS
+    ApplicationName: test-server-codedeploy
 
   CodeDeployDeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
@@ -558,6 +585,14 @@ Resources:
           TerminationWaitTimeInMinutes: 5
         DeploymentReadyOption:
           ActionOnTimeout: CONTINUE_DEPLOYMENT
+      LoadBalancerInfo:
+        TargetGroupPairInfoList:
+          - ProdTrafficRoute:
+              ListenerArns:
+                - !Ref APITestLoadBalancerListener
+            TargetGroups:
+              - Name: API-Test-TargetGroupBlue
+              - Name: API-Test-TargetGroupGreen
       ECSServices:
         - ClusterName: !Ref ECSCluster
           ServiceName: !Ref ECSService
@@ -588,15 +623,12 @@ Resources:
                   - s3:PutObject
                   - s3:GetObject
                   - s3:DeleteObject
-                Resource: 
-                  - "arn:aws:s3:::apollo-server-test-artifacts"
-                  - "arn:aws:s3:::apollo-server-test-artifacts/*"
-
+                Resource: "*"
   # Code Pipeline Artifact 저장소 생성
   CodePipelineTestArtifactStore:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: apollo-server-test-artifacts # 이름에 "test" 추가
+      BucketName: server-test-artifacts 
       VersioningConfiguration:
         Status: Enabled
 
@@ -604,7 +636,7 @@ Resources:
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: Apollo-server-test-pipeline # 이름에 "test" 추가
+      Name: server-test-pipeline 
       RoleArn: !GetAtt CodePipelineServiceRole.Arn
       ArtifactStore:
         Type: S3
@@ -652,20 +684,22 @@ Resources:
               InputArtifacts:
                 - Name: BuildOutput
               Configuration:
-                AppSpecTemplate: #AppSpec 
-                  Fn::Sub:
-                    - |
-                      resources:
-                        - TargetService:
-                            Type: AWS::ECS::Service
-                            Properties:
-                              TaskDefinition: !GetAtt ECSTaskDefinition
-                              LoadBalancerInfo:
-                                ContainerName: Test-container
-                                ContainerPort: 8080
-                      version: 0.0
-                    - ECSTaskDefinition: !Ref ECSTaskDefinition
-                AppSpecTemplateArtifact: SourceOutput
+                # AppSpecTemplate: #AppSpec 
+                #   Fn::Sub:
+                #     - |
+                #       resources:
+                #         - TargetService:
+                #             Type: AWS::ECS::Service
+                #             Properties:
+                #               TaskDefinition: !GetAtt ECSTaskDefinition
+                #               LoadBalancerInfo:
+                #                 ContainerName: Test-container
+                #                 ContainerPort: 8080
+                #       version: 0.0
+                #     - ECSTaskDefinition: !Ref ECSTaskDefinition
+                # AppSpecTemplateArtifact: SourceOutput
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
+                TaskDefinitionTemplateArtifact: BuildOutput
+                AppSpecTemplateArtifact: BuildOutput
               RunOrder: 1

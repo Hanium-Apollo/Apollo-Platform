@@ -351,29 +351,31 @@ Resources:
       Name: Server-Test-Build-test
       Description: server build project
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      Artifacts:
+        Type: CODEPIPELINE
       Source:
         Type: GITHUB
         Location: !Ref RepoLocation
         BuildSpec: !Sub |
           version: 0.2
           phases:
-          install:
-              commands:
-                - echo "Creating appspec.yaml file..."
-                - |
-                  cat <<EOT >> appspec.yaml
-                  version: 0.0
-                  Resources:
-                    - TargetService:
-                        Type: AWS::ECS::Service
-                        Properties:
-                          TaskDefinition: my-task-definition
-                          LoadBalancerInfo:
-                            ContainerName: my-container
-                            ContainerPort: 8080
-                  EOT
-                - echo "Creating taskdef.json file..."
-                - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
+          # install:
+          #     commands:
+          #       - echo "Creating appspec.yaml file..."
+          #       - |
+          #         cat <<EOT >> appspec.yaml
+          #         version: 0.0
+          #         Resources:
+          #           - TargetService:
+          #               Type: AWS::ECS::Service
+          #               Properties:
+          #                 TaskDefinition: my-task-definition
+          #                 LoadBalancerInfo:
+          #                   ContainerName: my-container
+          #                   ContainerPort: 8080
+          #         EOT
+          #       - echo "Creating taskdef.json file..."
+            #     - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
             pre_build:
               commands:
                 - echo Logging in to Amazon ECR...
@@ -389,12 +391,10 @@ Resources:
                 - echo "Pushing Docker image..."
                 - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
             artifacts:
-            files:
-              - appspec.yaml
-              - taskdef.json
+            files:"*"
             base-directory: .
-      Artifacts:
-        Type: CODEPIPELINE
+      # Artifacts:
+      #   Type: CODEPIPELINE
       Environment:
         Type: "LINUX_CONTAINER"
         ComputeType: "BUILD_GENERAL1_SMALL"
@@ -668,11 +668,11 @@ Resources:
                 Provider: CodeBuild
               InputArtifacts:
                 - Name: SourceOutput
-              OutputArtifacts:
-                - Name: BuildOutput
               Configuration:
                 ProjectName: !Ref CodeBuildProject
-              RunOrder: 1
+              OutputArtifacts:
+                - Name: BuildOutput
+              # RunOrder: 1
         - Name: Deploy
           Actions:
             - Name: DeployAction

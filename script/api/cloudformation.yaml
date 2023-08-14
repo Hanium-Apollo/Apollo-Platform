@@ -561,8 +561,9 @@ Resources:
                 Resource: "*"
 
   UnzipArtifactsFunction:
-    Type: "AWS::Lambda::Function"
+    Type: AWS::Lambda::Function
     Properties:
+      FunctionName: UnzipLambdaFunction
       Handler: "index.handler"
       Runtime: "nodejs14.x"
       Role: !GetAtt UnzipArtifactsLambdaRole.Arn
@@ -693,7 +694,7 @@ Resources:
               InputArtifacts:
                 - Name: BuildOutput
               Configuration:
-                FunctionName: !GetAtt UnzipArtifactsFunction.Arn
+                FunctionName: UnzipLambdaFunction
               RunOrder: 1
         - Name: Deploy
           Actions:

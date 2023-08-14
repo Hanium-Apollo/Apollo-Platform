@@ -1,7 +1,48 @@
-Resources:
-  # Other resources like S3 bucket and bucket policy go here...
+AWSTemplateFormatVersion: "2010-09-09"
+Description: S3 Bucket and CodePipeline to Build from Github
 
-  # IAM Role for CodeBuild to use
+Parameters:
+  GithubToken:
+    Type: String
+    Description: Github OAuth Token
+  RepoLocation:
+    Type: String
+    Description: Github Repository URL
+  UserLogin:
+    Type: String
+    Description: Github User Login
+  RepoName:
+    Type: String
+    Description: Github Repository Name
+
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: apollo-client-bucket
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+      WebsiteConfiguration:
+        IndexDocument: index.html
+    DeletionPolicy: Retain
+
+  MyBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref MyS3Bucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: "*"
+            Action: s3:GetObject
+            Resource: !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
+
   CodeBuildServiceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -24,25 +65,44 @@ Resources:
                 Action: "*"
                 Resource: "*"
 
-  # CodeBuild Project
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: MyProject
-      Description: My npm build project
+      Name: Apollo-Client-Build
+      Description: Apollo client build project
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
         Type: GITHUB
-        Location: !Ref RepoLocation # replace with your repository
-        # GitCloneDepth: 1
+        Location: !Ref RepoLocation
+        # BuildSpec: s3://apollo-script/client-buildspec.yaml
+        BuildSpec: !Sub |
+          version: 0.2
+          phases:
+            install:
+              runtime-versions:
+                nodejs: 12
+            pre_build:
+              commands:
+                - echo "Installing..."
+                - npm install
+            build:
+              commands:
+                - echo "building project..."
+                - npm run build
+            post_build:
+              commands:
+                - echo "uploading build artifact to S3..."
+                - aws s3 sync build s3://apollo-client-bucket --delete
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
         Image: aws/codebuild/standard:4.0
       Artifacts:
-        Type: NO_ARTIFACTS
+        Type: S3
+        Location: !Ref MyS3Bucket
+        Path: output/
+        Packaging: NONE
 
-  # IAM Role for CodePipeline to use
   CodePipelineServiceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -65,15 +125,14 @@ Resources:
                 Action: "*"
                 Resource: "*"
 
-  # CodePipeline
   MyPipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: MyPipeline
+      Name: Apollo-Client-Pipeline
       RoleArn: !GetAtt CodePipelineServiceRole.Arn
       ArtifactStore:
         Type: S3
-        Location: ap-service-client-bucket
+        Location: apollo-client-bucket
       Stages:
         - Name: Source
           Actions:
@@ -86,10 +145,10 @@ Resources:
               OutputArtifacts:
                 - Name: SourceOutput
               Configuration:
-                Owner: <GitHub_User>
-                Repo: <Repo_Name>
-                Branch: master
-                OAuthToken: !Ref GitHubToken
+                Owner: !Ref UserLogin
+                Repo: !Ref RepoName
+                Branch: main
+                OAuthToken: !Ref GithubToken
               RunOrder: 1
         - Name: Build
           Actions:
@@ -106,8 +165,3 @@ Resources:
               Configuration:
                 ProjectName: !Ref CodeBuildProject
               RunOrder: 1
-
-Parameters:
-  GitHubToken:
-    Type: String
-    Description: GitHub OAuth Token

@@ -262,10 +262,28 @@ Resources:
       VpcId: !Ref APITestVpc
 
   # 대상그룹 설정
-  APITestTargetGroup:
+  # APITestTargetGroup:
+  #   Type: AWS::ElasticLoadBalancingV2::TargetGroup
+  #   Properties:
+  #     Name: API-Test-TargetGroup
+  #     Port: 8080
+  #     Protocol: HTTP
+  #     VpcId: !Ref APITestVpc
+  #     TargetType: ip
+ 
+  APITestTargetGroupBlue:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: API-Test-TargetGroup
+      Name: API-TargetGroupBlue
+      Port: 8080
+      Protocol: HTTP
+      VpcId: !Ref APITestVpc
+      TargetType: ip
+
+  APITestTargetGroupGreen:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: API-TargetGroupGreen
       Port: 8080
       Protocol: HTTP
       VpcId: !Ref APITestVpc
@@ -275,20 +293,17 @@ Resources:
   APITestLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: API-Test-LoadBalancer # 이름에 "test" 추가
+      Name: API-TestLoadBalanecer
       Subnets:
         - !Ref APITestPublicSubnetA
         - !Ref APITestPublicSubnetC
       SecurityGroups:
         - !Ref APITestLoadBalancerSecurityGroup
-      Scheme: internet-facing # Add this line to specify it's an internet-facing load balancer
-      LoadBalancerAttributes:
-        - Key: idle_timeout.timeout_seconds
-          Value: '60' # Specify the idle timeout value in seconds
       Type: application
       Tags:
         - Key: Name
-          Value: API-Test-LoadBalancer # 이름에 "test" 추가
+          Value: API-TestLoadBalancer
+
   # Load Balancer Listener 생성
   APITestLoadBalancerListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
@@ -333,15 +348,34 @@ Resources:
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: Apollo-Server-Test-Build-test
-      Description: Apollo server build project
+      Name: Server-Test-Build-test
+      Description: server build project
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      Artifacts:
+        Type: CODEPIPELINE
       Source:
         Type: GITHUB
         Location: !Ref RepoLocation
         BuildSpec: !Sub |
           version: 0.2
           phases:
+          # install:
+          #     commands:
+          #       - echo "Creating appspec.yaml file..."
+          #       - |
+          #         cat <<EOT >> appspec.yaml
+          #         version: 0.0
+          #         Resources:
+          #           - TargetService:
+          #               Type: AWS::ECS::Service
+          #               Properties:
+          #                 TaskDefinition: my-task-definition
+          #                 LoadBalancerInfo:
+          #                   ContainerName: my-container
+          #                   ContainerPort: 8080
+          #         EOT
+          #       - echo "Creating taskdef.json file..."
+            #     - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
             pre_build:
               commands:
                 - echo Logging in to Amazon ECR...
@@ -356,8 +390,11 @@ Resources:
                 - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
                 - echo "Pushing Docker image..."
                 - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
-      Artifacts:
-        Type: "NO_ARTIFACTS"
+            artifacts:
+            files:"*"
+            base-directory: .
+      # Artifacts:
+      #   Type: CODEPIPELINEㄴ
       Environment:
         Type: "LINUX_CONTAINER"
         ComputeType: "BUILD_GENERAL1_SMALL"
@@ -367,38 +404,13 @@ Resources:
   ECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: Apollo-Server-Test-Cluster
+      ClusterName: Server-Test-Cluster
 
   # ECS Task Role 생성
   ECSTaskRole:
-    Type: "AWS::IAM::Role"
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: "Allow"
-            Principal:
-              Service:
-                - "ecs-tasks.amazonaws.com"
-            Action:
-              - "sts:AssumeRole"
-      Path: "/"
-      Policies:
-        - PolicyName: "S3FullAccessPolicy"
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: "Allow"
-                Action:
-                  - "s3:*"
-                Resource:
-                  - "*"
-
-  # ECS Task Excution Role 생성
-  ECSTaskExcutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: ECSTaskExecutionRoleUnique
+      RoleName: TestECSTaskRole
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -408,6 +420,55 @@ Resources:
                 - ecs-tasks.amazonaws.com
             Action:
               - sts:AssumeRole
+      Policies:
+        - PolicyName: MyECSTaskS3Policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: VisualEditor0
+                Effect: Allow
+                Action:
+                  - s3:ListStorageLensConfigurations
+                  - s3:ListAccessPointsForObjectLambda
+                  - s3:GetAccessPoint
+                  - s3:PutAccountPublicAccessBlock
+                  - s3:GetAccountPublicAccessBlock
+                  - s3:ListAllMyBuckets
+                  - s3:ListAccessPoints
+                  - s3:PutAccessPointPublicAccessBlock
+                  - s3:ListJobs
+                  - s3:PutStorageLensConfiguration
+                  - s3:ListMultiRegionAccessPoints
+                  - s3:CreateJob
+                Resource: "*"
+              - Sid: VisualEditor1
+                Effect: Allow
+                Action: "s3:*"
+                Resource: arn:aws:s3:::*
+
+  # ECS Task Excution Role 생성
+  ECSTaskExcutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: TestECSTaskExecutionRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - ecr:GetAuthorizationToken
+              - ecr:BatchCheckLayerAvailability
+              - ecr:GetDownloadUrlForLayer
+              - ecr:BatchGetImage
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Resource: "arn:aws:logs:*:*:*"
       Policies:
         - PolicyName: ECRTaskExcutionPolicy
           PolicyDocument:
@@ -431,7 +492,7 @@ Resources:
                 Resource: "*"
 
   # ECS Task Definition 생성
-  ECSTaskDefinition:
+  ECSTestGreenTaskDefinition:
   Type: AWS::ECS::TaskDefinition
   Properties:
     Family: "Test-task-definition"
@@ -440,25 +501,47 @@ Resources:
     NetworkMode: awsvpc
     RequiresCompatibilities:
       - FARGATE
-    Memory: "1024"
-    Cpu: "512"
+    Memory: 3072
+    Cpu: 1024
     ContainerDefinitions:
       - Name: "Test-container"
         Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
         PortMappings:
           - ContainerPort: 8080
-        Memory: "1024"
-        Cpu: "512"
+  
+  ECSTestBlueTaskDefinition:
+  Type: AWS::ECS::TaskDefinition
+  Properties:
+    Family: "Test-task-definition"
+    TaskRoleArn: !GetAtt ECSTaskRole.Arn
+    ExecutionRoleArn: !GetAtt ECSTaskExcutionRole.Arn
+    NetworkMode: awsvpc
+    RequiresCompatibilities:
+      - FARGATE
+    Memory: 3072
+    Cpu: 1024
+    ContainerDefinitions:
+      - Name: "Test-container"
+        Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+        PortMappings:
+          - ContainerPort: 8080
 
     # Code Pipeline 서비스 역할 생성
   ECSService:
     Type: AWS::ECS::Service
     DependsOn: APITestLoadBalancerListener
     Properties:
+      ServiceName: Test-Server-Service
       Cluster: !Ref ECSCluster
-      DesiredCount: 1
-      TaskDefinition: !Ref ECSTaskDefinition
+      DesiredCount: 0 #유지해야할 작업 수
+      TaskDefinition: !Ref ECSTestBlueTaskDefinition
       LaunchType: FARGATE
+      DeploymentController:
+        Type: CODE_DEPLOY
+      LoadBalancers:
+        - TargetGroupArn: !Ref APITestTargetGroupBlue
+          ContainerName: "Test-container"
+          ContainerPort: 8080
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
@@ -467,7 +550,7 @@ Resources:
           Subnets:
             - !Ref APITestPrivatSubneteA
             - !Ref APITestPrivatSubneteC
-      ServiceName: !Sub ${AWS::StackName}-ECSService
+      # ServiceName: !Sub ${AWS::StackName}-ECSService
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role
@@ -490,12 +573,16 @@ Resources:
               Effect: Allow
               Action:
                 - elasticloadbalancing:*
+                - autoscaling:*
+                - ecs:*
+                - codedeploy:*
+                - s3:*
               Resource: "*"
 
   CodeDeployApplication:
     Type: AWS::CodeDeploy::Application
     Properties:
-      ComputePlatform: ECS
+    ApplicationName: test-server-codedeploy
 
   CodeDeployDeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
@@ -512,6 +599,14 @@ Resources:
           TerminationWaitTimeInMinutes: 5
         DeploymentReadyOption:
           ActionOnTimeout: CONTINUE_DEPLOYMENT
+      LoadBalancerInfo:
+        TargetGroupPairInfoList:
+          - ProdTrafficRoute:
+              ListenerArns:
+                - !Ref APITestLoadBalancerListener
+            TargetGroups:
+              - Name: API-Test-TargetGroupBlue
+              - Name: API-Test-TargetGroupGreen
       ECSServices:
         - ClusterName: !Ref ECSCluster
           ServiceName: !Ref ECSService
@@ -542,15 +637,12 @@ Resources:
                   - s3:PutObject
                   - s3:GetObject
                   - s3:DeleteObject
-                Resource: 
-                  - "arn:aws:s3:::apollo-server-test-artifacts"
-                  - "arn:aws:s3:::apollo-server-test-artifacts/*"
-
+                Resource: "*"
   # Code Pipeline Artifact 저장소 생성
   CodePipelineTestArtifactStore:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: apollo-server-test-artifacts # 이름에 "test" 추가
+      BucketName: server-test-artifacts 
       VersioningConfiguration:
         Status: Enabled
 
@@ -558,7 +650,7 @@ Resources:
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: Apollo-server-test-pipeline # 이름에 "test" 추가
+      Name: server-test-pipeline 
       RoleArn: !GetAtt CodePipelineServiceRole.Arn
       ArtifactStore:
         Type: S3
@@ -590,11 +682,11 @@ Resources:
                 Provider: CodeBuild
               InputArtifacts:
                 - Name: SourceOutput
-              OutputArtifacts:
-                - Name: BuildOutput
               Configuration:
                 ProjectName: !Ref CodeBuildProject
-              RunOrder: 1
+              OutputArtifacts:
+                - Name: BuildOutput
+              # RunOrder: 1
         - Name: Deploy
           Actions:
             - Name: DeployAction
@@ -606,20 +698,22 @@ Resources:
               InputArtifacts:
                 - Name: BuildOutput
               Configuration:
-                AppSpecTemplate: #AppSpec 
-                  Fn::Sub:
-                    - |
-                      resources:
-                        - TargetService:
-                            Type: AWS::ECS::Service
-                            Properties:
-                              TaskDefinition: !GetAtt ECSTaskDefinition
-                              LoadBalancerInfo:
-                                ContainerName: Test-container
-                                ContainerPort: 8080
-                      version: 0.0
-                    - ECSTaskDefinition: !Ref ECSTaskDefinition
-                AppSpecTemplateArtifact: SourceOutput
+                # AppSpecTemplate: #AppSpec 
+                #   Fn::Sub:
+                #     - |
+                #       resources:
+                #         - TargetService:
+                #             Type: AWS::ECS::Service
+                #             Properties:
+                #               TaskDefinition: !GetAtt ECSTaskDefinition
+                #               LoadBalancerInfo:
+                #                 ContainerName: Test-container
+                #                 ContainerPort: 8080
+                #       version: 0.0
+                #     - ECSTaskDefinition: !Ref ECSTaskDefinition
+                # AppSpecTemplateArtifact: SourceOutput
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
+                TaskDefinitionTemplateArtifact: BuildOutput
+                AppSpecTemplateArtifact: BuildOutput
               RunOrder: 1

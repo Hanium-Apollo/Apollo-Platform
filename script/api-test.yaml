@@ -301,7 +301,7 @@ Resources:
                     - TargetService:
                         Type: AWS::ECS::Service
                         Properties:
-                          TaskDefinition: !Ref ECSBlueTaskDefinition
+                          TaskDefinition: my-task-definition
                           LoadBalancerInfo:
                             ContainerName: my-container
                             ContainerPort: 8080

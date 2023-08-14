@@ -561,7 +561,7 @@ Resources:
   LambdaFunctionLogGroup:
     Type: "AWS::Logs::LogGroup"
     Properties:
-      LogGroupName: !Sub "/aws/lambda/${UnzipArtifactsFunction}"
+      LogGroupName: !Sub "/aws/lambda/UnzipArtifactsFunction"
 
   UnzipArtifactsFunction:
     Type: AWS::Lambda::Function

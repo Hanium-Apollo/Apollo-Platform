@@ -563,13 +563,6 @@ Resources:
     Properties:
       LogGroupName: !Sub "/aws/lambda/${UnzipArtifactsFunction}"
 
-  LambdaFunctionLogGroupPermission:
-    Type: "AWS::Lambda::Permission"
-    Properties:
-      Action: "lambda:InvokeFunction"
-      FunctionName: !Ref UnzipArtifactsFunction
-      Principal: "logs.amazonaws.com"
-
   UnzipArtifactsFunction:
     Type: AWS::Lambda::Function
     Properties:

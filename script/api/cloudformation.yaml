@@ -617,6 +617,13 @@ Resources:
           };
       LogGroupName: !Ref LambdaFunctionLogGroup
 
+  LambdaFunctionLogGroupPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: "lambda:InvokeFunction"
+      FunctionName: !Ref UnzipArtifactsFunction
+      Principal: "logs.amazonaws.com"
+
   CodePipelineServiceRole:
     Type: AWS::IAM::Role
     Properties:

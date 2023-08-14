@@ -299,7 +299,7 @@ Resources:
                     - TargetService:
                         Type: AWS::ECS::Service
                         Properties:
-                          TaskDefinition: my-task-definition
+                          TaskDefinition: ECSBlueTaskDefinition
                           LoadBalancerInfo:
                             ContainerName: my-container
                             ContainerPort: 8080
@@ -471,6 +471,10 @@ Resources:
           Subnets:
             - !Ref APIPrivatSubneteA
             - !Ref APIPrivatSubneteC
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 50
+      AppSpecFileName: appspec.yaml
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role

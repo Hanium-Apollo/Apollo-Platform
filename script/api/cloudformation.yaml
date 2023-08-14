@@ -310,8 +310,6 @@ Resources:
               commands:
                 - echo Logging in to Amazon ECR...
                 - aws ecr get-login-password --region ${AWSRegion} | docker login --username AWS --password-stdin ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com
-                - pwd
-                - ls
             build:
               commands:
                 - echo "Building Docker image..."
@@ -535,6 +533,78 @@ Resources:
     Metadata:
       DummyDependency: !Ref ECSService
 
+  UnzipArtifactsLambdaRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service: "lambda.amazonaws.com"
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: "UnzipArtifactsLambdaPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - "s3:GetObject"
+                  - "s3:PutObject"
+                Resource:
+                  - !Sub "arn:aws:s3:::${CodePipelineArtifactStore}/*"
+              - Effect: "Allow"
+                Action:
+                  - "codepipeline:PutJobSuccessResult"
+                  - "codepipeline:PutJobFailureResult"
+                Resource: "*"
+
+  UnzipArtifactsFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Handler: "index.handler"
+      Runtime: "nodejs14.x"
+      Role: !GetAtt UnzipArtifactsLambdaRole.Arn
+      Code:
+        ZipFile: |
+          const AWS = require('aws-sdk');
+          const zlib = require('zlib');
+          const s3 = new AWS.S3();
+
+          exports.handler = async (event) => {
+            const jobId = event["CodePipeline.job"].id;
+            const cp = new AWS.CodePipeline();
+
+            try {
+              const inputArtifact = event["CodePipeline.job"].data.inputArtifacts[0];
+              const bucket = inputArtifact.location.s3Location.bucketName;
+              const key = inputArtifact.location.s3Location.objectKey;
+
+              const getObjectResponse = await s3.getObject({ Bucket: bucket, Key: key }).promise();
+              const unzippedContent = zlib.gunzipSync(getObjectResponse.Body);
+
+              await s3.putObject({
+                Bucket: bucket,
+                Key: `${key}-unzipped`,
+                Body: unzippedContent,
+                ContentType: 'application/octet-stream'
+              }).promise();
+
+              await cp.putJobSuccessResult({ jobId }).promise();
+              return { statusCode: 200 };
+            } catch (error) {
+              await cp.putJobFailureResult({
+                jobId,
+                failureDetails: {
+                  message: JSON.stringify(error),
+                  type: 'JobFailed'
+                }
+              }).promise();
+              throw error;
+            }
+          };
+
   CodePipelineServiceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -611,6 +681,19 @@ Resources:
                 - Name: BuildOutput
               Configuration:
                 ProjectName: !Ref CodeBuildProject
+              RunOrder: 1
+        - Name: UnzipArtifacts
+          Actions:
+            - Name: InvokeLambda
+              ActionTypeId:
+                Category: Invoke
+                Owner: AWS
+                Version: 1
+                Provider: Lambda
+              InputArtifacts:
+                - Name: BuildOutput
+              Configuration:
+                FunctionName: !GetAtt UnzipArtifactsFunction.Arn
               RunOrder: 1
         - Name: Deploy
           Actions:

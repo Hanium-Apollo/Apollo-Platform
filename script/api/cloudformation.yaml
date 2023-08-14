@@ -324,8 +324,8 @@ Resources:
                 - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
           artifacts:
             files:
-              - appspec.yaml
-              - taskdef.json
+              - 'appspec.yaml'
+              - 'taskdef.json'
             base-directory: .
       Artifacts:
         Type: CODEPIPELINE

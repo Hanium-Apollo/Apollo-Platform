@@ -1,5 +1,3 @@
-# reset용
-
 AWSTemplateFormatVersion: "2010-09-09"
 Description: ECS Cluster and CodePipeline to Build from Github
 
@@ -626,6 +624,6 @@ Resources:
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildOutput
-                AppSpecTemplateArtifact: BuildOutput
+                TaskDefinitionTemplateArtifact: BuildOutput::taskdef.json
+                AppSpecTemplateArtifact: BuildOutput::appspec.yaml
               RunOrder: 1

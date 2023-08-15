@@ -284,7 +284,49 @@ Resources:
       Role: !GetAtt LambdaExecutionRole.Arn
       Code:
         ZipFile: |
-          # 람다 함수 코드 내용 작성
+          import boto3
+          import os
+          import zipfile
+          import json
+
+          def lambda_handler(event, context):
+              build_artifact = event['CodePipeline.job']['data']['outputArtifacts'][0]
+              bucket = build_artifact['location']['s3Location']['bucketName']
+              key = build_artifact['location']['s3Location']['objectKey']
+
+              # S3 객체를 다운로드하여 로컬 파일 시스템에 저장
+              s3 = boto3.client('s3')
+              download_path = '/tmp/build_artifact.zip'
+              s3.download_file(bucket, key, download_path)
+
+              # 압축 해제
+              output_dir = '/tmp/artifacts'
+              with zipfile.ZipFile(download_path, 'r') as zip_ref:
+                  zip_ref.extractall(output_dir)
+
+              # appspec.yaml 및 taskdef.json 파일을 읽어서 필요한 작업 수행
+              appspec_path = os.path.join(output_dir, 'appspec.yaml')
+              taskdef_path = os.path.join(output_dir, 'taskdef.json')
+
+              with open(appspec_path, 'r') as appspec_file:
+                  appspec_content = appspec_file.read()
+
+              with open(taskdef_path, 'r') as taskdef_file:
+                  taskdef_content = taskdef_file.read()
+                  # taskdef.json 파일 내용을 파싱하고 원하는 작업 수행
+
+              # 작업이 완료
+              print("AppSpec Contents:")
+              print(appspec_content)
+
+              print("TaskDef Contents:")
+              print(taskdef_content)
+
+              # Lambda 함수 실행 완료
+              return {
+                  'statusCode': 200,
+                  'body': json.dumps('Lambda function executed successfully')
+        Runtime: python3.8
 
   PostBuildInvokePermission:
     Type: AWS::Lambda::Permission

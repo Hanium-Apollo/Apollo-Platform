@@ -371,6 +371,13 @@ Resources:
       Source:
         Type: CODEPIPELINE
         Location: !Ref RepoLocation
+      Environment:
+        Type: "LINUX_CONTAINER"
+        ComputeType: "BUILD_GENERAL1_SMALL"
+        Image: "aws/codebuild/standard:4.0"
+        PrivilegedMode: true
+      Artifacts:
+        Type: CODEPIPELINE
       BuildSpec: |
         version: 0.2
         phases:
@@ -401,7 +408,7 @@ Resources:
           build:
             commands:
               - echo "Building Docker image..."
-              - docker build -t ${GithubRepositoryName}:latest . 
+              - docker build -t ${GithubRepositoryName}:latest .
           post_build:
             commands:
               - echo "Tagging Docker image..."
@@ -413,7 +420,8 @@ Resources:
             - 'appspec.yaml'
             - 'taskdef.json'
           base-directory: .
-          packaging: NONE
+          discard-paths: yes
+          name: artifact.zip
       Artifacts:
         Type: CODEPIPELINE
       Environment:

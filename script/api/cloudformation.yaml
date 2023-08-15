@@ -548,20 +548,14 @@ Resources:
             Statement:
               - Effect: "Allow"
                 Action:
-                  - "s3:GetObject"
-                  - "s3:PutObject"
+                  - "s3:*"
                 Resource:
-                  - !Sub "arn:aws:s3:::${CodePipelineArtifactStore}/*"
+                  - !Sub "arn:aws:s3:::apollo-server-artifacts/*"
               - Effect: "Allow"
                 Action:
                   - "codepipeline:PutJobSuccessResult"
                   - "codepipeline:PutJobFailureResult"
                 Resource: "*"
-
-  LambdaFunctionLogGroup:
-    Type: "AWS::Logs::LogGroup"
-    Properties:
-      LogGroupName: !Sub "/aws/lambda/UnzipArtifactsFunction"
 
   UnzipArtifactsFunction:
     Type: AWS::Lambda::Function
@@ -615,14 +609,6 @@ Resources:
               throw error;
             }
           };
-      LogGroupName: !Ref LambdaFunctionLogGroup
-
-  LambdaFunctionLogGroupPermission:
-    Type: "AWS::Lambda::Permission"
-    Properties:
-      Action: "lambda:InvokeFunction"
-      FunctionName: !Ref UnzipArtifactsFunction
-      Principal: "logs.amazonaws.com"
 
   CodePipelineServiceRole:
     Type: AWS::IAM::Role

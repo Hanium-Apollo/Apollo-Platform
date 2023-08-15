@@ -389,7 +389,7 @@ Resources:
                             ContainerName: my-container
                             ContainerPort: 8080
                   EOT
-                aws lambda invoke --function-name PostBuildLambda /tmp/output.txt
+                - aws lambda invoke --function-name PostBuildLambda /tmp/output.txt
               - echo "Creating taskdef.json file..."
               - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
             pre_build:

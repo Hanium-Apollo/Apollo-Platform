@@ -389,7 +389,6 @@ Resources:
                             ContainerName: my-container
                             ContainerPort: 8080
                   EOT
-                - aws lambda invoke --function-name PostBuildLambda /tmp/output.txt
               - echo "Creating taskdef.json file..."
               - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
             pre_build:
@@ -408,11 +407,13 @@ Resources:
                 - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
                 - echo "Pushing Docker image..."
                 - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+                - aws lambda invoke --function-name PostBuildLambda /tmp/output.txt
           artifacts:
             files:
               - 'appspec.yaml'
               - 'taskdef.json'
-            base-directory: .
+              - 'output.txt'
+          base-directory: .
           discard-paths: yes
           name: artifact.zip
       Artifacts:

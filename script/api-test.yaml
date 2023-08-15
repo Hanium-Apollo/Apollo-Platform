@@ -362,7 +362,7 @@ Resources:
                   - logs:PutLogEvents
                 Resource: arn:aws:logs:*:*:*
 
-   CodeBuildProject:
+  CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
       Name: Apollo-Server-Build

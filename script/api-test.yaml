@@ -362,7 +362,7 @@ Resources:
                   - logs:PutLogEvents
                 Resource: arn:aws:logs:*:*:*
 
-  CodeBuildProject:
+   CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
       Name: Apollo-Server-Build
@@ -371,55 +371,48 @@ Resources:
       Source:
         Type: CODEPIPELINE
         Location: !Ref RepoLocation
-      Environment:
-        Type: "LINUX_CONTAINER"
-        ComputeType: "BUILD_GENERAL1_SMALL"
-        Image: "aws/codebuild/standard:4.0"
-        PrivilegedMode: true
-      Artifacts:
-        Type: CODEPIPELINE
-      BuildSpec: |
-        version: 0.2
-        phases:
-          install:
-            commands:
-              - echo "Creating appspec.yaml file..."
-              - |
-                cat <<EOT >> appspec.yaml
-                version: 0.0
-                Resources:
-                  - TargetService:
-                      Type: AWS::ECS::Service
-                      Properties:
-                        TaskDefinition: my-task-definition
-                        LoadBalancerInfo:
-                          ContainerName: my-container
-                          ContainerPort: 8080
-                EOT
-              - aws lambda invoke --function-name PostBuildLambda /tmp/output.txt
-            - echo "Creating taskdef.json file..."
-            - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
-          pre_build:
-            commands:
-              - echo Logging in to Amazon ECR...
-              - aws ecr get-login-password --region ${AWSRegion} | docker login --username AWS --password-stdin ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com
-              - pwd
-              - ls
-          build:
-            commands:
-              - echo "Building Docker image..."
-              - docker build -t ${GithubRepositoryName}:latest .
-          post_build:
-            commands:
-              - echo "Tagging Docker image..."
-              - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
-              - echo "Pushing Docker image..."
-              - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
-        artifacts:
-          files:
-            - 'appspec.yaml'
-            - 'taskdef.json'
-          base-directory: .
+        BuildSpec: !Sub |
+          version: 0.2
+          phases:
+            install:
+              commands:
+                - echo "Creating appspec.yaml file..."
+                - |
+                  cat <<EOT >> appspec.yaml
+                  version: 0.0
+                  Resources:
+                    - TargetService:
+                        Type: AWS::ECS::Service
+                        Properties:
+                          TaskDefinition: my-task-definition
+                          LoadBalancerInfo:
+                            ContainerName: my-container
+                            ContainerPort: 8080
+                  EOT
+                aws lambda invoke --function-name PostBuildLambda /tmp/output.txt
+              - echo "Creating taskdef.json file..."
+              - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
+            pre_build:
+              commands:
+                - echo Logging in to Amazon ECR...
+                - aws ecr get-login-password --region ${AWSRegion} | docker login --username AWS --password-stdin ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com
+                - pwd
+                - ls
+            build:
+              commands:
+                - echo "Building Docker image..."
+                - docker build -t ${GithubRepositoryName}:latest . 
+            post_build:
+              commands:
+                - echo "Tagging Docker image..."
+                - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+                - echo "Pushing Docker image..."
+                - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+          artifacts:
+            files:
+              - 'appspec.yaml'
+              - 'taskdef.json'
+            base-directory: .
           discard-paths: yes
           name: artifact.zip
       Artifacts:

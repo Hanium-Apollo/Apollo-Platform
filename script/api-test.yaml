@@ -282,6 +282,7 @@ Resources:
       FunctionName: PostBuildLambda
       Handler: index.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
+      Runtime: python3.8
       Code:
         ZipFile: |
           import boto3
@@ -304,7 +305,6 @@ Resources:
               with zipfile.ZipFile(download_path, 'r') as zip_ref:
                   zip_ref.extractall(output_dir)
 
-              # appspec.yaml 및 taskdef.json 파일을 읽어서 필요한 작업 수행
               appspec_path = os.path.join(output_dir, 'appspec.yaml')
               taskdef_path = os.path.join(output_dir, 'taskdef.json')
 
@@ -326,7 +326,6 @@ Resources:
               return {
                   'statusCode': 200,
                   'body': json.dumps('Lambda function executed successfully')
-        Runtime: python3.8
 
   PostBuildInvokePermission:
     Type: AWS::Lambda::Permission

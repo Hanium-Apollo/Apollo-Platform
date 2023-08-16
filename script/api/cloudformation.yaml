@@ -320,8 +320,7 @@ Resources:
                 - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
           artifacts:
             files:
-              - 'appspec.yaml'
-              - 'taskdef.json'
+              - "**/*"
       Artifacts:
         Type: CODEPIPELINE
         Name: BuildOutput

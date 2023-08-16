@@ -100,9 +100,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                  - "s3:PutObject"
-                  - "s3:GetObject"
-                  - "s3:ListBucket"
+                  - "s3:*"
                 Resource:
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket]]
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
@@ -168,6 +166,14 @@ Resources:
                 Resource:
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket]]
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
+        - PolciyName: CodePipelineCodeBuildAccess
+          PolicyDocuemnt:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "codebuild:*"
+                Resource: !GetAtt CodeBuildProject.Arn
 
   MyPipeline:
     Type: AWS::CodePipeline::Pipeline

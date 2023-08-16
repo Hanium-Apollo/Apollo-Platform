@@ -724,7 +724,7 @@ Resources:
                 Version: 1
                 Provider: CodeDeployToECS
               InputArtifacts:
-                - Name: UnzipOutput
+                - Name: BuildOutput
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup

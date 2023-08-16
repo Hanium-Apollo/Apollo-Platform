@@ -14,6 +14,9 @@ Parameters:
   RepoName:
     Type: String
     Description: Github Repository Name
+  region:
+    Type: String
+    Description: AWS Region
 
 Resources:
   MyS3Bucket:
@@ -34,14 +37,50 @@ Resources:
     Type: AWS::S3::BucketPolicy
     Properties:
       Bucket: !Ref MyS3Bucket
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Sid: PublicReadGetObject
-            Effect: Allow
-            Principal: "*"
-            Action: s3:GetObject
-            Resource: !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
+      Policies:
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicReadGetObject
+              Effect: Allow
+              Principal: "*"
+              Action: s3:GetObject
+              Resource: !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Sid: AllowCloudFront
+              Effect: Allow
+              Principal:
+                Service: cloudfront.amazonaws.com
+              Action: s3:GetObject
+              Resource: !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
+
+
+  MyCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: !Sub "${MyS3Bucket}.s3-website.${region}.amazonaws.com"
+            Id: !Ref MyS3Bucket
+            S3OriginConfig: {}
+        DefaultCacheBehavior:
+          TargetOriginId: !Ref MyS3Bucket
+          ForwardedValues:
+            QueryString: "false"
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods:
+            - GET
+            - HEAD
+          ViewerCertificate:
+            CloudFrontDefaultCertificate: "true"
+          DefaultRootObject: index.html
+          HttpVersion: http2
+          PriceClass: PriceClass_100
+          Enabled: true
 
   CodeBuildServiceRole:
     Type: AWS::IAM::Role
@@ -165,3 +204,7 @@ Resources:
               Configuration:
                 ProjectName: !Ref CodeBuildProject
               RunOrder: 1
+Outputs:
+  CloudFrontURL:
+    Description: CloudFront URL
+    Value: !Sub "https://${MyCloudFrontDistribution.DomainName}"

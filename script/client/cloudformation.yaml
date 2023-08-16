@@ -63,7 +63,7 @@ Resources:
         ViewerCertificate:
           CloudFrontDefaultCertificate: "true"
         Origins:
-          - DomainName: !Sub "${MyS3Bucket}.s3-website.${region}.amazonaws.com"
+          - DomainName: !GetAtt MyS3Bucket.DomainName
             Id: !Ref MyS3Bucket
             S3OriginConfig: {}
         DefaultCacheBehavior:

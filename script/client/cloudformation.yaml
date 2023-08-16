@@ -56,6 +56,12 @@ Resources:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
+        Enabled: true
+        DefaultRootObject: index.html
+        HttpVersion: http2
+        PriceClass: PriceClass_100
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: "true"
         Origins:
           - DomainName: !Sub "${MyS3Bucket}.s3-website.${region}.amazonaws.com"
             Id: !Ref MyS3Bucket
@@ -70,12 +76,6 @@ Resources:
           AllowedMethods:
             - GET
             - HEAD
-          ViewerCertificate:
-            CloudFrontDefaultCertificate: "true"
-          DefaultRootObject: index.html
-          HttpVersion: http2
-          PriceClass: PriceClass_100
-          Enabled: true
 
   CodeBuildServiceRole:
     Type: AWS::IAM::Role

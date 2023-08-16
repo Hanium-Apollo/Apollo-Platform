@@ -585,7 +585,7 @@ Resources:
                 Version: 1
                 Provider: GitHub
               OutputArtifacts:
-                - Name: SourceOutput
+                - Name: srcout
               Configuration:
                 Owner: !Ref RepoLogin
                 Repo: !Ref GithubRepositoryName
@@ -601,9 +601,9 @@ Resources:
                 Version: 1
                 Provider: CodeBuild
               InputArtifacts:
-                - Name: SourceOutput
+                - Name: srcout
               OutputArtifacts:
-                - Name: BuildOutput
+                - Name: bldout
               Configuration:
                 ProjectName: !Ref CodeBuildProject
               RunOrder: 1
@@ -616,12 +616,12 @@ Resources:
                 Version: 1
                 Provider: CodeDeployToECS
               InputArtifacts:
-                - Name: apollo-server-artifacts
+                - Name: bldout
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildOutput::taskdef.json
-                AppSpecTemplateArtifact: BuildOutput::appspec.yaml
+                TaskDefinitionTemplateArtifact: bldout::taskdef.json
+                AppSpecTemplateArtifact: bldout::appspec.yaml
               RunOrder: 1
 
 Outputs:

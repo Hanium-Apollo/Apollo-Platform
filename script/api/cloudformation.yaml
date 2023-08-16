@@ -322,9 +322,9 @@ Resources:
             files:
               - 'appspec.yaml'
               - 'taskdef.json'
-            name: 'BuildOutput'
       Artifacts:
         Type: CODEPIPELINE
+        Name: BuildOutput
       Environment:
         Type: "LINUX_CONTAINER"
         ComputeType: "BUILD_GENERAL1_SMALL"

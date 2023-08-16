@@ -166,7 +166,7 @@ Resources:
                 Resource:
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket]]
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
-        - PolciyName: CodePipelineCodeBuildAccess
+        - PolicyName: CodePipelineCodeBuildAccess
           PolicyDocuemnt:
             Version: "2012-10-17"
             Statement:

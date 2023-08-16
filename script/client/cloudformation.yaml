@@ -94,13 +94,18 @@ Resources:
               - sts:AssumeRole
       Path: "/"
       Policies:
-        - PolicyName: root
+        - PolicyName: CodeBuildS3Access
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: "*"
-                Resource: "*"
+                Action:
+                  - "s3:PutObject"
+                  - "s3:GetObject"
+                  - "s3:ListBucket"
+                Resource:
+                  - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket]]
+                  - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
 
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
@@ -154,13 +159,19 @@ Resources:
               - sts:AssumeRole
       Path: "/"
       Policies:
-        - PolicyName: root
+        - PolicyName: CodePipelineS3Access
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: "*"
-                Resource: "*"
+                Action:
+                  - "s3:GetObject"
+                  - "s3:ListBucket"
+                  - "s3:GetBucketPolicy"
+                  - "s3:PutBucketPolicy"
+                Resource:
+                  - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket]]
+                  - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
 
   MyPipeline:
     Type: AWS::CodePipeline::Pipeline

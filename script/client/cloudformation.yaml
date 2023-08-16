@@ -167,7 +167,7 @@ Resources:
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket]]
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
         - PolicyName: CodePipelineCodeBuildAccess
-          PolicyDocuemnt:
+          PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow

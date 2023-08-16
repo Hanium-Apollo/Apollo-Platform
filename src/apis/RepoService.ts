@@ -8,31 +8,31 @@ export const getDeployListService = (userId: String) => {
   return apiClient.get(`api/cloudformation/${userId}`, {});
 };
 
-export const clientRepoCreateService = (repoName: String) => {
+export const clientRepoCreateService = (userId: String, repoName: String) => {
   return apiClient.post(
-    `/api/cloudformation/client`,
+    `/api/cloudformation/${userId}/client`,
     { repoName: repoName },
     { withCredentials: true, headers: { "Content-Type": "application/json" } }
   );
 };
 
-export const serverRepoCreateService = (repoName: String) => {
+export const serverRepoCreateService = (userId: String, repoName: String) => {
   return apiClient.post(
-    `/api/cloudformation/server`,
+    `/api/cloudformation/${userId}/server`,
     { repoName: repoName },
     { withCredentials: true, headers: { "Content-Type": "application/json" } }
   );
 };
 
-export const clientRepoDeleteService = (repoName: string) => {
-  return apiClient.delete(`/api/cloudformation/client`, {
+export const clientRepoDeleteService = (userId: String, repoName: string) => {
+  return apiClient.delete(`/api/cloudformation/${userId}/client`, {
     data: { repoName: repoName },
     withCredentials: true,
   });
 };
 
-export const serverRepoDeleteService = (repoName: string) => {
-  return apiClient.delete(`/api/cloudformation/server`, {
+export const serverRepoDeleteService = (userId: String, repoName: string) => {
+  return apiClient.delete(`/api/cloudformation/${userId}/server`, {
     data: { repoName: repoName },
     withCredentials: true,
   });

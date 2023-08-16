@@ -11,19 +11,20 @@ import { UserInfo } from "../../apis/UserServiceType";
 type deployData = {
   repoName: string;
   type: string;
+  userId: String;
 };
 type ListItemProps = {
   deploylist: deployData[];
 };
 
-function ListItem({ repoName, type }: deployData) {
+function ListItem({ userId, repoName, type }: deployData) {
   const navigate = useNavigate();
   const handleSubmit = () => {
     navigate("/monitor", { state: { repoName } });
   };
   const handleClick = () => {
     if (type === "client") {
-      clientRepoDeleteService(repoName)
+      clientRepoDeleteService(userId, repoName)
         .then((response) => {
           console.log(response.data);
         })
@@ -31,7 +32,7 @@ function ListItem({ repoName, type }: deployData) {
           console.error("Error fetching data:", error);
         });
     } else if (type === "server") {
-      serverRepoDeleteService(repoName)
+      serverRepoDeleteService(userId, repoName)
         .then((response) => {
           console.log(response.data);
         })
@@ -68,6 +69,7 @@ function NumberList({ deploylist }: ListItemProps) {
   const listItems = deploylist.map((item, index) => (
     <ListItem
       key={index.toString()}
+      userId={item.userId}
       repoName={item.repoName}
       type={item.type}
     />

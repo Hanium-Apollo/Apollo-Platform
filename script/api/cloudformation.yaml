@@ -322,7 +322,7 @@ Resources:
             files:
               - 'appspec.yaml'
               - 'taskdef.json'
-            name: BuildOutput.zip
+            name: BuildOutput
       Artifacts:
         Type: CODEPIPELINE
       Environment:
@@ -585,7 +585,7 @@ Resources:
                 Version: 1
                 Provider: GitHub
               OutputArtifacts:
-                - Name: srcout
+                - Name: SourceOutput
               Configuration:
                 Owner: !Ref RepoLogin
                 Repo: !Ref GithubRepositoryName
@@ -601,9 +601,9 @@ Resources:
                 Version: 1
                 Provider: CodeBuild
               InputArtifacts:
-                - Name: srcout
+                - Name: SourceOutput
               OutputArtifacts:
-                - Name: bldout
+                - Name: BuildOutput
               Configuration:
                 ProjectName: !Ref CodeBuildProject
               RunOrder: 1
@@ -616,12 +616,12 @@ Resources:
                 Version: 1
                 Provider: CodeDeployToECS
               InputArtifacts:
-                - Name: bldout
+                - Name: BuildOutput
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: bldout::taskdef.json
-                AppSpecTemplateArtifact: bldout::appspec.yaml
+                TaskDefinitionTemplateArtifact: BuildOutput::taskdef.json
+                AppSpecTemplateArtifact: BuildOutput::appspec.yaml
               RunOrder: 1
 
 Outputs:

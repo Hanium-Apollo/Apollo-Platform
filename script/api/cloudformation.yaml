@@ -556,6 +556,12 @@ Resources:
                   - "codepipeline:PutJobSuccessResult"
                   - "codepipeline:PutJobFailureResult"
                 Resource: "*"
+              - Effect: "Allow"
+                Action:
+                  - "logs:CreateLogGroup"
+                  - "logs:CreateLogStream"
+                  - "logs:PutLogEvents"
+                Resource: "*"
 
   UnzipArtifactsFunction:
     Type: AWS::Lambda::Function
@@ -704,6 +710,8 @@ Resources:
                 Provider: Lambda
               InputArtifacts:
                 - Name: BuildOutput
+              OutputArtifacts:
+                - Name: UnzipOutput
               Configuration:
                 FunctionName: UnzipLambdaFunction
               RunOrder: 1
@@ -716,7 +724,7 @@ Resources:
                 Version: 1
                 Provider: CodeDeployToECS
               InputArtifacts:
-                - Name: BuildOutput
+                - Name: UnzipOutput
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup

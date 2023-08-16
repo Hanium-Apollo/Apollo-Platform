@@ -278,7 +278,7 @@ Resources:
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: BuildOutput
+      Name: Apollo-Server-Build
       Description: Apollo server build project
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
@@ -322,6 +322,7 @@ Resources:
             files:
               - 'appspec.yaml'
               - 'taskdef.json'
+            name: 'BuildOutput'
       Artifacts:
         Type: CODEPIPELINE
       Environment:

@@ -570,7 +570,7 @@ Resources:
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: Apollo-server-pipeline
+      Name: Apollo-Server-Pipeline
       RoleArn: !GetAtt CodePipelineServiceRole.Arn
       ArtifactStore:
         Type: S3
@@ -603,7 +603,7 @@ Resources:
               InputArtifacts:
                 - Name: SourceOutput
               OutputArtifacts:
-                - Name: BuildOutput
+                - Name: BuildArtifact
               Configuration:
                 ProjectName: !Ref CodeBuildProject
               RunOrder: 1
@@ -616,12 +616,12 @@ Resources:
                 Version: 1
                 Provider: CodeDeployToECS
               InputArtifacts:
-                - Name: BuildOutput
+                - Name: BuildArtifact
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildOutput::taskdef.json
-                AppSpecTemplateArtifact: BuildOutput::appspec.yaml
+                TaskDefinitionTemplateArtifact: BuildArtifact::taskdef.json
+                AppSpecTemplateArtifact: BuildArtifact::appspec.yaml
               RunOrder: 1
 
 Outputs:

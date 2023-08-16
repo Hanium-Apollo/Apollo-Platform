@@ -116,7 +116,6 @@ Resources:
       Source:
         Type: GITHUB
         Location: !Ref RepoLocation
-        # BuildSpec: s3://apollo-script/client-buildspec.yaml
         BuildSpec: !Sub |
           version: 0.2
           phases:
@@ -165,10 +164,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                  - "s3:GetObject"
-                  - "s3:ListBucket"
-                  - "s3:GetBucketPolicy"
-                  - "s3:PutBucketPolicy"
+                  - "s3:*"
                 Resource:
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket]]
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]

@@ -602,7 +602,7 @@ Resources:
               InputArtifacts:
                 - Name: SourceOutput
               OutputArtifacts:
-                - Name: BuildArtifact
+                - Name: BuildPutput
               Configuration:
                 ProjectName: !Ref CodeBuildProject
               RunOrder: 1
@@ -615,12 +615,12 @@ Resources:
                 Version: 1
                 Provider: CodeDeployToECS
               InputArtifacts:
-                - Name: BuildArtifact
+                - Name: BuildPutput
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildArtifact::taskdef.json
-                AppSpecTemplateArtifact: BuildArtifact::appspec.yaml
+                TaskDefinitionTemplateArtifact: BuildPutput::taskdef.json
+                AppSpecTemplateArtifact: BuildPutput::appspec.yaml
               RunOrder: 1
 
 Outputs:

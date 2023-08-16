@@ -43,13 +43,13 @@ Resources:
           - Sid: PublicReadGetObject
             Effect: Allow
             Principal: "*"
-            Action: s3:GetObject
+            Action: "s3:*"
             Resource: !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
           - Sid: AllowCloudFront
             Effect: Allow
             Principal:
               Service: cloudfront.amazonaws.com
-            Action: s3:GetObject
+            Action: "s3:*"
             Resource: !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
 
   MyCloudFrontDistribution:

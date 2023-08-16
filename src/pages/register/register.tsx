@@ -14,6 +14,10 @@ import { Credentials, postCredential } from "../../apis/UserService";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { StyledToastContainer } from "../Wait/WaitPage";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 
 const theme = createTheme();
 
@@ -39,6 +43,16 @@ export const Register = () => {
 
   const [cookies] = useCookies(["token"]);
   const accessToken = cookies.token;
+
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [showToken, setShowToken] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickshowToken = () => setShowToken((show) => !show);
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -168,7 +182,21 @@ export const Register = () => {
                     id="secretKey"
                     label="AWS Secret Key"
                     name="secrectKey"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                     onChange={handleSecretKeyChange}
                   />
                 </Grid>
@@ -178,7 +206,21 @@ export const Register = () => {
                     fullWidth
                     name="githubOAuthToken"
                     label="GithubOAuthToken"
-                    type="password"
+                    type={showToken ? "text" : "password"}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="password visibility"
+                            onClick={handleClickshowToken}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showToken ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                     id="githubOAuthToken"
                     onChange={handleGithubTokenChange}
                   />

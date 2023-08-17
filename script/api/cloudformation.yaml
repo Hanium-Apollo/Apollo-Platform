@@ -324,8 +324,7 @@ Resources:
               - taskdef.json
             name: BuildOutput
       Artifacts:
-        Type: S3
-        Location: !Ref CodePipelineArtifactStore
+        Type: CODEPIPELINE
         Name: BuildOutput
       Environment:
         Type: "LINUX_CONTAINER"

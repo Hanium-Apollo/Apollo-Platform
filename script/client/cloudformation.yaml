@@ -79,10 +79,10 @@ Resources:
             Id: !Ref MyS3Bucket
             S3OriginConfig:
               OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${CloudFrontOAI}
-            CustomOriginConfig:
-              HTTPPort: 80
-              HTTPSPort: 443
-              OriginProtocolPolicy: http-only
+            # CustomOriginConfig:
+            #   HTTPPort: 80
+            #   HTTPSPort: 443
+            #   OriginProtocolPolicy: http-only
         DefaultCacheBehavior:
           TargetOriginId: !Ref MyS3Bucket
           ForwardedValues:

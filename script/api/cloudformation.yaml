@@ -343,6 +343,10 @@ Resources:
                 - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
                 - echo "Pushing Docker image..."
                 - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+                - echo "Uploading appsepc.yaml to S3..."
+                - aws s3 cp appspec.yaml s3://apollo-server-artifacts/appspec.yaml
+                - echo "Uploading taskdef.json to S3..."
+                - aws s3 cp taskdef.json s3://apollo-server-artifacts/taskdef.json
           artifacts:
             files:
               - appspec.yaml
@@ -351,12 +355,6 @@ Resources:
       Artifacts:
         Type: CODEPIPELINE
         Name: BuildOutput
-        SecondaryArtifacts:
-          - Type: S3
-            Location: !Ref CodePipelineArtifactStore
-            Name: BuildOutput
-            Packaging: none
-            Path: BuildOutput
       Environment:
         Type: "LINUX_CONTAINER"
         ComputeType: "BUILD_GENERAL1_SMALL"
@@ -631,6 +629,30 @@ Resources:
               Configuration:
                 ProjectName: !Ref CodeBuildProject
               RunOrder: 1
+        - Name: AppspecSource
+          Actions:
+            - Name: AppSpecSourceAction
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Version: 1
+              Configuration:
+                S3Bucket: apollo-server-artifacts
+                S3ObjectKey: appspec.yaml
+              OutputArtifacts:
+                - Name: AppSpecSourceOutput
+        - Name: TaskDefSource
+          Actions:
+            - Name: TaskDefSourceAction
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Version: 1
+              Configuration:
+                S3Bucket: apollo-server-artifacts
+                S3ObjectKey: taskdef.json
+              OutputArtifacts:
+                - Name: TaskDefSourceOutput
         - Name: Deploy
           Actions:
             - Name: DeployAction
@@ -640,12 +662,13 @@ Resources:
                 Version: 1
                 Provider: CodeDeployToECS
               InputArtifacts:
-                - Name: BuildOutput
+                - Name: AppSpecSourceOutput
+                - Name: TaskDefSourceOutput
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildOutput::taskdef.json
-                AppSpecTemplateArtifact: BuildOutput::appspec.yaml
+                TaskDefinitionTemplateArtifact: AppSpecSourceOutput::taskdef.json
+                AppSpecTemplateArtifact: TaskDefSourceOutput::appspec.yaml
               RunOrder: 1
 
 Outputs:

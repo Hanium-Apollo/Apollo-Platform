@@ -106,6 +106,14 @@ Resources:
                 Resource:
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket]]
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
+        - PolicyName: CodeBuildCloudWatchLogsAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                Resource: "*"
 
   CodeBuildProject:
     Type: AWS::CodeBuild::Project

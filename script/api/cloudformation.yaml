@@ -321,6 +321,7 @@ Resources:
           artifacts:
             files:
               - "**/*"
+            name: BuildOutput
       Artifacts:
         Type: CODEPIPELINE
         Name: BuildOutput

@@ -324,7 +324,7 @@ Resources:
               - taskdef.json
             name: BuildOutput
       Artifacts:
-        Type: CODEPIPELINE
+        Type: S3
         Name: BuildOutput
       Environment:
         Type: "LINUX_CONTAINER"

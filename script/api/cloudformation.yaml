@@ -574,10 +574,9 @@ Resources:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Actions:
+                Action:
                   - "s3:*"
-                Resource:
-                  - "*"
+                Resource: "*"
 
   CodePipelineArtifactStore:
     Type: AWS::S3::Bucket

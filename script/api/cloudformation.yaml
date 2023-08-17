@@ -559,21 +559,25 @@ Resources:
               - sts:AssumeRole
       Path: "/"
       Policies:
-        - PolicyName: root
+        - PolicyName: CodePipelineBasicPermissions
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: "*"
+                Action:
+                  - "codebuild:*"
+                  - "codedeploy:*"
+                  - "cloudformation:*"
                 Resource: "*"
         - PolicyName: CodePipelineS3BucketAccess
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action:
-                  - s3:*
-                Resource: "*"
+                Actions:
+                  - "s3:*"
+                Resource:
+                  - "*"
 
   CodePipelineArtifactStore:
     Type: AWS::S3::Bucket

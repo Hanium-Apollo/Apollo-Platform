@@ -93,7 +93,7 @@ const Main = () => {
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
-      {1 ? (
+      {accessToken ? (
         <>
           <StyledButton
             variant="contained"

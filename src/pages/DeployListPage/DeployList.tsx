@@ -8,6 +8,7 @@ import {
   serverRepoDeleteService,
 } from "../../apis/RepoService";
 import { UserInfo } from "../../apis/UserServiceType";
+
 type deployData = {
   repoName: string;
   type: string;
@@ -16,7 +17,6 @@ type deployData = {
 type ListItemProps = {
   deploylist: deployData[];
 };
-
 function ListItem({ userId, repoName, type }: deployData) {
   const navigate = useNavigate();
   const handleSubmit = () => {

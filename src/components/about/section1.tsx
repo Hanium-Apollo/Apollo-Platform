@@ -126,7 +126,6 @@ const StyledButton = styled(MaterialButton)`
   ${buttonStyles}
 `;
 
-
 const ButtonContainer = styled(Grid)`
     height: 100%;
     display: flex;

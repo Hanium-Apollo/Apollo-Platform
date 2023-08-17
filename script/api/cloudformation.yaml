@@ -356,18 +356,7 @@ Resources:
               - Sid: VisualEditor0
                 Effect: Allow
                 Action:
-                  - s3:ListStorageLensConfigurations
-                  - s3:ListAccessPointsForObjectLambda
-                  - s3:GetAccessPoint
-                  - s3:PutAccountPublicAccessBlock
-                  - s3:GetAccountPublicAccessBlock
-                  - s3:ListAllMyBuckets
-                  - s3:ListAccessPoints
-                  - s3:PutAccessPointPublicAccessBlock
-                  - s3:ListJobs
-                  - s3:PutStorageLensConfiguration
-                  - s3:ListMultiRegionAccessPoints
-                  - s3:CreateJob
+                  - "s3:*"
                 Resource: "*"
               - Sid: VisualEditor1
                 Effect: Allow
@@ -602,7 +591,7 @@ Resources:
               InputArtifacts:
                 - Name: SourceOutput
               OutputArtifacts:
-                - Name: BuildPutput
+                - Name: BuildOutput
               Configuration:
                 ProjectName: !Ref CodeBuildProject
               RunOrder: 1
@@ -615,12 +604,12 @@ Resources:
                 Version: 1
                 Provider: CodeDeployToECS
               InputArtifacts:
-                - Name: BuildPutput
+                - Name: BuildOutput
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildPutput::taskdef.json
-                AppSpecTemplateArtifact: BuildPutput::appspec.yaml
+                TaskDefinitionTemplateArtifact: BuildOutput::taskdef.json
+                AppSpecTemplateArtifact: BuildOutput::appspec.yaml
               RunOrder: 1
 
 Outputs:

@@ -101,6 +101,8 @@ Resources:
               - Effect: Allow
                 Action:
                   - "s3:*"
+                  - "cloudfront:*"
+                  - "logs:*"
                 Resource:
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket]]
                   - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]

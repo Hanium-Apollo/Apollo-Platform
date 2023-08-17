@@ -351,6 +351,12 @@ Resources:
       Artifacts:
         Type: CODEPIPELINE
         Name: BuildOutput
+        SecondaryArtifacts:
+          - Type: S3
+            Location: !Ref CodePipelineArtifactStore
+            Name: BuildOutput
+            Packaging: none
+            Path: BuildOutput
       Environment:
         Type: "LINUX_CONTAINER"
         ComputeType: "BUILD_GENERAL1_SMALL"

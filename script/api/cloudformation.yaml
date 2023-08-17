@@ -267,12 +267,37 @@ Resources:
               - sts:AssumeRole
       Path: "/"
       Policies:
-        - PolicyName: root
+        - PolicyName: CodeBuildECRPolicies
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: "*"
+                Action:
+                  - "ecr:*"
+                Resource: "*"
+        - PolicyName: CodeBuildS3Policies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "s3:*"
+                Resource: "*"
+        - PolicyName: CodeBuildCloudWatchLogsPolicies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                Resource: "*"
+        - PolicyName: CodeBuildECSPolicies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "ecs:*"
                 Resource: "*"
 
   CodeBuildProject:

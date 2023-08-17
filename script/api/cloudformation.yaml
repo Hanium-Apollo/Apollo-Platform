@@ -325,6 +325,7 @@ Resources:
             name: BuildOutput
       Artifacts:
         Type: S3
+        Location: !Ref CodePipelineArtifactStore
         Name: BuildOutput
       Environment:
         Type: "LINUX_CONTAINER"

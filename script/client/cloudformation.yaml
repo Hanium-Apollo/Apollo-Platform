@@ -25,10 +25,10 @@ Resources:
       BucketName: apollo-client-bucket
       AccessControl: Private
       PublicAccessBlockConfiguration:
-        BlockPublicAcls: true
+        BlockPublicAcls: false
         BlockPublicPolicy: false
-        IgnorePublicAcls: true
-        RestrictPublicBuckets: true
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
       WebsiteConfiguration:
         IndexDocument: index.html
     DeletionPolicy: Retain

@@ -25,13 +25,19 @@ Resources:
       BucketName: apollo-client-bucket
       AccessControl: Private
       PublicAccessBlockConfiguration:
-        BlockPublicAcls: true
+        BlockPublicAcls: false
         BlockPublicPolicy: false
-        IgnorePublicAcls: true
-        RestrictPublicBuckets: true
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
       WebsiteConfiguration:
         IndexDocument: index.html
     DeletionPolicy: Retain
+
+  CloudFrontOAI:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: "Allows CloudFront to reach the bucket"
 
   MyBucketPolicy:
     Type: AWS::S3::BucketPolicy
@@ -51,6 +57,12 @@ Resources:
               Service: cloudfront.amazonaws.com
             Action: "s3:GetObject"
             Resource: !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
+          - Sid: AllowCloudFrontOAI
+            Effect: Allow
+            Principal:
+              CanonicalUser: !GetAtt CloudFrontOAI.S3CanonicalUserId
+            Action: "s3:GetObject"
+            Resource: !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
 
   MyCloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
@@ -65,6 +77,8 @@ Resources:
         Origins:
           - DomainName: !GetAtt MyS3Bucket.DomainName
             Id: !Ref MyS3Bucket
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${CloudFrontOAI}
             CustomOriginConfig:
               HTTPPort: 80
               HTTPSPort: 443

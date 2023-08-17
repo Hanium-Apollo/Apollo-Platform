@@ -23,7 +23,7 @@ const buttonStyles = css`
   text-align: center;
   font-weight: bold;
   top: 63.2%;
-  right: -8%;
+  right: 0%;
   weight: 19vw;
   height: 5vh;
 
@@ -93,7 +93,7 @@ const Main = () => {
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
-      {accessToken ? (
+      {1 ? (
         <>
           <StyledButton
             variant="contained"

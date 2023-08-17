@@ -635,6 +635,7 @@ Resources:
               ActionTypeId:
                 Category: Source
                 Owner: AWS
+                Provider: S3
                 Version: 1
               Configuration:
                 S3Bucket: apollo-server-artifacts
@@ -647,6 +648,7 @@ Resources:
               ActionTypeId:
                 Category: Source
                 Owner: AWS
+                Provider: S3
                 Version: 1
               Configuration:
                 S3Bucket: apollo-server-artifacts

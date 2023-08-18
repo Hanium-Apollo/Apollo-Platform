@@ -360,7 +360,7 @@ Resources:
     Properties:
       ServiceName: Apollo-Server-Service
       Cluster: !Ref ECSCluster
-      DesiredCount: 1
+      DesiredCount: 0
       TaskDefinition: !Ref ECSBlueTaskDefinition
       LaunchType: FARGATE
       DeploymentController:

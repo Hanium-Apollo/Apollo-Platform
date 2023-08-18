@@ -506,6 +506,7 @@ Resources:
                 - autoscaling:*
                 - ecs:*
                 - codedeploy:*
+                - log:*
                 - s3:*
               Resource: "*"
 

@@ -521,9 +521,7 @@ Resources:
                                 - $API_WAS_SECURITY_GROUP
                               AssignPublicIp: ENABLED
                   Hooks:
-                    BeforeInstall: 
-                      - location: $LAMBDA_FUNCTION
-                        timeout: 300
+                    BeforeInstall: $LAMBDA_FUNCTION
                   EOT
                 - echo "Creating taskdef.json file..."
                 - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json

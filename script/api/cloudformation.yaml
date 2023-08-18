@@ -587,7 +587,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - "iam:PassRole"
-                Resource: !GetAtt MyECSTaskRole.Arn
+                Resource: "*"
 
   CodePipelineArtifactStore:
     Type: AWS::S3::Bucket

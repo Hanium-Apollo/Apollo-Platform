@@ -322,10 +322,18 @@ Resources:
                     - TargetService:
                         Type: AWS::ECS::Service
                         Properties:
-                          TaskDefinition: my-task-definition
+                          TaskDefinition: ${ECS_BLUE_TASK_DEFINITION}
                           LoadBalancerInfo:
                             ContainerName: my-container
                             ContainerPort: 8080
+                          NetworkConfiguration:
+                            AwsvpcConfiguration:
+                              Subnets:
+                                - ${API_PRIVATE_SUBNET_A}
+                                - ${API_PRIVATE_SUBNET_C}
+                              SecurityGroups:
+                                - ${API_WAS_SECURITY_GROUP}
+                              AssignPublicIp: ENABLED
                   EOT
                 - echo "Creating taskdef.json file..."
                 - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
@@ -356,6 +364,15 @@ Resources:
         ComputeType: "BUILD_GENERAL1_SMALL"
         Image: "aws/codebuild/standard:4.0"
         PrivilegedMode: true
+        EnvironmentVariables:
+          - Name: ECS_BLUE_TASK_DEFINITION
+            Value: !Ref ECSBlueTaskDefinition
+          - Name: API_PRIVATE_SUBNET_A
+            Value: !Ref APIPrivatSubneteA
+          - Name: API_PRIVATE_SUBNET_C
+            Value: !Ref APIPrivatSubneteC
+          - Name: API_WAS_SECURITY_GROUP
+            Value: !Ref APIWASSecurityGroup
 
   ECSCluster:
     Type: AWS::ECS::Cluster

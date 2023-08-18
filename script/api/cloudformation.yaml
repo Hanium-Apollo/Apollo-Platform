@@ -440,6 +440,7 @@ Resources:
             install:
               commands:
                 - echo "Creating appspec.yaml file..."
+                - LATEST_REVISION=$(aws ecs describe-task-definition --task-definition $ECS_BLUE_TASK_DEFINITION --query "taskDefinition.revision" --output text)
                 - |
                   cat <<EOT >> appspec.yaml
                   version: 0.0
@@ -447,7 +448,7 @@ Resources:
                     - TargetService:
                         Type: AWS::ECS::Service
                         Properties:
-                          TaskDefinition: $ECS_BLUE_TASK_DEFINITION
+                          TaskDefinition: $ECS_BLUE_TASK_DEFINITION:$LATEST_REVISION
                           LoadBalancerInfo:
                             ContainerName: my-container
                             ContainerPort: 8080
@@ -480,10 +481,10 @@ Resources:
             files:
               - appspec.yaml
               - taskdef.json
-            name: BuildOut
+            name: BuildOutput
       Artifacts:
         Type: CODEPIPELINE
-        Name: BuildOut
+        Name: BuildOutput
       Environment:
         Type: "LINUX_CONTAINER"
         ComputeType: "BUILD_GENERAL1_SMALL"
@@ -632,7 +633,7 @@ Resources:
                 Version: 1
                 Provider: GitHub
               OutputArtifacts:
-                - Name: SourceOut
+                - Name: SourceOutput
               Configuration:
                 Owner: !Ref RepoLogin
                 Repo: !Ref GithubRepositoryName
@@ -648,9 +649,9 @@ Resources:
                 Version: 1
                 Provider: CodeBuild
               InputArtifacts:
-                - Name: SourceOut
+                - Name: SourceOutput
               OutputArtifacts:
-                - Name: BuildOut
+                - Name: BuildOutput
               Configuration:
                 ProjectName: !Ref CodeBuildProject
               RunOrder: 1
@@ -663,14 +664,12 @@ Resources:
                 Version: 1
                 Provider: CodeDeployToECS
               InputArtifacts:
-                - Name: BuildOut
+                - Name: BuildOutput
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildOut
-                # TaskDefinitionTemplatePath: taskdef.json
-                AppSpecTemplateArtifact: BuildOut
-                # AppSpecTemplatePath: appspec.yaml
+                TaskDefinitionTemplateArtifact: BuildOutput
+                AppSpecTemplateArtifact: BuildOutput
               RunOrder: 1
 
 Outputs:

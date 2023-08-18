@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Grid, Button } from "@mui/material";
 import { UserInfo } from "../apis/UserServiceType";
@@ -72,18 +71,16 @@ export const MyPage = () => {
   const [githubToken, setGithubToken] = useState<string>("");
   const [isEditing, setIsEditing] = useState(false);
 
-  const location = useLocation();
-  const userId = location.state?.userId as string;
+  const userId = localStorage.getItem("userId") || "";
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const info = localStorage.getItem("userInfo");
+        let info = localStorage.getItem("userInfo");
         const parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
         setUserInfo(parsedInfo);
 
         if (parsedInfo) {
-          let userId = parsedInfo.id;
           const response = await getCredentials(userId);
           const credentials = response.data;
 

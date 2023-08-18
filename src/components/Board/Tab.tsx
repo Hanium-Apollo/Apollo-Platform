@@ -50,7 +50,7 @@ export const Tab = () => {
   const [currentTab, clickTab] = useState(0);
 
   const menuArr = [
-    { name: "Question ✓", content: "게시글 목록" },
+    { name: "Question ✓", content: "" },
     { name: "Tags (#)", content: "태그 목록" },
   ];
   const selectMenuHandler = (index: number) => {

@@ -635,13 +635,12 @@ Resources:
                 Version: 1
                 Provider: CodeDeployToECS
               InputArtifacts:
-                - Name: BuildOut::appspec.yaml
-                - Name: BuildOut::taskdef.json
+                - Name: BuildOut
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: appsepc.yaml
-                AppSpecTemplateArtifact: taskdef.json
+                TaskDefinitionTemplateArtifact: BuildOut::appsepc.yaml
+                AppSpecTemplateArtifact: BuildOut::taskdef.json
               RunOrder: 1
 
 Outputs:

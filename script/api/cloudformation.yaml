@@ -425,6 +425,65 @@ Resources:
                   - "ecs:*"
                 Resource: "*"
 
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: LambdaExecutionRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaBasicExecutionRole
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+
+  MyLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      FunctionName: Apollo-Server-Function
+      Code:
+        ZipFile: |
+          const AWS = require('aws-sdk');
+          const ecs = new AWS.ECS();
+
+          exports.handler = async (event) => {
+            const params = {
+              cluster: 'Apollo-Server-Cluster',
+              service: 'Apollo-Server-Service',
+              forceNewDeployment: true
+            };
+
+            try {
+              const data = await ecs.updateService(params).promise();
+              console.log("Service updated successfully", data);
+              return {
+                statusCode: 200,
+                body: JSON.stringify(data)
+              };
+            } catch (err) {
+              console.log("Error", err);
+              return {
+                statusCode: 500,
+                body: JSON.stringify(err)
+              };
+            }
+          }
+
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -461,11 +520,9 @@ Resources:
                                 - $API_WAS_SECURITY_GROUP
                               AssignPublicIp: ENABLED
                   Hooks:
-                    BeforeInstall:
-                      - timeout: 300
-                        runas: root
-                        #!/bin/bash
-                        aws ecs update-service --cluster Apollo-Server-Cluster --service Apollo-Server-Service --force-new-deployment
+                    BeforeInstall: 
+                      - location: LAMBDA_FUNCTION
+                        timeout: 300
                   EOT
                 - echo "Creating taskdef.json file..."
                 - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
@@ -505,6 +562,8 @@ Resources:
             Value: !Ref APIPrivatSubneteC
           - Name: API_WAS_SECURITY_GROUP
             Value: !Ref APIWASSecurityGroup
+          - Name: LAMBDA_FUNCTION
+            Value: !Ref MyLambdaFunction
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role

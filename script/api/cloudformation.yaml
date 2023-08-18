@@ -589,6 +589,7 @@ Resources:
                 - ecs:*
                 - codedeploy:*
                 - log:*
+                - lambda:*
                 - s3:*
                 - iam:PassRole
               Resource: "*"

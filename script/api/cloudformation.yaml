@@ -440,7 +440,6 @@ Resources:
             install:
               commands:
                 - echo "Creating appspec.yaml file..."
-                - LATEST_REVISION=$(aws ecs describe-task-definition --task-definition $ECS_BLUE_TASK_DEFINITION --query "taskDefinition.revision" --output text)
                 - |
                   cat <<EOT >> appspec.yaml
                   version: 0.0
@@ -448,7 +447,7 @@ Resources:
                     - TargetService:
                         Type: AWS::ECS::Service
                         Properties:
-                          TaskDefinition: $ECS_BLUE_TASK_DEFINITION:$LATEST_REVISION
+                          TaskDefinition: $ECS_BLUE_TASK_DEFINITION
                           LoadBalancerInfo:
                             ContainerName: my-container
                             ContainerPort: 8080

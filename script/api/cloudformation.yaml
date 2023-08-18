@@ -639,8 +639,8 @@ Resources:
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildOut::taskdef.json
-                AppSpecTemplateArtifact: BuildOut::appspec.yaml
+                TaskDefinitionTemplateArtifact: appsepc.yaml
+                AppSpecTemplateArtifact: taskdef.json
               RunOrder: 1
 
 Outputs:

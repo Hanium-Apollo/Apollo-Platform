@@ -525,6 +525,7 @@ Resources:
                 - codedeploy:*
                 - log:*
                 - s3:*
+                = iam:PassRole
               Resource: "*"
 
   CodeDeployApplication:

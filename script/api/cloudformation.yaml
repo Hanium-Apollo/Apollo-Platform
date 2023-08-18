@@ -253,127 +253,6 @@ Resources:
     Properties:
       RepositoryName: !Ref GithubRepositoryName
 
-  CodeBuildServiceRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - codebuild.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      Path: "/"
-      Policies:
-        - PolicyName: CodeBuildECRPolicies
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: Allow
-                Action:
-                  - "ecr:*"
-                Resource: "*"
-        - PolicyName: CodeBuildS3Policies
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: Allow
-                Action:
-                  - "s3:*"
-                Resource: "*"
-        - PolicyName: CodeBuildCloudWatchLogsPolicies
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: Allow
-                Action:
-                  - "logs:*"
-                Resource: "*"
-        - PolicyName: CodeBuildECSPolicies
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: Allow
-                Action:
-                  - "ecs:*"
-                Resource: "*"
-
-  CodeBuildProject:
-    Type: AWS::CodeBuild::Project
-    Properties:
-      Name: Apollo-Server-Build
-      Description: Apollo server build project
-      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
-      Source:
-        Type: CODEPIPELINE
-        Location: !Ref RepoLocation
-        BuildSpec: !Sub |
-          version: 0.2
-          phases:
-            install:
-              commands:
-                - echo "Creating appspec.yaml file..."
-                - |
-                  cat <<EOT >> appspec.yaml
-                  version: 0.0
-                  Resources:
-                    - TargetService:
-                        Type: AWS::ECS::Service
-                        Properties:
-                          TaskDefinition: ${ECS_BLUE_TASK_DEFINITION}
-                          LoadBalancerInfo:
-                            ContainerName: my-container
-                            ContainerPort: 8080
-                          NetworkConfiguration:
-                            AwsvpcConfiguration:
-                              Subnets:
-                                - ${API_PRIVATE_SUBNET_A}
-                                - ${API_PRIVATE_SUBNET_C}
-                              SecurityGroups:
-                                - ${API_WAS_SECURITY_GROUP}
-                              AssignPublicIp: ENABLED
-                  EOT
-                - echo "Creating taskdef.json file..."
-                - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
-            pre_build:
-              commands:
-                - echo Logging in to Amazon ECR...
-                - aws ecr get-login-password --region ${AWSRegion} | docker login --username AWS --password-stdin ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com
-            build:
-              commands:
-                - echo "Building Docker image..."
-                - docker build -t ${GithubRepositoryName}:latest . 
-            post_build:
-              commands:
-                - echo "Tagging Docker image..."
-                - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
-                - echo "Pushing Docker image..."
-                - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
-          artifacts:
-            files:
-              - appspec.yaml
-              - taskdef.json
-            name: BuildOut
-      Artifacts:
-        Type: CODEPIPELINE
-        Name: BuildOut
-      Environment:
-        Type: "LINUX_CONTAINER"
-        ComputeType: "BUILD_GENERAL1_SMALL"
-        Image: "aws/codebuild/standard:4.0"
-        PrivilegedMode: true
-        EnvironmentVariables:
-          - Name: ECS_BLUE_TASK_DEFINITION
-            Value: !Ref ECSBlueTaskDefinition
-          - Name: API_PRIVATE_SUBNET_A
-            Value: !Ref APIPrivatSubneteA
-          - Name: API_PRIVATE_SUBNET_C
-            Value: !Ref APIPrivatSubneteC
-          - Name: API_WAS_SECURITY_GROUP
-            Value: !Ref APIWASSecurityGroup
-
   ECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
@@ -498,6 +377,127 @@ Resources:
           Subnets:
             - !Ref APIPrivatSubneteA
             - !Ref APIPrivatSubneteC
+
+  CodeBuildServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: CodeBuildECRPolicies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "ecr:*"
+                Resource: "*"
+        - PolicyName: CodeBuildS3Policies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "s3:*"
+                Resource: "*"
+        - PolicyName: CodeBuildCloudWatchLogsPolicies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                Resource: "*"
+        - PolicyName: CodeBuildECSPolicies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "ecs:*"
+                Resource: "*"
+
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: Apollo-Server-Build
+      Description: Apollo server build project
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      Source:
+        Type: CODEPIPELINE
+        Location: !Ref RepoLocation
+        BuildSpec: !Sub |
+          version: 0.2
+          phases:
+            install:
+              commands:
+                - echo "Creating appspec.yaml file..."
+                - |
+                  cat <<EOT >> appspec.yaml
+                  version: 0.0
+                  Resources:
+                    - TargetService:
+                        Type: AWS::ECS::Service
+                        Properties:
+                          TaskDefinition: ${ECS_BLUE_TASK_DEFINITION}
+                          LoadBalancerInfo:
+                            ContainerName: my-container
+                            ContainerPort: 8080
+                          NetworkConfiguration:
+                            AwsvpcConfiguration:
+                              Subnets:
+                                - ${API_PRIVATE_SUBNET_A}
+                                - ${API_PRIVATE_SUBNET_C}
+                              SecurityGroups:
+                                - ${API_WAS_SECURITY_GROUP}
+                              AssignPublicIp: ENABLED
+                  EOT
+                - echo "Creating taskdef.json file..."
+                - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
+            pre_build:
+              commands:
+                - echo Logging in to Amazon ECR...
+                - aws ecr get-login-password --region ${AWSRegion} | docker login --username AWS --password-stdin ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com
+            build:
+              commands:
+                - echo "Building Docker image..."
+                - docker build -t ${GithubRepositoryName}:latest . 
+            post_build:
+              commands:
+                - echo "Tagging Docker image..."
+                - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+                - echo "Pushing Docker image..."
+                - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+          artifacts:
+            files:
+              - appspec.yaml
+              - taskdef.json
+            name: BuildOut
+      Artifacts:
+        Type: CODEPIPELINE
+        Name: BuildOut
+      Environment:
+        Type: "LINUX_CONTAINER"
+        ComputeType: "BUILD_GENERAL1_SMALL"
+        Image: "aws/codebuild/standard:4.0"
+        PrivilegedMode: true
+        EnvironmentVariables:
+          - Name: ECS_BLUE_TASK_DEFINITION
+            Value: !Ref ECSBlueTaskDefinition
+          - Name: API_PRIVATE_SUBNET_A
+            Value: !Ref APIPrivatSubneteA
+          - Name: API_PRIVATE_SUBNET_C
+            Value: !Ref APIPrivatSubneteC
+          - Name: API_WAS_SECURITY_GROUP
+            Value: !Ref APIWASSecurityGroup
 
   CodeDeployServiceRole:
     Type: AWS::IAM::Role

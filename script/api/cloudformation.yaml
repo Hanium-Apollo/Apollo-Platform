@@ -447,17 +447,17 @@ Resources:
                     - TargetService:
                         Type: AWS::ECS::Service
                         Properties:
-                          TaskDefinition: ${ECS_BLUE_TASK_DEFINITION}
+                          TaskDefinition: $ECS_BLUE_TASK_DEFINITION
                           LoadBalancerInfo:
                             ContainerName: my-container
                             ContainerPort: 8080
                           NetworkConfiguration:
                             AwsvpcConfiguration:
                               Subnets:
-                                - ${API_PRIVATE_SUBNET_A}
-                                - ${API_PRIVATE_SUBNET_C}
+                                - $API_PRIVATE_SUBNET_A
+                                - $API_PRIVATE_SUBNET_C
                               SecurityGroups:
-                                - ${API_WAS_SECURITY_GROUP}
+                                - $API_WAS_SECURITY_GROUP
                               AssignPublicIp: ENABLED
                   EOT
                 - echo "Creating taskdef.json file..."

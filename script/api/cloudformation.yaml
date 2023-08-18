@@ -347,10 +347,10 @@ Resources:
             files:
               - appspec.yaml
               - taskdef.json
-            name: BuildOutput
+            name: BuildOut
       Artifacts:
         Type: CODEPIPELINE
-        Name: BuildOutput
+        Name: BuildOut
       Environment:
         Type: "LINUX_CONTAINER"
         ComputeType: "BUILD_GENERAL1_SMALL"
@@ -604,7 +604,7 @@ Resources:
                 Version: 1
                 Provider: GitHub
               OutputArtifacts:
-                - Name: SourceOutput
+                - Name: SourceOut
               Configuration:
                 Owner: !Ref RepoLogin
                 Repo: !Ref GithubRepositoryName
@@ -620,9 +620,9 @@ Resources:
                 Version: 1
                 Provider: CodeBuild
               InputArtifacts:
-                - Name: SourceOutput
+                - Name: SourceOut
               OutputArtifacts:
-                - Name: BuildOutput
+                - Name: BuildOut
               Configuration:
                 ProjectName: !Ref CodeBuildProject
               RunOrder: 1
@@ -635,12 +635,12 @@ Resources:
                 Version: 1
                 Provider: CodeDeployToECS
               InputArtifacts:
-                - Name: BuildOutput
+                - Name: BuildOut
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildOutput::taskdef.json
-                AppSpecTemplateArtifact: BuildOutput::appspec.yaml
+                TaskDefinitionTemplateArtifact: BuildOut::taskdef.json
+                AppSpecTemplateArtifact: BuildOut::appspec.yaml
               RunOrder: 1
 
 Outputs:

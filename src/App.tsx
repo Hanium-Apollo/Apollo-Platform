@@ -10,6 +10,7 @@ import Rendering from "./pages/RenderingPage/RenderingPage";
 import Wait from "./pages/Wait/WaitPage";
 import DeployList from "./pages/DeployListPage/DeployList";
 import { Board } from "./pages/Borad/BoardPage";
+import { Write } from "./components/Board/Write";
 import { MyPage } from "./pages/MyPage";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/register" element={<Register />}></Route>
           <Route path="/mypage" element={<MyPage />}></Route>
           <Route path="/board" element={<Board />}></Route>
+          <Route path="/write" element={<Write />}></Route>
         </Routes>
         <NightSky />
       </BrowserRouter>

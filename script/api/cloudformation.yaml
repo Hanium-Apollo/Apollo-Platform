@@ -570,6 +570,7 @@ Resources:
                   - "codedeploy:*"
                   - "cloudformation:*"
                   - "logs:*"
+                  - "ecs:*"
                 Resource: "*"
         - PolicyName: CodePipelineS3BucketAccess
           PolicyDocument:
@@ -640,8 +641,10 @@ Resources:
               Configuration:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
-                TaskDefinitionTemplateArtifact: BuildOut::appsepc.yaml
-                AppSpecTemplateArtifact: BuildOut::taskdef.json
+                TaskDefinitionTemplateArtifact: BuildOut
+                TaskDefinitionTemplatePath: taskdef.json
+                AppSpecTemplateArtifact: BuildOut
+                AppSpecTemplatePath: appspec.yaml
               RunOrder: 1
 
 Outputs:

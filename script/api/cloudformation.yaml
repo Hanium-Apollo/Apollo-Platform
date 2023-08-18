@@ -460,6 +460,12 @@ Resources:
                               SecurityGroups:
                                 - $API_WAS_SECURITY_GROUP
                               AssignPublicIp: ENABLED
+                  Hooks:
+                    BeforeInstall:
+                      - timeout: 300
+                        runas: root
+                        #!/bin/bash
+                        aws ecs update-service --cluster Apollo-Server-Cluster --service Apollo-Server-Service --force-new-deployment
                   EOT
                 - echo "Creating taskdef.json file..."
                 - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json

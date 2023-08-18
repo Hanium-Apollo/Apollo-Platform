@@ -650,9 +650,9 @@ Resources:
                 ApplicationName: !Ref CodeDeployApplication
                 DeploymentGroupName: !Ref CodeDeployDeploymentGroup
                 TaskDefinitionTemplateArtifact: BuildOut
-                TaskDefinitionTemplatePath: taskdef.json
+                # TaskDefinitionTemplatePath: taskdef.json
                 AppSpecTemplateArtifact: BuildOut
-                AppSpecTemplatePath: appspec.yaml
+                # AppSpecTemplatePath: appspec.yaml
               RunOrder: 1
 
 Outputs:

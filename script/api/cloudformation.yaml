@@ -522,7 +522,7 @@ Resources:
                               AssignPublicIp: ENABLED
                   Hooks:
                     BeforeInstall: 
-                      - location: LAMBDA_FUNCTION
+                      - location: $LAMBDA_FUNCTION
                         timeout: 300
                   EOT
                 - echo "Creating taskdef.json file..."

@@ -456,6 +456,7 @@ Resources:
       Handler: index.handler
       Role: !GetAtt LambdaExecutionRole.Arn
       FunctionName: Apollo-Server-Function
+      Runtime: nodejs14.x
       Code:
         ZipFile: |
           const AWS = require('aws-sdk');

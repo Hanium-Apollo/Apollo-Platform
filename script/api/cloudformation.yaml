@@ -568,6 +568,7 @@ Resources:
                   - "codebuild:*"
                   - "codedeploy:*"
                   - "cloudformation:*"
+                  - "logs:*"
                 Resource: "*"
         - PolicyName: CodePipelineS3BucketAccess
           PolicyDocument:

@@ -444,21 +444,20 @@ Resources:
                   cat <<EOT >> appspec.yaml
                   version: 0.0
                   Resources:
-                    - TargetService: null
-                      Type: AWS::ECS::Service
-                      Properties: null
-                      TaskDefinition: $ECS_BLUE_TASK_DEFINITION
-                      LoadBalancerInfo:
-                        ContainerName: my-container
-                        ContainerPort: 8080
-                      NetworkConfiguration:
-                        AwsvpcConfiguration:
-                          Subnets:
-                            - $API_PRIVATE_SUBNET_A
-                            - $API_PRIVATE_SUBNET_C
-                        SecurityGroups:
-                          - $API_WAS_SECURITY_GROUP
-                        AssignPublicIp: ENABLED
+                    - TargetService: 
+                        Type: AWS::ECS::Service
+                        TaskDefinition: $ECS_BLUE_TASK_DEFINITION
+                        LoadBalancerInfo:
+                          ContainerName: my-container
+                          ContainerPort: 8080
+                        NetworkConfiguration:
+                          AwsvpcConfiguration:
+                            Subnets:
+                              - $API_PRIVATE_SUBNET_A
+                              - $API_PRIVATE_SUBNET_C
+                            SecurityGroups:
+                              - $API_WAS_SECURITY_GROUP
+                            AssignPublicIp: ENABLED
                   hooks:
                     BeforeInstall:
                       - timeout: 300

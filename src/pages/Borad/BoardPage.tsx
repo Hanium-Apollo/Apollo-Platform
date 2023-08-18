@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { Tab } from "../../components/Board/Header";
+import { Tab } from "../../components/Board/Tab";
 
 const Container = styled.div`
   position: absolute;
@@ -22,7 +22,7 @@ const Container = styled.div`
 export const Board = () => {
   return (
     <Container>
-      <Tab></Tab>
+      <Tab/>
     </Container>
   );
 };

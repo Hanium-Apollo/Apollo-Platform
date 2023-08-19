@@ -471,10 +471,10 @@ Resources:
           const ecs = new AWS.ECS();
           const codedeploy = new AWS.CodeDeploy();
 
-          const deploymentId = event.DeploymentId;
-          const lifecycleEventHookExecutionId = event.LifecycleEventHookExecutionId;
-
           exports.handler = async (event) => {
+            const deploymentId = event.DeploymentId;
+            const lifecycleEventHookExecutionId = event.LifecycleEventHookExecutionId;
+
             const params = {
               cluster: "Apollo-Server-Cluster",
               service: "Apollo-Server-Service",
@@ -629,7 +629,7 @@ Resources:
   CodeDeployApplication:
     Type: AWS::CodeDeploy::Application
     Properties:
-      ApplicationName: Apollo-server-Application
+      ApplicationName: Apollo-Server-Application
       ComputePlatform: ECS
 
   CodeDeployDeploymentGroup:

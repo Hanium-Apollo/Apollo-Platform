@@ -461,6 +461,7 @@ Resources:
         ZipFile: |
           const AWS = require('aws-sdk');
           const ecs = new AWS.ECS();
+          const codedeploy = new AWS.CodeDeploy();
 
           exports.handler = async (event) => {
             const deploymentId = event.DeploymentId;

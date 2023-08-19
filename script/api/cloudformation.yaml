@@ -449,6 +449,14 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ecs:*
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - codedeploy:*
+                Resource: "*"
 
   MyLambdaFunction:
     Type: AWS::Lambda::Function

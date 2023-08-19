@@ -1,50 +1,59 @@
 const AWS = require("aws-sdk");
-const AdmZip = require("adm-zip");
-const s3 = new AWS.S3();
+const ecs = new AWS.ECS();
+const codedeploy = new AWS.CodeDeploy();
 
 exports.handler = async (event) => {
-  const jobId = event["CodePipeline.job"].id;
-  const cp = new AWS.CodePipeline();
+  const deploymentId = event.DeploymentId;
+  const lifecycleEventHookExecutionId = event.LifecycleEventHookExecutionId;
+
+  const params = {
+    cluster: "Apollo-Server-Cluster",
+    service: "Apollo-Server-Service",
+    forceNewDeployment: true,
+  };
 
   try {
-    const inputArtifact = event["CodePipeline.job"].data.inputArtifacts[0];
-    const bucket = inputArtifact.location.s3Location.bucketName;
-    const key = inputArtifact.location.s3Location.objectKey;
+    const data = await ecs.updateService(params).promise();
+    console.log("Service updated successfully", data);
 
-    const getObjectResponse = await s3
-      .getObject({ Bucket: bucket, Key: key })
-      .promise();
+    await notifyCodeDEploySuccess(deploymentId, lifecycleEventHookExecutionId);
 
-    const zip = new AdmZip(getObjectResponse.Body);
-    const unzippedEntries = zip.getEntries();
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data),
+    };
+  } catch (err) {
+    console.log("Error", err);
 
-    for (const entry of unzippedEntries) {
-      if (!entry.isDirectory) {
-        const unzippedContent = entry.getData();
-        await s3
-          .putObject({
-            Bucket: bucket,
-            Key: `${key}/${entry.entryName}`,
-            Body: unzippedContent,
-            ContentType: "application/octet-stream",
-          })
-          .promise();
-      }
-    }
+    await notifyCodeDeployFailure(deploymentId, lifecycleEventHookExecutionId);
 
-    await cp.putJobSuccessResult({ jobId }).promise();
-    return { statusCode: 200 };
-  } catch (error) {
-    console.error("Error during decompression:", error);
-    await cp
-      .putJobFailureResult({
-        jobId,
-        failureDetails: {
-          message: JSON.stringify(error),
-          type: "JobFailed",
-        },
-      })
-      .promise();
-    throw error;
+    return {
+      statusCode: 500,
+      body: JSON.stringify(err),
+    };
   }
 };
+
+async function notifyCodeDeploySuccess(
+  deploymentId,
+  lifecycleEventHookExecutionId
+) {
+  const params = {
+    deploymentId: deploymentId,
+    lifecycleEventHookExecutionId: lifecycleEventHookExecutionId,
+    status: "Succeeded",
+  };
+  return codedeploy.putLifecycleEventHookExecutionStatus(params).promise();
+}
+
+async function notifyCodeDeployFailure(
+  deploymentId,
+  lifecycleEventHookExecutionId
+) {
+  const params = {
+    deploymentId: deploymentId,
+    lifecycleEventHookExecutionId: lifecycleEventHookExecutionId,
+    status: "Failed",
+  };
+  return codedeploy.putLifecycleEventHookExecutionStatus(params).promise();
+}

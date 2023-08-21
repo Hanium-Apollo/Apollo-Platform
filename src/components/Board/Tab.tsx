@@ -20,6 +20,7 @@ const TabMenu = styled.ul`
   flex-direction: row;
   align-items: center;
   margin-bottom: 7rem;
+  margin: 0px;
 
   .submenu {
     display: flex;
@@ -43,6 +44,7 @@ const TabMenu = styled.ul`
 
 const Desc = styled.div`
   text-align: center;
+  width: 100%;
   color: #4cbccc;
 `;
 
@@ -58,20 +60,22 @@ export const Tab = () => {
   };
 
   return (
-    <TabContainer>
-      <TabMenu>
-        {menuArr.map((el, index) => (
-          <li
-            className={index === currentTab ? "submenu focused" : "submenu"}
-            onClick={() => selectMenuHandler(index)}
-          >
-            {el.name}
-          </li>
-        ))}
-      </TabMenu>
-      <Desc>
-        <p>{menuArr[currentTab].content}</p>
-      </Desc>
-    </TabContainer>
+    <>
+      <TabContainer>
+        <TabMenu>
+          {menuArr.map((el, index) => (
+            <li
+              className={index === currentTab ? "submenu focused" : "submenu"}
+              onClick={() => selectMenuHandler(index)}
+            >
+              {el.name}
+            </li>
+          ))}
+        </TabMenu>
+        <Desc>
+          <p>{menuArr[currentTab].content}</p>
+        </Desc>
+      </TabContainer>
+    </>
   );
 };

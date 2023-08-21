@@ -92,8 +92,6 @@ export const MyPage = () => {
   const regionRef = useRef<HTMLInputElement | null>(null);
   const githubTokenRef = useRef<HTMLInputElement | null>(null);
 
-  const userId = localStorage.getItem("userId") || "";
-
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -102,7 +100,7 @@ export const MyPage = () => {
         setUserInfo(parsedInfo);
 
         if (parsedInfo) {
-          const response = await getCredentials(userId);
+          const response = await getCredentials(parsedInfo.id);
           const credentials = response.data;
 
           if (credentials) {

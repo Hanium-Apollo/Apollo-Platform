@@ -92,7 +92,7 @@ const Nav = () => {
               onClick={GotoBoard}
               style={{ cursor: "pointer" }}
             >
-              게시판
+              Board
             </li>
             <li
               className="menu"

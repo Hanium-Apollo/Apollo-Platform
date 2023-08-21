@@ -79,7 +79,6 @@ const EditInput = styled.div`
 `;
 
 export const MyPage = () => {
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [accountId, setAccountId] = useState<string>("");
   const [accessKey, setAccessKey] = useState<string>("");
   const [secretKey, setSecretKey] = useState<string>("");
@@ -92,15 +91,14 @@ export const MyPage = () => {
   const regionRef = useRef<HTMLInputElement | null>(null);
   const githubTokenRef = useRef<HTMLInputElement | null>(null);
 
+  let info = localStorage.getItem("userInfo");
+  const parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
+  const userId = parsedInfo?.id;
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        let info = localStorage.getItem("userInfo");
-        const parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
-        setUserInfo(parsedInfo);
-
-        if (parsedInfo) {
-          const response = await getCredentials(parsedInfo.id);
+        if (userId) {
+          const response = await getCredentials(userId);
           const credentials = response.data;
 
           if (credentials) {
@@ -109,8 +107,6 @@ export const MyPage = () => {
             setSecretKey(credentials.AWSSecretKey);
             setRegion(credentials.AWSRegion);
             setGithubToken(credentials.GithubOAuthToken);
-
-            setUserInfo((prevInfo) => ({ ...prevInfo, ...credentials }));
           }
         }
       } catch (error) {
@@ -121,8 +117,8 @@ export const MyPage = () => {
     fetchUserInfo();
   }, [userId]);
 
-  const profile = userInfo?.avatar_url;
-  const name = userInfo?.login;
+  const profile = parsedInfo?.avatar_url;
+  const name = parsedInfo?.login;
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
@@ -146,12 +142,13 @@ export const MyPage = () => {
           : githubToken,
       };
       console.log(updatedCredentials.AWSRegion);
+      if (userId) {
+        await patchCredentials(userId, updatedCredentials);
 
-      await patchCredentials(userId, updatedCredentials);
+        console.log("Credentials updated successfully");
 
-      console.log("Credentials updated successfully");
-
-      setIsEditing(false);
+        setIsEditing(false);
+      }
     } catch (error) {
       console.error("Error updating credentials:", error);
     }

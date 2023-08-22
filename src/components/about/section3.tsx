@@ -2,19 +2,22 @@ import React from "react";
 import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
 import Docker_py from "../../assets/images/Docker_Py.png";
+import Docker_node from "../../assets/images/Docker_node.png";
+import Docker_go from "../../assets/images/Docker_go.png";
+import Docker_java from "../../assets/images/Docker_java.png";
 
 const SectionContainer = styled(Grid)`
   display: flex;
   position: absolute;
+  max-width: 1440px;
   background-color: #313131;
   z-index: 1;
-  padding: 20px;
-  max-width: 1440px;
+  padding: 50px;
   width: 100vw;
   top: 2100px;
-  justify-content: center;
   align-items: center;
-  left: 0;
+  justify-content: center;
+  transform: translate(0, 0);
 `;
 
 const Text = styled.div`
@@ -42,8 +45,9 @@ const Section3Inner = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   white-space: nowrap;
-  padding: 50px;
+  padding: 20px;
 `;
 
 interface Section3Props {
@@ -63,8 +67,20 @@ export const Section3: React.FC<Section3Props> = ({ children }) => {
           {"Docker 파일 생성이 처음이시라구요? 가이드만 천천히 따라해주세요!"}
         </Text>
         <Section3Inner>
-          <img src={Docker_py} alt="" width={"50%"} />
+          <img src={Docker_py} alt="" width={"800px"} />
           <Text>{" Python 배포시 Dockerfile 작성요령 "}</Text>
+        </Section3Inner>
+        <Section3Inner>
+          <Text>{" Node.js 배포시 Dockerfile 작성요령 "}</Text>
+          <img src={Docker_node} alt="" width={"800px"} />
+        </Section3Inner>
+        <Section3Inner>
+          <img src={Docker_go} alt="" width={"800px"} />
+          <Text>{" Go 배포시 Dockerfile 작성요령 "}</Text>
+        </Section3Inner>
+        <Section3Inner>
+          <Text>{" Java 배포시 Dockerfile 작성요령 "}</Text>
+          <img src={Docker_java} alt="" height={"500px"} />
         </Section3Inner>
       </Grid>
     </SectionContainer>

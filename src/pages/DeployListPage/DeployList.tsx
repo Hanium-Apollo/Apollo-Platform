@@ -11,10 +11,7 @@ import { UserInfo } from "../../apis/UserServiceType";
 import { useCookies } from "react-cookie";
 
 type deployData = {
-  repoName: string;
-  type: string;
-  userId: String;
-
+  userId: string;
   content: string;
   endpoint: string;
   serviceId: string;
@@ -24,22 +21,22 @@ type deployData = {
 type ListItemProps = {
   deploylist: deployData[];
 };
-function ListItem({ userId, repoName, type }: deployData) {
+function ListItem({ ...props }: deployData) {
   const navigate = useNavigate();
   const handleSubmit = () => {
-    navigate("/monitor", { state: { repoName } });
+    navigate("/monitor", { state: { repoName: props.stackName } });
   };
   const handleClick = () => {
-    if (type === "client") {
-      clientRepoDeleteService(userId, repoName)
+    if (props.stackType === "client") {
+      clientRepoDeleteService(props.userId, props.stackName)
         .then((response) => {
           console.log(response.data);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
-    } else if (type === "server") {
-      serverRepoDeleteService(userId, repoName)
+    } else if (props.stackType === "server") {
+      serverRepoDeleteService(props.userId, props.stackName)
         .then((response) => {
           console.log(response.data);
         })
@@ -53,8 +50,8 @@ function ListItem({ userId, repoName, type }: deployData) {
     <div
       style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}
     >
-      <li className="list">{repoName}</li>
-      {type === "client" ? (
+      <li className="list">{props.stackName}</li>
+      {props.stackType === "client" ? (
         <button className="selectbtn" onClick={() => handleClick()}>
           삭제
         </button>
@@ -77,8 +74,11 @@ function NumberList({ deploylist }: ListItemProps) {
     <ListItem
       key={index.toString()}
       userId={item.userId}
-      repoName={item.repoName}
-      type={item.type}
+      stackName={item.stackName}
+      stackType={item.stackType}
+      content={item.content}
+      endpoint={item.endpoint}
+      serviceId={item.serviceId}
     />
   ));
   return (
@@ -92,11 +92,11 @@ function DeployList() {
   const [DeployData, setDeployData] = useState<ListItemProps["deploylist"]>([]);
   const [cookie] = useCookies(["token"]);
   const ClientData = useMemo(() => {
-    return DeployData.filter((item) => item.type === "client");
+    return DeployData.filter((item) => item.stackType === "client");
   }, [DeployData]);
 
   const ServerData = useMemo(() => {
-    return DeployData.filter((item) => item.type === "server");
+    return DeployData.filter((item) => item.stackType === "server");
   }, [DeployData]);
   const getDeploy = useCallback(() => {
     let info = localStorage.getItem("userInfo");

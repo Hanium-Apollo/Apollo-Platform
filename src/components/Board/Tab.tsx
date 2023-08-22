@@ -5,8 +5,6 @@ const TabContainer = styled.div`
   width: 100%;
   height: 50px;
   background-color: #151515;
-  position: fixed;
-  padding: 0 20px;
   z-index: 5;
   border-radius: 20px 20px 0px 0px;
   border-bottom: 2px solid #4cbccc;

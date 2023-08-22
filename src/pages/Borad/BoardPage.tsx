@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Tab } from "../../components/Board/Tab";
+import PostList, { PostProps } from "../../components/Board/PostList";
+import { get } from "http";
+import { getBoardList } from "../../apis/BoardService";
+import { Button } from "@mui/material";
 
 const Container = styled.div`
   position: absolute;
@@ -10,16 +14,198 @@ const Container = styled.div`
   background-color: #151515;
   opacity: 0.75;
   border-radius: 20px;
-  top: 50px;
+  top: 60px;
   left: 50%;
   transform: translate(-50%);
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px 20px 10px;
+`;
+const Bottom = styled.div`
+  display: flex;
+  width: 100%;
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+const BottomItem = styled.div`
+  display: flex;
+  height: 100%;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  color: white;
+`;
+const BottomButton = styled.div`
+  display: flex;
+  height: 100%;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 20px;
+`;
+const Btn = styled(Button)`
+  color: white;
+  :hover {
+    font-weight: bold;
+  }
 `;
 
 export const Board = () => {
+  const [posts, setPosts] = useState<PostProps[]>([]);
+  const GetPost = useCallback(() => {
+    getBoardList()
+      .then((res) => {
+        setPosts(res.data);
+      })
+      .catch((err) => {});
+  }, []);
+
+  useEffect(() => {
+    GetPost();
+  }, [GetPost]);
   return (
     <Container>
       <Tab />
+      <PostList
+        posts={[
+          {
+            postId: 1,
+            title: "C언어 쉽게 마스터 하는 방법1",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+          {
+            postId: 1,
+            title: "가나다",
+            tag: ["C", "Java"],
+            nickname: "조민우",
+            createdAt: "2023-08-22",
+          },
+        ]}
+      />
+      <Bottom>
+        <BottomItem></BottomItem>
+        <BottomItem>1</BottomItem>
+        <BottomButton>
+          <Btn>글쓰기</Btn>
+        </BottomButton>
+      </Bottom>
     </Container>
   );
 };

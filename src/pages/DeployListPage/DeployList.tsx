@@ -14,6 +14,12 @@ type deployData = {
   repoName: string;
   type: string;
   userId: String;
+
+  content: string;
+  endpoint: string;
+  serviceId: string;
+  stackName: string;
+  stackType: string;
 };
 type ListItemProps = {
   deploylist: deployData[];

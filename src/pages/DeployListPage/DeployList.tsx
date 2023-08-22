@@ -55,7 +55,7 @@ function ListItem({ ...props }: ItemProps) {
       style={{
         display: "flex",
         alignItems: "center",
-        marginBottom: "15px",
+        marginBottom: "10px",
       }}
     >
       <li className="list">{props.deploy.stackName}</li>
@@ -89,7 +89,7 @@ function NumberList({ deploylist, userId }: ListItemProps) {
 }
 
 function DeployList() {
-  const [DeployData, setDeployData] = useState<ListItemProps["deploylist"]>([]);
+  const [DeployData, setDeployData] = useState<deployData[]>([]);
   const [cookie] = useCookies(["token"]);
   let info = localStorage.getItem("userInfo");
   let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;

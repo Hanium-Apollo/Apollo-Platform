@@ -9,6 +9,7 @@ import {
 } from "../../apis/RepoService";
 import { UserInfo } from "../../apis/UserServiceType";
 import { useCookies } from "react-cookie";
+import { parse } from "path";
 
 type deployData = {
   content: string;
@@ -93,7 +94,6 @@ function DeployList() {
   const [cookie] = useCookies(["token"]);
   let info = localStorage.getItem("userInfo");
   let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
-  if (parsedInfo == null) return;
   const ClientData = useMemo(() => {
     return DeployData.filter((item) => item.stackType === "client");
   }, [DeployData]);
@@ -124,14 +124,14 @@ function DeployList() {
     <div className="deploy">
       <div>
         <div className="name">배포 중 client</div>
-        {ClientData !== null && (
-          <NumberList deploylist={ClientData} userId={parsedInfo.id} />
+        {ClientData !== null && parsedInfo && (
+          <NumberList deploylist={ClientData} userId={parsedInfo?.id} />
         )}
       </div>
       <div>
         <div className="name">배포 중 server</div>
-        {ServerData !== null && (
-          <NumberList deploylist={ServerData} userId={parsedInfo.id} />
+        {ServerData !== null && parsedInfo && (
+          <NumberList deploylist={ServerData} userId={parsedInfo?.id} />
         )}
       </div>
       <Button css={"fhomebtn"} text={"home"} />

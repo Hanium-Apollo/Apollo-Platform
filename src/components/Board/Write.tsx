@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import { title } from "process";
 import { postBoard } from "../../apis/BoardService";
 import { UserInfo } from "../../apis/UserServiceType";
+import { useCookies } from "react-cookie";
 
 const Container = styled.div`
   position: absolute;
@@ -51,6 +52,8 @@ export const Write = () => {
   let info = localStorage.getItem("userInfo");
   const parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
   const userId = parsedInfo?.id;
+  const [cookie] = useCookies(["token"]);
+  const accessToken = cookie.token;
 
   const handleEditorChange = (newValue: string | undefined) => {
     if (typeof newValue === "string") {
@@ -62,10 +65,10 @@ export const Write = () => {
     const title = titleRef.current?.value;
     const tagNames = tagRef.current?.value.replace(/ /gi, "").split("#");
     const content = value;
-    if (userId && title && tagNames && content) {
+    if (accessToken && userId && title && tagNames && content) {
       postBoard(userId, title, content, tagNames);
     }
-  }, [userId, value]);
+  }, [userId, value, accessToken]);
   const handleSubmit = () => {
     Postpost();
   };

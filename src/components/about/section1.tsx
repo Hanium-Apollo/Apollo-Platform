@@ -8,11 +8,16 @@ import { Link } from "react-scroll";
 
 const SectionContainer = styled(Grid)`
   display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
   flex-direction: column;
-  background-color: #151515;
-  z-index: 1;
-  padding: 50px 0 50px 0;
+  background-color: #313131;
+  z-index: 3;
+  padding: 60px;
   width: 100vw;
+  justify-content: center;
+  
 `;
 
 const TextContainer = styled(Grid)`
@@ -95,9 +100,9 @@ const SubTitle = styled.div`
 `;
 
 const buttonStyles = css`
-  background-color: #1c1c1c;
+  background-color: #e1e1e1;
   padding: 20px 20px;
-  color: white;
+  color: #151515;
   font-weight: bold;
   font-size: 1.3vw;
   border: 1px;

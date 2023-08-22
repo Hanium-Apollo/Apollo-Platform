@@ -64,7 +64,7 @@ export const Section3: React.FC<Section3Props> = ({ children }) => {
           }
         </Text>
         <Text>
-          {"Docker 파일 생성이 처음이시라구요? 가이드만 천천히 따라해주세요!"}
+          {"언어별 Dockerfile 작성법을 보고 싶으시다면 아래를 참고해주세요 ! "}
         </Text>
         <Section3Inner>
           <img src={Docker_py} alt="" width={"800px"} />

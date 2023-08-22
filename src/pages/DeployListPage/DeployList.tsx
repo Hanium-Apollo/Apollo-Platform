@@ -8,6 +8,7 @@ import {
   serverRepoDeleteService,
 } from "../../apis/RepoService";
 import { UserInfo } from "../../apis/UserServiceType";
+import { useCookies } from "react-cookie";
 
 type deployData = {
   repoName: string;
@@ -83,6 +84,7 @@ function NumberList({ deploylist }: ListItemProps) {
 
 function DeployList() {
   const [DeployData, setDeployData] = useState<ListItemProps["deploylist"]>([]);
+  const [cookie] = useCookies(["token"]);
   const ClientData = useMemo(() => {
     return DeployData.filter((item) => item.type === "client");
   }, [DeployData]);
@@ -93,7 +95,7 @@ function DeployList() {
   const getDeploy = useCallback(() => {
     let info = localStorage.getItem("userInfo");
     let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
-    let accessToken = localStorage.getItem("token");
+    let accessToken = cookie.token;
     if (!parsedInfo) return;
     let userId = parsedInfo.id;
     if (accessToken && userId) {
@@ -106,7 +108,7 @@ function DeployList() {
           console.error("Error fetching data:", error);
         });
     }
-  }, []);
+  }, [cookie.token]);
 
   useEffect(() => {
     getDeploy();
@@ -120,8 +122,8 @@ function DeployList() {
       <div>
         <div className="name">배포 중 server</div>
         {ServerData !== null && <NumberList deploylist={ServerData} />}
-        <Button css={"fhomebtn"} text={"home"} />
       </div>
+      <Button css={"fhomebtn"} text={"home"} />
     </div>
   );
 }

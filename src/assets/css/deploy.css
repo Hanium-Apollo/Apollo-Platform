@@ -46,6 +46,8 @@
   opacity: 0.8;
 }
 .deploylist {
+  display: flex;
+  background-color: whitesmoke;
   margin-top: 5%;
   height: 60%;
   max-height: 250px;

@@ -48,7 +48,12 @@ function ListItem({ ...props }: deployData) {
   };
   return (
     <div
-      style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        marginBottom: "15px",
+        width: "100%",
+      }}
     >
       <li className="list">{props.stackName}</li>
       {props.stackType === "client" ? (

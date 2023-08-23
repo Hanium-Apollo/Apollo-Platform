@@ -46,7 +46,12 @@ const BottomButton = styled.div`
   padding-right: 20px;
 `;
 const Btn = styled(Button)`
-  color: white;
+  color: whitesmoke;
+  cursor: pointer;
+  background-color: #4cbccc;
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
   :hover {
     font-weight: bold;
   }

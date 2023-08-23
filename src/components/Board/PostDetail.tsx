@@ -1,8 +1,10 @@
 import styled from "@emotion/styled";
 import { CommentData, PostData } from "../../pages/Borad/PostPage";
 import CommentList from "./CommentList";
-import { useEffect, useRef } from "react";
-import { postComment } from "../../apis/BoardService";
+import { useRef } from "react";
+import { deleteBoard, postComment } from "../../apis/BoardService";
+import { useNavigate } from "react-router-dom";
+import MDEditor from "@uiw/react-md-editor";
 
 export const ScrollContent = styled.div`
   display: flex;
@@ -30,15 +32,17 @@ interface PostDetailProps {
 }
 
 export const PostDetail = (prop: PostDetailProps) => {
-  const date = prop.post.createdAt.split("T")[0].split("-").join(".");
-  const time = prop.post.createdAt
-    .split("T")[1]
-    .split(".")[0]
-    .split(":")
-    .slice(0, 2)
-    .join(":");
-  const createdAt = `${date} ${time}`;
+  const navigate = useNavigate();
+  //   const date = prop.post.createdAt.split("T")[0].split("-").join(".");
+  //   const time = prop.post.createdAt
+  //     .split("T")[1]
+  //     .split(".")[0]
+  //     .split(":")
+  //     .slice(0, 2)
+  //     .join(":");
+  //   const createdAt = `${date} ${time}`;
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const number = prop.comments.length;
   let info = JSON.parse(localStorage.getItem("info") || "{}");
   const userId = info.id;
   const setComment = (content: string) => {
@@ -50,8 +54,21 @@ export const PostDetail = (prop: PostDetailProps) => {
     const content = inputRef.current?.value;
     if (content) {
       setComment(content);
+      navigate(`/board/${prop.post.postId}`);
     }
   };
+  const handleDelete = () => {
+    if (userId) {
+      deleteBoard(userId, prop.post.postId);
+      navigate("/board");
+    }
+  };
+  const handleEdit = () => {
+    if (userId) {
+      navigate(`/board/${prop.post.postId}/edit`);
+    }
+  };
+
   return (
     <ScrollContent>
       <ScrollContainer>
@@ -60,32 +77,41 @@ export const PostDetail = (prop: PostDetailProps) => {
             width: "100%",
             marginBottom: "10px",
             fontSize: "14px",
-            fontFamily: "MainFont",
           }}
         >
-          <img
-            src="../../../assets/images/Category_right_icon.png"
-            style={{ height: "11px", width: "7px", marginRight: "7px" }}
-          ></img>
           태그
         </div>
         <div
           style={{
-            width: "100%",
-            fontSize: "18px",
-            fontFamily: "BoldFont",
-            marginBottom: "5px",
             display: "flex",
-            justifyContent: "flex-start",
+            flexDirection: "row",
+            width: "100%",
+            marginBottom: "5px",
           }}
         >
-          {prop.post.title}
+          <div
+            style={{
+              flex: "1",
+              fontSize: "18px",
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
+          >
+            {prop.post.title}
+          </div>
+          {prop.post.userId === userId && (
+            <div
+              style={{ flex: "1", display: "flex", justifyContent: "flex-end" }}
+            >
+              <div onClick={handleEdit}>수정하기</div>/
+              <div onClick={handleDelete}>삭제하기</div>
+            </div>
+          )}
         </div>
         <div
           style={{
             width: "100%",
             fontSize: "12px",
-            fontFamily: "MainFont",
             display: "flex",
             justifyContent: "flex-start",
           }}
@@ -110,7 +136,15 @@ export const PostDetail = (prop: PostDetailProps) => {
               justifyContent: "flex-start",
             }}
           >
-            {prop.post.content}
+            <MDEditor.Markdown
+              source={prop.post.content}
+              style={{
+                whiteSpace: "pre-wrap",
+                textAlign: "left",
+                width: "100%",
+                minHeight: "100px",
+              }}
+            />
           </div>
         </div>
         <div
@@ -144,7 +178,7 @@ export const PostDetail = (prop: PostDetailProps) => {
                 fontFamily: "MainFont",
               }}
             >
-              댓글
+              댓글 {number}
             </div>
           </div>
         </div>
@@ -170,7 +204,6 @@ export const PostDetail = (prop: PostDetailProps) => {
               borderRadius: "10px",
               height: "auto",
               fontSize: "16px",
-              fontFamily: "BoldFont",
             }}
           >
             <textarea
@@ -206,7 +239,6 @@ export const PostDetail = (prop: PostDetailProps) => {
                 height: "30px",
                 fontSize: "14px",
                 cursor: "pointer",
-                fontFamily: "MainFont",
                 boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.4)",
               }}
               onClick={handleComment}

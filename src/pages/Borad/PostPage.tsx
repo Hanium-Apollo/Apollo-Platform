@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { getBoardDetail } from "../../apis/BoardService";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import PostDetail from "../../components/Board/PostDetail";
 import { Container } from "./BoardPage";
 
@@ -23,7 +23,8 @@ const examplePost: PostData = {
   userId: "123",
   postId: "456",
   title: "게시물 제목",
-  content: "게시물 내용입니다.",
+  content:
+    "게시물 내용입니다.\n```int a = 0;```\n\nafeeawfewf\n\naefewfaewfaew\n\n",
   createdAt: "2023-08-02",
   tag: ["태그1", "태그2"],
 };
@@ -107,7 +108,7 @@ export const BoardDetail = () => {
   const Id = useParams().id;
   const [post, setPost] = useState<PostData>();
   const [comments, setComments] = useState<CommentData[]>([]);
-  const getPost = () => {
+  const getPost = useCallback(() => {
     if (Id) {
       getBoardDetail(Id)
         .then((response) => {
@@ -116,16 +117,16 @@ export const BoardDetail = () => {
         })
         .catch((error) => {});
     }
-  };
+  }, [Id]);
   useEffect(() => {
     getPost();
-  }, [Id]);
+  }, [Id, getPost]);
 
   return (
     <Container>
-      {post && comments && (
-        <PostDetail post={post} comments={comments}></PostDetail>
-      )}
+      {/* {post && comments && ( */}
+      <PostDetail post={examplePost} comments={exampleComments}></PostDetail>
+      {/* )} */}
     </Container>
   );
 };

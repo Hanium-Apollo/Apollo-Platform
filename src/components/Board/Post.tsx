@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { PostProps } from "./PostList";
+import { useNavigate } from "react-router-dom";
 
 const Item = styled.div`
   display: flex;
@@ -62,13 +63,17 @@ const Tag = styled.div`
 `;
 
 const Post = ({ ...props }: PostProps) => {
+  const navigate = useNavigate();
   const tagItems = props.tag.map((item, index) => (
     <TagBox>
       <Tag>{item}</Tag>
     </TagBox>
   ));
+  const GotoDetail = () => {
+    navigate(`/board/${props.postId}`);
+  };
   return (
-    <Item>
+    <Item onClick={GotoDetail}>
       <PostTitle>{props.title}</PostTitle>
       <PostName>{props.nickname}</PostName>
       <PostName>{props.createdAt}</PostName>

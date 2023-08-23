@@ -9,7 +9,6 @@ import {
 } from "../../apis/RepoService";
 import { UserInfo } from "../../apis/UserServiceType";
 import { useCookies } from "react-cookie";
-import { parse } from "path";
 
 type deployData = {
   content: string;

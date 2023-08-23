@@ -2,11 +2,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Tab } from "../../components/Board/Tab";
 import PostList, { PostProps } from "../../components/Board/PostList";
-import { get } from "http";
 import { getBoardList } from "../../apis/BoardService";
 import { Button } from "@mui/material";
 
-const Container = styled.div`
+export const Container = styled.div`
   position: absolute;
   max-width: 1440px;
   width: 90vw;

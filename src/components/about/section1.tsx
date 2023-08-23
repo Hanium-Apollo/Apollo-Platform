@@ -8,6 +8,7 @@ import { Link } from "react-scroll";
 
 const SectionContainer = styled(Grid)`
   display: flex;
+  flex: 1;
   position: absolute;
   left: 0;
   top: 0;

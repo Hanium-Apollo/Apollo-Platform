@@ -115,7 +115,7 @@ function DeployList() {
           console.error("Error fetching data:", error);
         });
     }
-  }, [cookie.token]);
+  }, [cookie.token, parsedInfo]);
 
   useEffect(() => {
     getDeploy();

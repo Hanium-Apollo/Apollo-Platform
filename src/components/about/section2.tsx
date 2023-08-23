@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
-import wallpaper from "../../assets/images/wallpaperf.jpg";
 
 const SectionContainer = styled(Grid)`
   display: flex;
+  flex: 1;
   position: absolute;
   max-width: 1440px;
   background-color: #2C2C2C;
@@ -14,7 +14,6 @@ const SectionContainer = styled(Grid)`
   padding: 80px;
   width: 100vw;
   text-align: center;
-  top: 1040px;
 `;
 
 const Text = styled.div`
@@ -23,7 +22,7 @@ const Text = styled.div`
   font-weight: 700;
   line-height: 1.8;
   letter-spacing: -1px;
-  font-size: 100px;
+  font-size: 80px;
 
   @font-face {
     font-family: "AppleBold";

@@ -9,12 +9,12 @@ import Docker_java from "../../assets/images/Docker_java.png";
 const SectionContainer = styled(Grid)`
   display: flex;
   position: absolute;
+  flex: 1;
   max-width: 1440px;
   background-color: #313131;
   z-index: 1;
   padding: 50px;
   width: 100vw;
-  top: 2100px;
   align-items: center;
   justify-content: center;
   transform: translate(0, 0);

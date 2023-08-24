@@ -205,7 +205,7 @@ export const MyPage = () => {
                   ref={secretKeyRef}
                 />
               ) : (
-                secretKey
+                "********"
               )}
             </EditInput>
           </EditLine>
@@ -235,7 +235,7 @@ export const MyPage = () => {
                   ref={githubTokenRef}
                 />
               ) : (
-                githubToken
+                "********"
               )}
             </EditInput>
           </EditLine>

@@ -8,6 +8,7 @@ const Comment = (prop: CommentData) => {
   const userId = parsedInfo?.id;
   const Delete = () => {
     deleteComment(prop.commentId, prop.writerId);
+    window.location.reload();
   };
 
   return (

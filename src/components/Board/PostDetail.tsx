@@ -58,7 +58,7 @@ export const PostDetail = (prop: PostDetailProps) => {
     console.log(content);
     if (content) {
       setComment(content);
-      navigate(`/board/${prop.post.postId}`);
+      window.location.reload();
     }
   };
   const handleDelete = () => {

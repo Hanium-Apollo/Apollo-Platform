@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { deleteBoard, postComment } from "../../apis/BoardService";
 import { useNavigate } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
+import { UserInfo } from "../../apis/UserServiceType";
 
 export const ScrollContent = styled.div`
   display: flex;
@@ -41,17 +42,20 @@ export const PostDetail = (prop: PostDetailProps) => {
   //     .slice(0, 2)
   //     .join(":");
   //   const createdAt = `${date} ${time}`;
-  const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const number = prop.comments.length;
-  let info = JSON.parse(localStorage.getItem("info") || "{}");
-  const userId = info.id;
+  let info = localStorage.getItem("userInfo");
+  const parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
+  const userId = parsedInfo?.id;
   const setComment = (content: string) => {
     if (userId) {
       postComment(userId, prop.post.postId, content);
+      console.log("success");
     }
   };
   const handleComment = () => {
     const content = inputRef.current?.value;
+    console.log(content);
     if (content) {
       setComment(content);
       navigate(`/board/${prop.post.postId}`);

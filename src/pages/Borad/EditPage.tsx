@@ -35,9 +35,9 @@ const Editor = styled(MDEditor)`
   flex: 10;
 `;
 
-const PreviewContainer = styled.div`
-  width: 100%; /* Set the width you desire */
-`;
+// const PreviewContainer = styled.div`
+//   width: 100%; /* Set the width you desire */
+// `;
 const Btn = styled(Button)`
   color: white;
   :hover {

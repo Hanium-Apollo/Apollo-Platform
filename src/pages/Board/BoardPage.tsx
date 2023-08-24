@@ -82,7 +82,7 @@ export const Board = () => {
     GetPost();
   };
   const handleWrite = () => {
-    navigate("board/write");
+    navigate("/board/write");
   };
 
   useEffect(() => {

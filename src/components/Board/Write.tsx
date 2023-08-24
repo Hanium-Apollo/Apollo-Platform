@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import { postBoard } from "../../apis/BoardService";
 import { UserInfo } from "../../apis/UserServiceType";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   position: absolute;
@@ -50,6 +51,7 @@ const Btn = styled(Button)`
 `;
 
 export const Write = () => {
+  const navigate = useNavigate();
   const [value, setValue] = useState("");
   const titleRef = React.useRef<HTMLInputElement>(null);
   const tagRef = React.useRef<HTMLInputElement>(null);
@@ -75,6 +77,7 @@ export const Write = () => {
   }, [userId, value, accessToken]);
   const handleSubmit = () => {
     Postpost();
+    navigate("/board");
   };
 
   return (

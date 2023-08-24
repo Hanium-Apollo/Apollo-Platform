@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { CommentData, PostData } from "../../pages/Borad/PostPage";
+import { CommentData, PostData } from "../../pages/Board/PostPage";
 import CommentList from "./CommentList";
 import { useRef } from "react";
 import { deleteBoard, postComment } from "../../apis/BoardService";

@@ -1,4 +1,4 @@
-import { CommentData } from "../../pages/Borad/PostPage";
+import { CommentData } from "../../pages/Board/PostPage";
 import Comment from "./Comment";
 export interface CommentListProps {
   comments: CommentData[];

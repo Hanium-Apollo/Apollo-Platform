@@ -5,30 +5,34 @@ import { UserInfo } from "../apis/UserServiceType";
 import { getCredentials, patchCredentials } from "../apis/UserService";
 
 const Container = styled.div`
-  max-width: 1280px;
+  max-width: 1440px;
   min-height: 750px;
+  position: absolute;
   width: 100vw;
   height: 100vh;
-  position: absolute;
   top: 50px;
-  left: 50%;
-  transform: translate(-50%);
   alien-items: center;
   justify-content: center;
+  z-index: 1;
 `;
 
 const MyPageBox = styled(Grid)`
-  display: block;
-  width: 60%;
-  margin-left: 20%;
-  height: 85vh;
-  margin-top: 50px;
+  display: flex;
+  width: 60vw;
+  height: 400px;
+  padding: 50px;
+  margin: 30px 0 30px 0;
   background-color: gray;
   opacity: 0.8;
   border-radius: 20px;
   padding: 20px 0 10px 0;
   justify-content: center;
   align-items: center;
+  flex-direction: row;
+
+  @media (max-width: 768px) {
+    width: 90vw;
+  }
 `;
 
 const ImageBox = styled(Grid)`
@@ -40,11 +44,14 @@ const ImageBox = styled(Grid)`
 `;
 
 const CredentialsBox = styled.div`
+  width: 60vw;
   margin-top: 20px;
-  background-color: white;
-  opacity: 0.9;
+  background-color: gray;
+  opacity: 0.8;
   border-radius: 10px;
-  padding: 10px;
+  padding: 40px;
+  font-size: 20px;
+  color: white;
 `;
 
 const ProfileImage = styled.img`
@@ -59,7 +66,17 @@ const TextBox = styled(Grid)`
   color: white;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 10px;
+`;
+
+const TextBoxContainer = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: left;
 `;
 const EditLine = styled.div`
   display: flex;
@@ -157,116 +174,119 @@ export const MyPage = () => {
   return (
     <Container>
       <MyPageBox>
-        <h1>마이페이지</h1>
         <ImageBox>
           <ProfileImage src={profile} alt="Profile" />
         </ImageBox>
-        <TextBox>{name}님 반갑습니다.</TextBox>
-        <TextBox>아래는 입력하신 Cred 정보입니다.</TextBox>
-        <CredentialsBox>
-          <EditLine>
-            <EditName>AWS Account ID: </EditName>
-            <EditInput>
-              {isEditing ? (
-                <input
-                  type="text"
-                  value={accountId}
-                  onChange={(e) => setAccountId(e.target.value)}
-                  ref={accountIdRef}
-                />
-              ) : (
-                accountId
-              )}
-            </EditInput>
-          </EditLine>
-          <EditLine>
-            <EditName>AWS Access Key: </EditName>
-            <EditInput>
-              {isEditing ? (
-                <input
-                  type="text"
-                  value={accessKey}
-                  onChange={(e) => setAccessKey(e.target.value)}
-                  ref={accessKeyRef}
-                />
-              ) : (
-                accessKey
-              )}
-            </EditInput>
-          </EditLine>
-          <EditLine>
-            <EditName>AWS Secret Key: </EditName>
-            <EditInput>
-              {isEditing ? (
-                <input
-                  type="text"
-                  value={secretKey}
-                  onChange={(e) => setSecretKey(e.target.value)}
-                  ref={secretKeyRef}
-                />
-              ) : (
-                "********"
-              )}
-            </EditInput>
-          </EditLine>
-          <EditLine>
-            <EditName>AWS Region: </EditName>
-            <EditInput>
-              {isEditing ? (
-                <input
-                  type="text"
-                  value={region}
-                  onChange={(e) => setRegion(e.target.value)}
-                  ref={regionRef}
-                />
-              ) : (
-                region
-              )}
-            </EditInput>
-          </EditLine>
-          <EditLine>
-            <EditName>Github OAuth Token: </EditName>
-            <EditInput>
-              {isEditing ? (
-                <input
-                  type="text"
-                  value={githubToken}
-                  onChange={(e) => setGithubToken(e.target.value)}
-                  ref={githubTokenRef}
-                />
-              ) : (
-                "********"
-              )}
-            </EditInput>
-          </EditLine>
-          {isEditing ? (
-            <>
-              <Button
-                variant="outlined"
-                onClick={handleEditClick}
-                style={{ marginRight: "5px" }}
-              >
-                취소하기
-              </Button>
-              <Button
-                variant="outlined"
-                onClick={handleSaveClick}
-                style={{ marginLeft: "5px" }}
-              >
-                저장하기
-              </Button>
-            </>
-          ) : (
+        <TextBoxContainer>
+          <TextBox>{name}님 안녕하세요.</TextBox>
+          <TextBox style={{ fontSize: "20px" }}>
+            아래는 입력하신 Cred 정보입니다.
+          </TextBox>
+        </TextBoxContainer>
+      </MyPageBox>
+      <CredentialsBox>
+        <EditLine>
+          <EditName>AWS Account ID: </EditName>
+          <EditInput>
+            {isEditing ? (
+              <input
+                type="text"
+                value={accountId}
+                onChange={(e) => setAccountId(e.target.value)}
+                ref={accountIdRef}
+              />
+            ) : (
+              accountId
+            )}
+          </EditInput>
+        </EditLine>
+        <EditLine>
+          <EditName>AWS Access Key: </EditName>
+          <EditInput>
+            {isEditing ? (
+              <input
+                type="text"
+                value={accessKey}
+                onChange={(e) => setAccessKey(e.target.value)}
+                ref={accessKeyRef}
+              />
+            ) : (
+              accessKey
+            )}
+          </EditInput>
+        </EditLine>
+        <EditLine>
+          <EditName>AWS Secret Key: </EditName>
+          <EditInput>
+            {isEditing ? (
+              <input
+                type="text"
+                value={secretKey}
+                onChange={(e) => setSecretKey(e.target.value)}
+                ref={secretKeyRef}
+              />
+            ) : (
+              "********"
+            )}
+          </EditInput>
+        </EditLine>
+        <EditLine>
+          <EditName>AWS Region: </EditName>
+          <EditInput>
+            {isEditing ? (
+              <input
+                type="text"
+                value={region}
+                onChange={(e) => setRegion(e.target.value)}
+                ref={regionRef}
+              />
+            ) : (
+              region
+            )}
+          </EditInput>
+        </EditLine>
+        <EditLine>
+          <EditName>Github OAuth Token: </EditName>
+          <EditInput>
+            {isEditing ? (
+              <input
+                type="text"
+                value={githubToken}
+                onChange={(e) => setGithubToken(e.target.value)}
+                ref={githubTokenRef}
+              />
+            ) : (
+              "********"
+            )}
+          </EditInput>
+        </EditLine>
+        {isEditing ? (
+          <>
             <Button
               variant="outlined"
               onClick={handleEditClick}
-              style={{ marginTop: "10px" }}
+              style={{ marginRight: "5px" }}
             >
-              수정하기
+              취소하기
             </Button>
-          )}
-        </CredentialsBox>
-      </MyPageBox>
+            <Button
+              variant="outlined"
+              onClick={handleSaveClick}
+              style={{ marginLeft: "5px" }}
+            >
+              저장하기
+            </Button>
+          </>
+        ) : (
+          <Button
+            variant="outlined"
+            onClick={handleEditClick}
+            style={{ marginTop: "10px" }}
+          >
+            수정하기
+          </Button>
+        )}
+      </CredentialsBox>
     </Container>
   );
 };

@@ -1,31 +1,40 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "@emotion/styled";
-import { Grid, Button } from "@mui/material";
+import { Grid } from "@mui/material";
 import { UserInfo } from "../apis/UserServiceType";
 import { getCredentials, patchCredentials } from "../apis/UserService";
 
 const Container = styled.div`
-  max-width: 1440px;
-  min-height: 750px;
   position: absolute;
+  display: flex;
   width: 100vw;
   height: 100vh;
-  top: 50px;
-  alien-items: center;
   justify-content: center;
+  align-items: center;
+`;
+
+const MyPageContainer = styled.div`
+  position: absolute;
+  max-width: 1440px;
+  min-height: 750px;
+  display: flex;
+  width: 100vw;
+  top: 50px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   z-index: 1;
 `;
 
 const MyPageBox = styled(Grid)`
   display: flex;
-  width: 60vw;
-  height: 400px;
+  width: 70%;
+  height: 350px;
   padding: 50px;
   margin: 30px 0 30px 0;
   background-color: gray;
   opacity: 0.8;
   border-radius: 20px;
-  padding: 20px 0 10px 0;
   justify-content: center;
   align-items: center;
   flex-direction: row;
@@ -44,8 +53,7 @@ const ImageBox = styled(Grid)`
 `;
 
 const CredentialsBox = styled.div`
-  width: 60vw;
-  margin-top: 20px;
+  width: 70%;
   background-color: gray;
   opacity: 0.8;
   border-radius: 10px;
@@ -93,6 +101,17 @@ const EditInput = styled.div`
   height: 100%;
   text-align: start;
   margin-left: 5px;
+`;
+const StyledButton = styled.button`
+  background-color: #4cbccc;
+  border: none;
+  border-radius: 10px;
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
 `;
 
 export const MyPage = () => {
@@ -173,120 +192,119 @@ export const MyPage = () => {
 
   return (
     <Container>
-      <MyPageBox>
-        <ImageBox>
-          <ProfileImage src={profile} alt="Profile" />
-        </ImageBox>
-        <TextBoxContainer>
-          <TextBox>{name}님 안녕하세요.</TextBox>
-          <TextBox style={{ fontSize: "20px" }}>
-            아래는 입력하신 Cred 정보입니다.
-          </TextBox>
-        </TextBoxContainer>
-      </MyPageBox>
-      <CredentialsBox>
-        <EditLine>
-          <EditName>AWS Account ID: </EditName>
-          <EditInput>
-            {isEditing ? (
-              <input
-                type="text"
-                value={accountId}
-                onChange={(e) => setAccountId(e.target.value)}
-                ref={accountIdRef}
-              />
-            ) : (
-              accountId
-            )}
-          </EditInput>
-        </EditLine>
-        <EditLine>
-          <EditName>AWS Access Key: </EditName>
-          <EditInput>
-            {isEditing ? (
-              <input
-                type="text"
-                value={accessKey}
-                onChange={(e) => setAccessKey(e.target.value)}
-                ref={accessKeyRef}
-              />
-            ) : (
-              accessKey
-            )}
-          </EditInput>
-        </EditLine>
-        <EditLine>
-          <EditName>AWS Secret Key: </EditName>
-          <EditInput>
-            {isEditing ? (
-              <input
-                type="text"
-                value={secretKey}
-                onChange={(e) => setSecretKey(e.target.value)}
-                ref={secretKeyRef}
-              />
-            ) : (
-              "********"
-            )}
-          </EditInput>
-        </EditLine>
-        <EditLine>
-          <EditName>AWS Region: </EditName>
-          <EditInput>
-            {isEditing ? (
-              <input
-                type="text"
-                value={region}
-                onChange={(e) => setRegion(e.target.value)}
-                ref={regionRef}
-              />
-            ) : (
-              region
-            )}
-          </EditInput>
-        </EditLine>
-        <EditLine>
-          <EditName>Github OAuth Token: </EditName>
-          <EditInput>
-            {isEditing ? (
-              <input
-                type="text"
-                value={githubToken}
-                onChange={(e) => setGithubToken(e.target.value)}
-                ref={githubTokenRef}
-              />
-            ) : (
-              "********"
-            )}
-          </EditInput>
-        </EditLine>
-        {isEditing ? (
-          <>
-            <Button
-              variant="outlined"
+      <MyPageContainer>
+        <MyPageBox>
+          <ImageBox>
+            <ProfileImage src={profile} alt="Profile" />
+          </ImageBox>
+          <TextBoxContainer>
+            <TextBox>{name}님 안녕하세요.</TextBox>
+            <TextBox style={{ fontSize: "20px" }}>
+              아래는 입력하신 Cred 정보입니다.
+            </TextBox>
+          </TextBoxContainer>
+        </MyPageBox>
+        <CredentialsBox>
+          <EditLine>
+            <EditName>AWS Account ID: </EditName>
+            <EditInput>
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={accountId}
+                  onChange={(e) => setAccountId(e.target.value)}
+                  ref={accountIdRef}
+                />
+              ) : (
+                accountId
+              )}
+            </EditInput>
+          </EditLine>
+          <EditLine>
+            <EditName>AWS Access Key: </EditName>
+            <EditInput>
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={accessKey}
+                  onChange={(e) => setAccessKey(e.target.value)}
+                  ref={accessKeyRef}
+                />
+              ) : (
+                accessKey
+              )}
+            </EditInput>
+          </EditLine>
+          <EditLine>
+            <EditName>AWS Secret Key: </EditName>
+            <EditInput>
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={secretKey}
+                  onChange={(e) => setSecretKey(e.target.value)}
+                  ref={secretKeyRef}
+                />
+              ) : (
+                "********"
+              )}
+            </EditInput>
+          </EditLine>
+          <EditLine>
+            <EditName>AWS Region: </EditName>
+            <EditInput>
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={region}
+                  onChange={(e) => setRegion(e.target.value)}
+                  ref={regionRef}
+                />
+              ) : (
+                region
+              )}
+            </EditInput>
+          </EditLine>
+          <EditLine>
+            <EditName>Github OAuth Token: </EditName>
+            <EditInput>
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={githubToken}
+                  onChange={(e) => setGithubToken(e.target.value)}
+                  ref={githubTokenRef}
+                />
+              ) : (
+                "********"
+              )}
+            </EditInput>
+          </EditLine>
+          {isEditing ? (
+            <>
+              <StyledButton
+                onClick={handleEditClick}
+                style={{ marginRight: "5px" }}
+              >
+                취소하기
+              </StyledButton>
+              <StyledButton
+                onClick={handleSaveClick}
+                style={{ marginLeft: "5px" }}
+              >
+                저장하기
+              </StyledButton>
+            </>
+          ) : (
+            <StyledButton
               onClick={handleEditClick}
-              style={{ marginRight: "5px" }}
+              style={{ marginTop: "10px" }}
             >
-              취소하기
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={handleSaveClick}
-              style={{ marginLeft: "5px" }}
-            >
-              저장하기
-            </Button>
-          </>
-        ) : (
-          <Button
-            variant="outlined"
-            onClick={handleEditClick}
-            style={{ marginTop: "10px" }}
-          >
-            수정하기
-          </Button>
-        )}
-      </CredentialsBox>
+              수정하기
+            </StyledButton>
+          )}
+        </CredentialsBox>
+      </MyPageContainer>
     </Container>
   );
 };

@@ -69,8 +69,9 @@ export const Write = () => {
   };
   const Postpost = useCallback(() => {
     const title = titleRef.current?.value;
-    const tagNames = tagRef.current?.value.replace(/ /gi, "").split("#");
+    const tagNames = tagRef.current?.value.replace(" ", "").split("#");
     const content = value;
+
     if (accessToken && userId && title && tagNames && content) {
       postBoard(userId, title, content, tagNames);
     }

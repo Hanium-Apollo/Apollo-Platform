@@ -64,7 +64,7 @@ const Tag = styled.div`
 
 const Post = ({ ...props }: PostProps) => {
   const navigate = useNavigate();
-  const tagItems = props.tag.map((item, index) => (
+  const tagItems = props.tags.map((item, index) => (
     <TagBox>
       <Tag>{item.tagName}</Tag>
     </TagBox>

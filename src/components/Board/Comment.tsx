@@ -1,4 +1,4 @@
-import { CommentData } from "../../pages/Borad/PostPage";
+import { CommentData } from "../../pages/Board/PostPage";
 import { UserInfo } from "../../apis/UserServiceType";
 import { deleteComment } from "../../apis/BoardService";
 

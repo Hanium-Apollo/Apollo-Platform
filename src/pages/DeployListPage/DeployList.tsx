@@ -27,6 +27,10 @@ type ListItemProps = {
 };
 function ListItem({ ...props }: ItemProps) {
   const navigate = useNavigate();
+  const [isopen, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(!isopen);
+  };
   const handleSubmit = () => {
     navigate("/monitor", { state: { repoName: props.deploy.stackName } });
   };
@@ -58,7 +62,44 @@ function ListItem({ ...props }: ItemProps) {
         marginBottom: "10px",
       }}
     >
-      <li className="list">{props.deploy.stackName}</li>
+      {isopen && (
+        <div
+          style={{
+            position: "absolute",
+            display: "flex",
+            alignItems: "center",
+            top: "30%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "350px",
+            height: "150px",
+            justifyContent: "center",
+            backgroundColor: "white",
+            cursor: "pointer",
+            zIndex: 10,
+          }}
+          onClick={() => handleOpen()}
+        >
+          endpoint: {props.deploy.endpoint}
+        </div>
+      )}
+      <li
+        className="list"
+        style={{ display: "flex", flexDirection: "row", cursor: "pointer" }}
+        onClick={() => handleOpen()}
+      >
+        <div style={{ flex: "3" }}>{props.deploy.stackName}</div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            flex: "1",
+            paddingRight: "10px",
+          }}
+        >
+          {props.deploy.content}
+        </div>
+      </li>
       {props.deploy.stackType === "client" ? (
         <button className="selectbtn" onClick={() => handleClick()}>
           삭제
@@ -90,6 +131,7 @@ function NumberList({ deploylist, userId }: ListItemProps) {
 
 function DeployList() {
   const [DeployData, setDeployData] = useState<deployData[]>([]);
+  console.log(DeployData);
   const [cookie] = useCookies(["token"]);
   let info = localStorage.getItem("userInfo");
   let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
@@ -114,7 +156,7 @@ function DeployList() {
           console.error("Error fetching data:", error);
         });
     }
-  }, [cookie.token, parsedInfo]);
+  }, [cookie.token, parsedInfo, setDeployData]);
 
   useEffect(() => {
     getDeploy();

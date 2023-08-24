@@ -134,7 +134,7 @@ export const Edit = () => {
             paddingLeft: "10px",
           }}
         >
-          <input style={{ width: "100%" }}></input>
+          <input style={{ width: "100%" }} ref={tagRef}></input>
         </div>
       </Item>
       <Editor value={value} onChange={handleEditorChange} preview="edit" />

@@ -19,91 +19,7 @@ export interface CommentData {
   content: string;
   writeAt: string;
 }
-const examplePost: PostData = {
-  userId: "123",
-  postId: "456",
-  title: "게시물 제목",
-  content:
-    "게시물 내용입니다.\n```int a = 0;```\n\nafeeawfewf\n\naefewfaewfaew\n\n",
-  createdAt: "2023-08-02",
-  tag: ["태그1", "태그2"],
-};
 
-const exampleComments: CommentData[] = [
-  {
-    commentId: "1",
-    writerId: "user1",
-    content: "댓글 1입니다.",
-    writeAt: "2023-08-02 10:00:00",
-  },
-  {
-    commentId: "2",
-    writerId: "user2",
-    content: "댓글 2입니다.",
-    writeAt: "2023-08-02 11:00:00",
-  },
-  {
-    commentId: "1",
-    writerId: "user1",
-    content: "댓글 1입니다.",
-    writeAt: "2023-08-02 10:00:00",
-  },
-  {
-    commentId: "2",
-    writerId: "user2",
-    content: "댓글 2입니다.",
-    writeAt: "2023-08-02 11:00:00",
-  },
-  {
-    commentId: "1",
-    writerId: "user1",
-    content: "댓글 1입니다.",
-    writeAt: "2023-08-02 10:00:00",
-  },
-  {
-    commentId: "2",
-    writerId: "user2",
-    content: "댓글 2입니다.",
-    writeAt: "2023-08-02 11:00:00",
-  },
-  {
-    commentId: "1",
-    writerId: "user1",
-    content: "댓글 1입니다.",
-    writeAt: "2023-08-02 10:00:00",
-  },
-  {
-    commentId: "2",
-    writerId: "user2",
-    content: "댓글 2입니다.",
-    writeAt: "2023-08-02 11:00:00",
-  },
-  {
-    commentId: "1",
-    writerId: "user1",
-    content: "댓글 1입니다.",
-    writeAt: "2023-08-02 10:00:00",
-  },
-  {
-    commentId: "2",
-    writerId: "user2",
-    content: "댓글 2입니다.",
-    writeAt: "2023-08-02 11:00:00",
-  },
-  {
-    commentId: "1",
-    writerId: "user1",
-    content: "댓글 1입니다.",
-    writeAt: "2023-08-02 10:00:00",
-  },
-  {
-    commentId: "2",
-    writerId: "user2",
-    content: "댓글 2입니다.",
-    writeAt: "2023-08-02 11:00:00",
-  },
-  // 추가 댓글 데이터
-];
 export const BoardDetail = () => {
   const Id = useParams().id;
   const [post, setPost] = useState<PostData>();
@@ -124,9 +40,9 @@ export const BoardDetail = () => {
 
   return (
     <Container>
-      {/* {post && comments && ( */}
-      <PostDetail post={examplePost} comments={exampleComments}></PostDetail>
-      {/* )} */}
+      {post && comments && (
+        <PostDetail post={post} comments={comments}></PostDetail>
+      )}
     </Container>
   );
 };

@@ -79,7 +79,7 @@ export const Edit = () => {
 
   const Patchpost = useCallback(() => {
     const title = titleRef.current?.value;
-    const tagNames = tagRef.current?.value.replace(/ /gi, "").split("#");
+    const tagNames = tagRef.current?.value.replace(/\s+/g, "").split("#");
     const content = value;
     if (postId && accessToken && userId && title && tagNames && content) {
       patchBoard(postId, userId, title, content, tagNames);

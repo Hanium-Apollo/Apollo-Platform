@@ -25,7 +25,7 @@ export const Container = styled.div`
 const Bottom = styled.div`
   display: flex;
   width: 100%;
-  flex: 1;
+  height: 50px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -90,7 +90,7 @@ export const Board = () => {
   }, [GetPost]);
   const getPage = () => {
     let pageList = [];
-    for (let i = 1; i < pages; i++) {
+    for (let i = 1; i <= pages; i++) {
       pageList.push(
         <div
           style={{
@@ -100,12 +100,12 @@ export const Board = () => {
             justifyContent: "center",
             alignItems: "center",
             color: "white",
-            fontSize: "5px",
+            fontSize: "15px",
             fontWeight: `${page === i ? "bold" : "normal"}`,
           }}
           onClick={() => handlePage(i)}
         >
-          i
+          {i}
         </div>
       );
     }

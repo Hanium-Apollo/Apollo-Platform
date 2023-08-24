@@ -64,13 +64,17 @@ export const Write = () => {
   const handleEditorChange = (newValue: string | undefined) => {
     if (typeof newValue === "string") {
       setValue(newValue);
-      console.log("User input:", newValue); // 콘솔에 사용자 입력값 출력
     }
   };
   const Postpost = useCallback(() => {
     const title = titleRef.current?.value;
-    const tagNames = tagRef.current?.value.replace(/\s+/g, "").split("#");
+    const tagNames = tagRef.current?.value
+      .replace(/\s+/g, "")
+      .split("#")
+      .filter((tag) => tag.trim() !== "");
+
     const content = value;
+    console.log(title, tagNames, content);
 
     if (accessToken && userId && title && tagNames && content) {
       postBoard(userId, title, content, tagNames);
@@ -133,8 +137,9 @@ export const Write = () => {
           }}
         >
           <input
-            placeholder=" 태그를 입력해주세요. 예시. #JS, #React"
+            placeholder=" 태그를 입력해주세요. 예시. #JS #React"
             style={{ width: "100%" }}
+            ref={tagRef}
           ></input>
         </div>
       </Item>

@@ -1,8 +1,8 @@
-import { comment } from "@uiw/react-md-editor";
 import { apiClient } from "./ApiClient";
 
-export const getBoardList = () => {
-  return apiClient.get(`/api/board`, {});
+export const getBoardList = (pageNum: number) => {
+  const queryParams = { pageNum: pageNum };
+  return apiClient.get(`/api/board`, { params: queryParams });
 };
 
 export const postBoard = (

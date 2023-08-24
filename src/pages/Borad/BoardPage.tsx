@@ -4,6 +4,7 @@ import { Tab } from "../../components/Board/Tab";
 import PostList, { PostProps } from "../../components/Board/PostList";
 import { getBoardList } from "../../apis/BoardService";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export const Container = styled.div`
   position: absolute;
@@ -32,7 +33,6 @@ const Bottom = styled.div`
 const BottomItem = styled.div`
   display: flex;
   height: 100%;
-  flex: 1;
   align-items: center;
   justify-content: center;
   color: white;
@@ -57,28 +57,73 @@ const Btn = styled(Button)`
   }
 `;
 
+interface TagProps {
+  id: string;
+  tagName: string;
+}
+
 export const Board = () => {
-  const [posts, setPosts] = useState<PostProps[]>([]);
+  const navigate = useNavigate();
+  const [posts, setPosts] = useState<PostProps[]>();
+  const [pages, setPages] = useState<number>(1);
+  const [tags, setTags] = useState<TagProps[]>();
+  const [page, setPage] = useState<number>(1);
   const GetPost = useCallback(() => {
-    getBoardList()
+    getBoardList(page)
       .then((res) => {
-        setPosts(res.data);
+        setPosts(res.data.posts);
+        setTags(res.data.tags);
+        setPages(Number(res.data.count) / 3 + 1);
       })
       .catch((err) => {});
   }, []);
+  const handlePage = (i: number) => {
+    setPage(i);
+    GetPost();
+  };
+  const handleWrite = () => {
+    navigate("board/write");
+  };
 
   useEffect(() => {
     GetPost();
   }, [GetPost]);
+  const getPage = () => {
+    let pageList = [];
+    for (let i = 1; i < pages; i++) {
+      pageList.push(
+        <div
+          style={{
+            display: "flex",
+            flex: "1",
+            cursor: "pointer",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "white",
+            fontSize: "5px",
+            fontWeight: `${page === i ? "bold" : "normal"}`,
+          }}
+          onClick={() => handlePage(i)}
+        >
+          i
+        </div>
+      );
+    }
+    return pageList;
+  };
   return (
     <Container>
       <Tab />
-      <PostList posts={posts} />
+      {posts && <PostList posts={posts} />}
       <Bottom>
-        <BottomItem></BottomItem>
-        <BottomItem>1</BottomItem>
-        <BottomButton>
-          <Btn>글쓰기</Btn>
+        <BottomItem style={{ flex: "1" }}></BottomItem>
+        <BottomItem
+          style={{ display: "flex", flexDirection: "row", flex: "3" }}
+        >
+          {getPage()}
+        </BottomItem>
+        <BottomButton style={{ flex: "1" }}>
+          <Btn onClick={handleWrite}>글쓰기</Btn>
         </BottomButton>
       </Bottom>
     </Container>

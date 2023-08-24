@@ -78,9 +78,9 @@ function ListItem({ ...props }: ItemProps) {
             cursor: "pointer",
             zIndex: 10,
           }}
-          onClick={() => handleOpen()}
         >
           endpoint: {props.deploy.endpoint}
+          <button onClick={() => handleOpen()}>취소</button>
         </div>
       )}
       <li

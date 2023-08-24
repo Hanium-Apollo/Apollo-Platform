@@ -66,7 +66,7 @@ const Post = ({ ...props }: PostProps) => {
   const navigate = useNavigate();
   const tagItems = props.tag.map((item, index) => (
     <TagBox>
-      <Tag>{item}</Tag>
+      <Tag>{item.tagName}</Tag>
     </TagBox>
   ));
   const GotoDetail = () => {

@@ -57,14 +57,14 @@ const Btn = styled(Button)`
   }
 `;
 
-interface TagProps {
+export interface TagProps {
   id: string;
   tagName: string;
 }
 
 export const Board = () => {
   const navigate = useNavigate();
-  const [posts, setPosts] = useState<PostProps[]>();
+  const [posts, setPosts] = useState<PostProps[]>([]);
   const [pages, setPages] = useState<number>(1);
   const [tags, setTags] = useState<TagProps[]>();
   const [page, setPage] = useState<number>(1);

@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import Post from "./Post";
+import { TagProps } from "../../pages/Board/BoardPage";
 
 const ListContainer = styled.div`
   width: 100%;
@@ -30,14 +31,14 @@ export interface PostProps {
   nickname: string;
   title: string;
   createdAt: string;
-  tag: string[];
+  tag: TagProps[];
   postId: number;
 }
 interface PostListProps {
   posts: PostProps[];
 }
 
-export const PostList = ({ ...props }: PostListProps) => {
+export const PostList = (props: PostListProps) => {
   const listItems = props.posts.map((item, index) => (
     <Post
       nickname={item.nickname}

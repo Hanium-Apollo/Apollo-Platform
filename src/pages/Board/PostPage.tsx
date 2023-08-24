@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { getBoardDetail } from "../../apis/BoardService";
 import { useCallback, useEffect, useState } from "react";
 import PostDetail from "../../components/Board/PostDetail";
-import { Container } from "./BoardPage";
+import { Container, TagProps } from "./BoardPage";
 
 export interface PostData {
   userId: string;
@@ -10,7 +10,7 @@ export interface PostData {
   title: string;
   content: string;
   createdAt: string;
-  tag: string[];
+  tag: TagProps[];
 }
 
 export interface CommentData {

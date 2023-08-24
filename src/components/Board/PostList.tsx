@@ -31,7 +31,7 @@ export interface PostProps {
   nickname: string;
   title: string;
   createdAt: string;
-  tag: TagProps[];
+  tags: TagProps[];
   postId: number;
 }
 interface PostListProps {
@@ -44,7 +44,7 @@ export const PostList = (props: PostListProps) => {
       nickname={item.nickname}
       title={item.title}
       createdAt={item.createdAt}
-      tag={item.tag}
+      tags={item.tags}
       postId={item.postId}
     />
   ));

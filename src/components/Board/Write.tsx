@@ -69,7 +69,7 @@ export const Write = () => {
   };
   const Postpost = useCallback(() => {
     const title = titleRef.current?.value;
-    const tagNames = tagRef.current?.value.replace(" ", "").split("#");
+    const tagNames = tagRef.current?.value.replace(/\s+/g, "").split("#");
     const content = value;
 
     if (accessToken && userId && title && tagNames && content) {

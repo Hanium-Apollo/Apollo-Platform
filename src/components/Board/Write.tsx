@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
-import { title } from "process";
 import { postBoard } from "../../apis/BoardService";
 import { UserInfo } from "../../apis/UserServiceType";
 import { useCookies } from "react-cookie";
@@ -35,11 +34,16 @@ const Editor = styled(MDEditor)`
   flex: 10;
 `;
 
-const PreviewContainer = styled.div`
-  width: 100%; /* Set the width you desire */
-`;
+// const PreviewContainer = styled.div`
+//   width: 100%; /* Set the width you desire */
+// `;
 const Btn = styled(Button)`
   color: white;
+  background-color: #4cbccc;
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
+  cursor: pointer;
   :hover {
     font-weight: bold;
   }
@@ -79,9 +83,10 @@ export const Write = () => {
         <div
           style={{
             display: "flex",
-            fontSize: "16px",
+            fontSize: "18px",
             color: "white",
             alignItems: "center",
+            fontWeight: "bold",
           }}
         >
           제목 :{" "}

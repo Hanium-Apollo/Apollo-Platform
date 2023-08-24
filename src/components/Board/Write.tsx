@@ -101,7 +101,7 @@ export const Write = () => {
           }}
         >
           <input
-            placeholder="제목을 입력해주세요."
+            placeholder=" 제목을 입력해주세요."
             style={{ width: "100%" }}
             ref={titleRef}
           ></input>
@@ -111,9 +111,10 @@ export const Write = () => {
         <div
           style={{
             display: "flex",
-            fontSize: "16px",
+            fontSize: "18px",
             color: "white",
             alignItems: "center",
+            fontWeight: "bold",
           }}
         >
           태그 :{" "}
@@ -128,7 +129,7 @@ export const Write = () => {
           }}
         >
           <input
-            placeholder="제목을 입력해주세요."
+            placeholder=" 태그를 입력해주세요. 예시. #JS, #React"
             style={{ width: "100%" }}
           ></input>
         </div>

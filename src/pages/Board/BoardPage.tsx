@@ -66,14 +66,14 @@ export const Board = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState<PostProps[]>([]);
   const [pages, setPages] = useState<number>(1);
-  const [tags, setTags] = useState<TagProps[]>();
+  const [tags, setTags] = useState<TagProps[]>([]);
   const [page, setPage] = useState<number>(1);
   const GetPost = useCallback(() => {
     getBoardList(page)
       .then((res) => {
         setPosts(res.data.posts);
         setTags(res.data.tags);
-        setPages(Number(res.data.count) / 3 + 1);
+        setPages(Number(res.data.count) / 20 + 1);
       })
       .catch((err) => {});
   }, []);
@@ -113,7 +113,7 @@ export const Board = () => {
   };
   return (
     <Container>
-      <Tab />
+      {tags && <Tab tags={tags} />}
       {posts && <PostList posts={posts} />}
       <Bottom>
         <BottomItem style={{ flex: "1" }}></BottomItem>

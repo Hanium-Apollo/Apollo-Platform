@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { TagProps } from "../../pages/Board/BoardPage";
+import Tag from "./tag";
 
 const TabContainer = styled.div`
   width: 100%;
@@ -19,6 +21,8 @@ const TabMenu = styled.ul`
   align-items: center;
   margin-bottom: 7rem;
   margin: 0px;
+  display: flex;
+  flex-direction: row;
 
   .submenu {
     display: flex;
@@ -27,6 +31,7 @@ const TabMenu = styled.ul`
     font-size: 15px;
     transition: 0.5s;
     cursor: pointer;
+    flex: 1;
   }
 
   .focused {
@@ -41,21 +46,34 @@ const TabMenu = styled.ul`
 `;
 
 const Desc = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px;
   text-align: center;
   width: 100%;
   color: #4cbccc;
+  -ms-overflow-style: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  overflow: auto;
+  scrollbehavior: smooth;
 `;
+interface TagListProps {
+  tags: TagProps[];
+}
 
-export const Tab = () => {
+export const Tab = (prop: TagListProps) => {
   const [currentTab, clickTab] = useState(0);
 
-  const menuArr = [
-    { name: "Question ✓", content: "" },
-    { name: "Tags (#)", content: "태그 목록" },
-  ];
+  const menuArr = [{ name: "Question ✓" }, { name: "Tags (#)" }];
   const selectMenuHandler = (index: number) => {
     clickTab(index);
   };
+  const tagItems = prop.tags.map((item, index) => (
+    <Tag tagName={item.tagName} />
+  ));
 
   return (
     <>
@@ -69,11 +87,31 @@ export const Tab = () => {
               {el.name}
             </li>
           ))}
+          <div
+            style={{
+              flex: "2.5",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            <input
+              placeholder="검색어를 입력해주세요"
+              style={{
+                display: "flex",
+                flex: "1",
+                border: "none",
+                borderRadius: "20px",
+                marginRight: "10px",
+                paddingLeft: "5px",
+              }}
+            ></input>
+            <div> 검색</div>
+          </div>
         </TabMenu>
-        <Desc>
-          <p>{menuArr[currentTab].content}</p>
-        </Desc>
       </TabContainer>
+      {menuArr[currentTab].name === "Tags (#)" && <Desc>{tagItems}</Desc>}
     </>
   );
 };

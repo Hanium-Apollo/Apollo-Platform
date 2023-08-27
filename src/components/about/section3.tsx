@@ -14,7 +14,7 @@ const SectionContainer = styled(Grid)`
   background-color: #313131;
   z-index: 1;
   padding: 50px;
-  width: 100vw;
+  width: 100%;
   align-items: center;
   justify-content: center;
   transform: translate(0, 0);
@@ -80,7 +80,7 @@ export const Section3: React.FC<Section3Props> = ({ children }) => {
         </Section3Inner>
         <Section3Inner>
           <Text>{" Java 배포시 Dockerfile 작성요령 "}</Text>
-          <img src={Docker_java} alt="" height={"500px"} />
+          <img src={Docker_java} alt="" height={"500px"} width={"800px"} />
         </Section3Inner>
       </Grid>
     </SectionContainer>

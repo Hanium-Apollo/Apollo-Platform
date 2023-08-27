@@ -137,8 +137,10 @@ function DeployList() {
   const [DeployData, setDeployData] = useState<deployData[]>([]);
   console.log(DeployData);
   const [cookie] = useCookies(["token"]);
-  let info = localStorage.getItem("userInfo");
-  let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
+  const info = localStorage.getItem("userInfo");
+  const parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
+  const userId = parsedInfo?.id;
+  const accessToken = cookie.token;
   const ClientData = useMemo(() => {
     return DeployData.filter((item) => item.stackType === "client");
   }, [DeployData]);
@@ -146,10 +148,7 @@ function DeployList() {
   const ServerData = useMemo(() => {
     return DeployData.filter((item) => item.stackType === "server");
   }, [DeployData]);
-  const getDeploy = async () => {
-    let accessToken = cookie.token;
-    if (!parsedInfo) return;
-    let userId = parsedInfo.id;
+  const getDeploy = useCallback(async () => {
     if (accessToken && userId) {
       await getDeployListService(userId)
         .then((response) => {
@@ -160,7 +159,7 @@ function DeployList() {
           console.error("Error fetching data:", error);
         });
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
     getDeploy();

@@ -17,7 +17,6 @@ const SectionContainer = styled(Grid)`
   padding: 60px;
   width: 100vw;
   justify-content: center;
-  
 `;
 
 const TextContainer = styled(Grid)`
@@ -179,15 +178,30 @@ export const Section1: React.FC<Section1Props> = ({ children }) => {
             {"Get Started 👌🏼"}
           </StyledButton>
 
-          <Link to="how" spy={true} smooth="true">
+          <Link
+            to="how"
+            spy={true}
+            smooth="true"
+            style={{ textDecoration: "none" }}
+          >
             <StyledButton>{"Apollo ? 🤔"}</StyledButton>
           </Link>
 
-          <Link to="docker" spy={true} smooth="true">
+          <Link
+            to="docker"
+            spy={true}
+            smooth="true"
+            style={{ textDecoration: "none" }}
+          >
             <StyledButton>{"If No Dockerfile 🐳"}</StyledButton>
           </Link>
 
-          <Link to="iam" spy={true} smooth="true">
+          <Link
+            to="iam"
+            spy={true}
+            smooth="true"
+            style={{ textDecoration: "none" }}
+          >
             <StyledButton>{"IAM 🤖"}</StyledButton>
           </Link>
         </Fade>

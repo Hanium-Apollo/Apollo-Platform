@@ -27,7 +27,7 @@ const SectionContainer = styled(Grid)`
 `;
 
 const Text = styled.div`
-  font-size: 20px;
+  font-size: 24px;
   color: lightgray;
   letter-spacing: 4.8px;
   font-weight: bold;
@@ -49,11 +49,11 @@ const Text = styled.div`
 
 const SectionInner = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
   flex-direction: column;
   white-space: nowrap;
   padding: 20px;
+  margin-bottom: 20px;
   border-bottom: 1px solid lightgray;
 `;
 
@@ -94,19 +94,35 @@ export const Section4: React.FC<Section4Props> = ({ children }) => {
         <Text>{"[사용자] - [사용자 생성]"}</Text>
       </SectionInner>
       <SectionInner>
-        <img src={Description5} alt="" height={"600px"} width={"1000px"}></img>
+        <img
+          src={Description5}
+          alt=""
+          height={"600px"}
+          width={"1000px"}
+          style={{ marginBottom: "20px" }}
+        ></img>
         <img src={Description6} alt="" height={"600px"} width={"1000px"}></img>
         <Text>{"그룹 생성 클릭"}</Text>
       </SectionInner>
       <SectionInner>
-        <img src={Description7} alt="" height={"600px"} width={"1000px"}></img>
+        <img
+          src={Description7}
+          alt=""
+          height={"600px"}
+          width={"1000px"}
+          style={{ marginBottom: "20px" }}
+        ></img>
         <img src={Description8} alt="" height={"600px"} width={"1000px"}></img>
         <Text>{"AdministratorAccess 선택"}</Text>
       </SectionInner>
       <SectionInner>
         <img src={Description9} alt="" height={"600px"} width={"1000px"}></img>
         <Text>{"사용자생성 클릭"}</Text>
-        <Text>{".csv 파일을 열게 되면 IAM 사용자 명, 콘솔 로그인 url, 비밀번호를 모두 확인 할 수 있다. "}</Text>
+        <Text>
+          {
+            ".csv 파일을 열게 되면 IAM 사용자 명, 콘솔 로그인 url, 비밀번호를 모두 확인 할 수 있다. "
+          }
+        </Text>
       </SectionInner>
     </SectionContainer>
   );

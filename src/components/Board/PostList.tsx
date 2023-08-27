@@ -28,11 +28,12 @@ const List = styled.div`
 `;
 
 export interface PostProps {
-  nickname: string;
   title: string;
   createdAt: string;
   tags: TagProps[];
   postId: number;
+  userLogin: string;
+  userId: string;
 }
 interface PostListProps {
   posts: PostProps[];
@@ -41,11 +42,12 @@ interface PostListProps {
 export const PostList = (props: PostListProps) => {
   const listItems = props.posts.map((item, index) => (
     <Post
-      nickname={item.nickname}
       title={item.title}
       createdAt={item.createdAt}
       tags={item.tags}
       postId={item.postId}
+      userLogin={item.userLogin}
+      userId={item.userId}
     />
   ));
   return (

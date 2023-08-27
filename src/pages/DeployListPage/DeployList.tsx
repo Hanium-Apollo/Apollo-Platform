@@ -36,7 +36,7 @@ function ListItem({ ...props }: ItemProps) {
   };
   const handleClick = () => {
     if (props.deploy.stackType === "client") {
-      clientRepoDeleteService(props.userId, props.deploy.stackName)
+      clientRepoDeleteService(props.userId, props.deploy.serviceId)
         .then((response) => {
           console.log(response.data);
         })
@@ -44,7 +44,7 @@ function ListItem({ ...props }: ItemProps) {
           console.error("Error fetching data:", error);
         });
     } else if (props.deploy.stackType === "server") {
-      serverRepoDeleteService(props.userId, props.deploy.stackName)
+      serverRepoDeleteService(props.userId, props.deploy.serviceId)
         .then((response) => {
           console.log(response.data);
         })

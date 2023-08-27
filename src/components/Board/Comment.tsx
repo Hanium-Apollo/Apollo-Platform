@@ -6,8 +6,8 @@ const Comment = (prop: CommentData) => {
   let info = localStorage.getItem("userInfo");
   const parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
   const userId = parsedInfo?.id;
-  const Delete = () => {
-    deleteComment(prop.commentId, prop.writerId);
+  const Delete = async () => {
+    await deleteComment(prop.commentId, prop.writerId);
     window.location.reload();
   };
 

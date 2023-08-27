@@ -5,7 +5,6 @@ import styled from "@emotion/styled";
 const SectionContainer = styled(Grid)`
   display: flex;
   flex: 1;
-  position: static;
   max-width: 1440px;
   background-color: #2C2C2C;
   z-index: 1;

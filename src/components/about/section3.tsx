@@ -8,7 +8,6 @@ import Docker_java from "../../assets/images/Docker_java.png";
 
 const SectionContainer = styled(Grid)`
   display: flex;
-  position: absolute;
   flex: 1;
   max-width: 1440px;
   background-color: #313131;
@@ -33,9 +32,6 @@ const Text = styled.div`
   }
   font-family: "One";
 
-  span.highlight {
-    color: #f3f781;
-  }
   @media (max-width: 768px) {
     font-size: 15px;
   }

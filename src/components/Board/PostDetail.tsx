@@ -93,6 +93,29 @@ export const PostDetail = (prop: PostDetailProps) => {
         </div>
         <div
           style={{
+            width: "100%",
+            marginBottom: "10px",
+            fontSize: "12px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          {prop.post.userLogin}
+        </div>
+        <div
+          style={{
+            width: "100%",
+            marginBottom: "10px",
+            fontSize: "12px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          {prop.post.createdAt}
+        </div>
+
+        <div
+          style={{
             display: "flex",
             flexDirection: "row",
             width: "100%",

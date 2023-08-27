@@ -6,6 +6,7 @@ import { Container, TagProps } from "./BoardPage";
 
 export interface PostData {
   userId: string;
+  userLogin: string;
   postId: string;
   title: string;
   content: string;

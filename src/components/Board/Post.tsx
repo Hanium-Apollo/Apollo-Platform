@@ -57,7 +57,7 @@ const Post = (props: PostProps) => {
   return (
     <Item onClick={GotoDetail}>
       <PostTitle>{props.title}</PostTitle>
-      <PostName>{props.nickname}</PostName>
+      <PostName>{props.userLogin}</PostName>
       <PostName>{props.createdAt}</PostName>
       <PostContent>{tagItems}</PostContent>
     </Item>

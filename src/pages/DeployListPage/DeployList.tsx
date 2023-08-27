@@ -34,7 +34,7 @@ function ListItem({ ...props }: ItemProps) {
   const handleSubmit = () => {
     navigate("/monitor", { state: { repoName: props.deploy.stackName } });
   };
-  const handleClick = async () => {
+  const Delete = async () => {
     if (props.deploy.stackType === "client") {
       await clientRepoDeleteService(props.userId, props.deploy.serviceId)
         .then((response) => {
@@ -52,6 +52,10 @@ function ListItem({ ...props }: ItemProps) {
           console.error("Error fetching data:", error);
         });
     }
+  };
+
+  const handleClick = () => {
+    Delete();
     navigate("/deploy");
   };
   return (
@@ -142,12 +146,12 @@ function DeployList() {
   const ServerData = useMemo(() => {
     return DeployData.filter((item) => item.stackType === "server");
   }, [DeployData]);
-  const getDeploy = useCallback(() => {
+  const getDeploy = async () => {
     let accessToken = cookie.token;
     if (!parsedInfo) return;
     let userId = parsedInfo.id;
     if (accessToken && userId) {
-      getDeployListService(userId)
+      await getDeployListService(userId)
         .then((response) => {
           console.log(response.data);
           setDeployData(response.data);
@@ -156,7 +160,7 @@ function DeployList() {
           console.error("Error fetching data:", error);
         });
     }
-  }, [cookie.token, parsedInfo, setDeployData]);
+  };
 
   useEffect(() => {
     getDeploy();

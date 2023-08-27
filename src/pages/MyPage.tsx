@@ -64,16 +64,15 @@ const CredentialsBox = styled.div`
 
 const ProfileImage = styled.img`
   border-radius: 50%;
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
 `;
 
 const TextBox = styled(Grid)`
   width: 100%;
   display: flex;
   color: white;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
   font-size: 30px;
   font-weight: bold;
   padding: 10px;
@@ -83,8 +82,7 @@ const TextBoxContainer = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
-  align-items: center;
-  justify-content: left;
+  align-items: flex-start;
 `;
 const EditLine = styled.div`
   display: flex;

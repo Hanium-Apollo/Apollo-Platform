@@ -5,7 +5,8 @@ import { Button } from "@mui/material";
 import { getBoardDetail, patchBoard } from "../../apis/BoardService";
 import { UserInfo } from "../../apis/UserServiceType";
 import { useCookies } from "react-cookie";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { TagProps } from "./BoardPage";
 
 const Container = styled.div`
   position: absolute;
@@ -55,6 +56,7 @@ export const Edit = () => {
   const [cookie] = useCookies(["token"]);
   const accessToken = cookie.token;
   const postId = useParams().id;
+  const navigate = useNavigate();
 
   const handleEditorChange = (newValue: string | undefined) => {
     if (typeof newValue === "string") {
@@ -67,8 +69,9 @@ export const Edit = () => {
       getBoardDetail(postId).then((res) => {
         setValue(res.data.post.content);
         titleRef.current!.value = res.data.post.title;
+        console.log(res.data);
         tagRef.current!.value = res.data.post.tags
-          .map((tag: string) => "#" + tag)
+          .map((tag: TagProps) => "#" + tag.tagName)
           .join(" ");
       });
     }
@@ -77,7 +80,7 @@ export const Edit = () => {
     getPost();
   }, [postId, getPost]);
 
-  const Patchpost = useCallback(() => {
+  const Patchpost = useCallback(async () => {
     const title = titleRef.current?.value;
     const tagNames = tagRef.current?.value
       .replace(/\s+/g, "")
@@ -85,7 +88,8 @@ export const Edit = () => {
       .filter((tag) => tag.trim() !== "");
     const content = value;
     if (postId && accessToken && userId && title && tagNames && content) {
-      patchBoard(postId, userId, title, content, tagNames);
+      await patchBoard(postId, userId, title, content, tagNames);
+      navigate(`/board/${postId}`);
     }
   }, [userId, value, accessToken, postId]);
   const handleSubmit = () => {

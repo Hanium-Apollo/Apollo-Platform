@@ -10,7 +10,7 @@ export interface PostData {
   title: string;
   content: string;
   createdAt: string;
-  tag: TagProps[];
+  tags: TagProps[];
 }
 
 export interface CommentData {

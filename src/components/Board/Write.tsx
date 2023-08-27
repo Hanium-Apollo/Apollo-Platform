@@ -66,7 +66,7 @@ export const Write = () => {
       setValue(newValue);
     }
   };
-  const Postpost = useCallback(() => {
+  const Postpost = useCallback(async () => {
     const title = titleRef.current?.value;
     const tagNames = tagRef.current?.value
       .replace(/\s+/g, "")
@@ -77,12 +77,12 @@ export const Write = () => {
     console.log(title, tagNames, content);
 
     if (accessToken && userId && title && tagNames && content) {
-      postBoard(userId, title, content, tagNames);
+      await postBoard(userId, title, content, tagNames);
+      navigate("/board");
     }
   }, [userId, value, accessToken]);
   const handleSubmit = () => {
     Postpost();
-    navigate("/board");
   };
 
   return (

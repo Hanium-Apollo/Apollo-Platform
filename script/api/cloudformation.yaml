@@ -393,7 +393,7 @@ Resources:
               "height": 6,
               "properties": {
                 "metrics": [
-                  [ "AWS/ECS", "CPUUtilization", "ClusterName", "${ECSCluster}", "ServiceName", "${ECSService}" ]
+                  [ "AWS/ECS", "CPUUtilization", "ClusterName", "Apollo-Server-Cluster", "ServiceName", "Apollo-Server-Service" ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
@@ -408,7 +408,7 @@ Resources:
               "height": 6,
               "properties": {
                 "metrics": [
-                  [ "AWS/ECS", "MemoryUtilization", "ClusterName", "${ECSCluster}", "ServiceName", "${ECSService}" ]
+                  [ "AWS/ECS", "MemoryUtilization", "ClusterName", "Apollo-Server-Cluster", "ServiceName", "Apollo-Server-Service" ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
@@ -422,8 +422,8 @@ Resources:
               "height": 6,
               "properties": {
                 "metrics": [
-                  [ "AWS/ECS", "RunningTaskCount", "ClusterName", "${ECSCluster}", "ServiceName", "${ECSService}" ],
-                  [ "AWS/ECS", "DesiredTaskCount", "ClusterName", "${ECSCluster}", "ServiceName", "${ECSService}" ]
+                  [ "AWS/ECS", "RunningTaskCount", "ClusterName", "Apollo-Server-Cluster", "ServiceName", "Apollo-Server-Service" ],
+                  [ "AWS/ECS", "DesiredTaskCount", "ClusterName", "Apollo-Server-Cluster", "ServiceName", "Apollo-Server-Service" ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,
@@ -437,8 +437,8 @@ Resources:
               "height": 6,
               "properties": {
                 "metrics": [
-                  [ "AWS/ECS", "NetworkRxBytes", "ClusterName", "${ECSCluster}", "ServiceName", "${ECSService}" ],
-                  [ "AWS/ECS", "NetworkTxBytes", "ClusterName", "${ECSCluster}", "ServiceName", "${ECSService}" ]
+                  [ "AWS/ECS", "NetworkRxBytes", "ClusterName", "Apollo-Server-Cluster", "ServiceName", "Apollo-Server-Service" ],
+                  [ "AWS/ECS", "NetworkTxBytes", "ClusterName", "Apollo-Server-Cluster", "ServiceName", "Apollo-Server-Service" ]
                 ],
                 "view": "timeSeries",
                 "stacked": false,

@@ -251,7 +251,7 @@ Resources:
   APIECRRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: !Ref GithubRepositoryName
+      RepositoryName: api-ecr-repository
 
   ECSCluster:
     Type: AWS::ECS::Cluster

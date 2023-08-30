@@ -378,6 +378,75 @@ Resources:
             - !Ref APIPrivatSubneteA
             - !Ref APIPrivatSubneteC
 
+  CloudWatchDashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Properties:
+      DashboardName: !Ref GithubRepositoryName
+      DashboardBody: !Sub |
+      {
+        "widgets": [
+          {
+            "type": "metric",
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 6,
+            "properties": {
+              "metrics": [
+                [ "AWS/ECS", "CPUUtilization", "ClusterName", "${ECSCluster}", "ServiceName", "${ECSService}" ]
+              ],
+              "view": "timeSeries",
+              "stacked": false,
+              "region": "${AWS::Region}"
+            }
+          },
+          {
+            "type": "metric",
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 6,
+            "properties": {
+              "metrics": [
+                [ "AWS/ECS", "MemoryUtilization", "ClusterName", "${ECSCluster}", "ServiceName", "${ECSService}" ]
+              ],
+              "view": "timeSeries",
+              "stacked": false,
+              "region": "${AWS::Region}"
+          },
+          {
+            "type": "metric",
+            "x": 0,
+            "y": 12,
+            "width": 12,
+            "height": 6,
+            "properties": {
+              "metrics": [
+                [ "AWS/ECS", "RunningTaskCount", "ClusterName", "${ECSCluster}", "ServiceName", "${ECSService}" ],
+                [ "AWS/ECS", "DesiredTaskCount", "ClusterName", "${ECSCluster}", "ServiceName", "${ECSService}" ]
+              ],
+              "view": "timeSeries",
+              "stacked": false,
+              "region": "${AWS::Region}"
+          },
+          {
+            "type": "metric",
+            "x": 0,
+            "y": 18,
+            "width": 12,
+            "height": 6,
+            "properties": {
+              "metrics": [
+                [ "AWS/ECS", "NetworkRxBytes", "ClusterName", "${ECSCluster}", "ServiceName", "${ECSService}" ],
+                [ "AWS/ECS", "NetworkTxBytes", "ClusterName", "${ECSCluster}", "ServiceName", "${ECSService}" ]
+              ],
+              "view": "timeSeries",
+              "stacked": false,
+              "region": "${AWS::Region}"
+          }
+        ]
+      }
+
   CodeBuildServiceRole:
     Type: AWS::IAM::Role
     Properties:

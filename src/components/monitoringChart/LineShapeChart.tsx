@@ -10,39 +10,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import moment from "moment";
+import { DataProps } from "../../pages/Monitoring/Monitor";
 
-interface DataPoint {
-  name: string;
-  Bytes: number;
-}
-
-const MAX_DATA_POINTS = 5;
-
-const LineShapeChart: React.FC = () => {
-  const [data, setData] = useState<DataPoint[]>([
-    { name: moment().format("HH:mm"), Bytes: Math.floor(Math.random() * 100) },
-  ]);
+const LineShapeChart = (props: DataProps) => {
+  const [data, setData] = useState<any[]>([]);
 
   const xAxisRef = useRef<SVGSVGElement>(null);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setData((prevData) => {
-        const newData: DataPoint[] = [
-          ...prevData.slice(-(MAX_DATA_POINTS - 1)),
-          {
-            name: moment().format("HH:mm"),
-            Bytes: Math.floor(Math.random() * 100),
-          },
-        ];
-        return newData;
-      });
-    }, 5000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -61,6 +34,15 @@ const LineShapeChart: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // props.values가 변경될 때마다 데이터 업데이트
+    const newData = props.timestamps.map((timestamp, index) => ({
+      name: moment(timestamp).format("HH:mm"),
+      Bytes: props.values[index],
+    }));
+    setData(newData);
+  }, [props.timestamps, props.values]);
+
   return (
     <div className="chart-container">
       <ResponsiveContainer>
@@ -73,6 +55,7 @@ const LineShapeChart: React.FC = () => {
           <Line
             type="linear"
             dataKey="Bytes"
+            name="Bytes" // 그래프 선의 이름
             stroke="rgba(75,192,192,1)"
             strokeWidth={1}
           />

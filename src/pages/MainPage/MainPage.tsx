@@ -44,6 +44,9 @@ const Main = () => {
   const [cookies] = useCookies(["token"]);
 
   const accessToken = cookies.token;
+  let info = localStorage.getItem("userInfo");
+  let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
+  let userId = parsedInfo?.id;
 
   const handleCallback = useCallback(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -70,10 +73,6 @@ const Main = () => {
   }, [handleCallback]);
 
   const getRepo = useCallback(() => {
-    let info = localStorage.getItem("userInfo");
-    let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
-    if (!parsedInfo) return;
-    let userId = parsedInfo.id;
     if (accessToken && userId) {
       getRepoListService(userId)
         .then((response) => {
@@ -84,7 +83,7 @@ const Main = () => {
           console.error("Error fetching data:", error);
         });
     }
-  }, [accessToken]);
+  }, [accessToken, userId]);
 
   useEffect(() => {
     getRepo();
@@ -93,7 +92,7 @@ const Main = () => {
   return (
     <div className="main">
       <img src={logoname} className="logoname" alt="logoname" />
-      {accessToken ? (
+      {userId ? (
         <>
           <StyledButton
             variant="contained"

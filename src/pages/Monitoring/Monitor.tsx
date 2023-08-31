@@ -27,7 +27,7 @@ const Monitor = () => {
   const [Data, setData] = React.useState<DataProps[]>([]);
   useEffect(() => {
     const soket = new WebSocket(
-      `${process.env.REACT_APP_SERVER_SOCEKT}/api/cloudwatch` +
+      `${process.env.REACT_APP_SERVER_WEBSOCEKT}/api/cloudwatch` +
         `?userId=${userId}&serviceId=${serviceId}`
     );
     soket.addEventListener("open", function (event) {
@@ -50,7 +50,7 @@ const Monitor = () => {
       <div className="text-block">
         <div className="text">{repoName}</div>
       </div>
-      {/* <div className="chart">
+      <div className="chart">
         <Container>
           <Grid container spacing={2}>
             <Grid item xs={6} md={12}>
@@ -81,7 +81,7 @@ const Monitor = () => {
             </Grid>
           </Grid>
         </Container>
-      </div> */}
+      </div>
       <div>
         <Button css={"mhomebtn"} text={"home"} />
         <Button css={"mbackbtn"} text={"back"} />

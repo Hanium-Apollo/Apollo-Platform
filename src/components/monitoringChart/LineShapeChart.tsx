@@ -12,8 +12,13 @@ import {
 import moment from "moment";
 import { DataProps } from "../../pages/Monitoring/Monitor";
 
+interface DataPoint {
+  name: string;
+  Bytes: number;
+}
+
 const LineShapeChart = (props: DataProps) => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<DataPoint[]>([]);
 
   const xAxisRef = useRef<SVGSVGElement>(null);
 
@@ -49,7 +54,12 @@ const LineShapeChart = (props: DataProps) => {
     <div className="chart-container">
       <ResponsiveContainer>
         <LineChart data={data}>
-          <XAxis dataKey="name" ref={xAxisRef} tick={{ dy: 8 }} />
+          <XAxis
+            dataKey="name"
+            ref={xAxisRef}
+            tick={{ dy: 8 }}
+            reversed={true}
+          />
           <YAxis tick={{ dy: 8 }} />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
@@ -57,7 +67,6 @@ const LineShapeChart = (props: DataProps) => {
           <Line
             type="linear"
             dataKey="Bytes"
-            name="Bytes" // 그래프 선의 이름
             stroke="rgba(75,192,192,1)"
             strokeWidth={1}
           />

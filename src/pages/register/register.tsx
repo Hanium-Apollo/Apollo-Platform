@@ -88,11 +88,9 @@ export const Register = () => {
 
     postCredential(userId, credentials)
       .then((response) => {
-        console.log(response);
         notify("회원가입이 완료되었습니다.");
       })
       .catch((error) => {
-        console.log(error.response.data);
         alert("에러가 발생했습니다: " + error.response.data);
       });
   };

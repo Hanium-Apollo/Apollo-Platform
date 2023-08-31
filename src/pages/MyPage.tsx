@@ -175,7 +175,6 @@ export const MyPage = () => {
           ? githubTokenRef.current.value
           : githubToken,
       };
-      console.log(updatedCredentials.AWSRegion);
       if (userId) {
         await patchCredentials(userId, updatedCredentials);
 

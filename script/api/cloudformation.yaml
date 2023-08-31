@@ -333,7 +333,7 @@ Resources:
       Cpu: 1024
       ContainerDefinitions:
         - Name: "my-container"
-          Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+          Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/api-ecr-repository:latest
           PortMappings:
             - ContainerPort: 8080
 
@@ -350,7 +350,7 @@ Resources:
       Cpu: 1024
       ContainerDefinitions:
         - Name: "my-container"
-          Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+          Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/api-ecr-repository:latest
           PortMappings:
             - ContainerPort: 8080
 

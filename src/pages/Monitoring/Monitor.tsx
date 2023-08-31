@@ -27,7 +27,7 @@ const Monitor = () => {
   const [Data, setData] = React.useState<DataProps[]>([]);
   useEffect(() => {
     const soket = new WebSocket(
-      `{process.env.REACT_APP_SERVER_SOCEKT}/api/cloudwatch` +
+      `${process.env.REACT_APP_SERVER_SOCEKT}/api/cloudwatch` +
         `?userId=${userId}&serviceId=${serviceId}`
     );
     soket.addEventListener("open", function (event) {

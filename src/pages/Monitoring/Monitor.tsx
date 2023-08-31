@@ -21,7 +21,7 @@ const Monitor = () => {
   const location = useLocation();
   const repoName = location.state?.repoName;
   const serviceId = location.state?.serviceId;
-  let info = localStorage.getItem("userInfo");
+  let info = localStorage.getData[0]("userInfo");
   let parsedInfo = info ? (JSON.parse(info) as UserInfo) : null;
   let userId = parsedInfo?.id;
   const [Data, setData] = React.useState<DataProps[]>([]);
@@ -52,22 +52,6 @@ const Monitor = () => {
     };
   }, [userId, serviceId]);
 
-  const listItems = Data.map((item, index) => (
-    <Grid item xs={6} md={12}>
-      <div className="Data-block">
-        <div className="NameBlock">{item.label}</div>
-        <LineShapeChart
-          id={item.id}
-          label={item.label}
-          timestamps={item.timestamps}
-          values={item.values}
-          statusCode={item.statusCode}
-          messages={item.messages}
-        />
-      </div>
-    </Grid>
-  ));
-
   return (
     <div className="monitor">
       <div className="text-block">
@@ -76,7 +60,32 @@ const Monitor = () => {
       <div className="chart">
         <Container>
           <Grid container spacing={2}>
-            {Data && listItems}
+            <Grid item xs={6} md={12}>
+              <div className="Data-block">
+                <div className="NameBlock">{Data[0].label}</div>
+                <LineShapeChart
+                  id={Data[0].id}
+                  label={Data[0].label}
+                  timestamps={Data[0].timestamps}
+                  values={Data[0].values}
+                  statusCode={Data[0].statusCode}
+                  messages={Data[0].messages}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={6} md={12}>
+              <div className="Data-block">
+                <div className="NameBlock">{Data[1].label}</div>
+                <LineShapeChart
+                  id={Data[1].id}
+                  label={Data[1].label}
+                  timestamps={Data[1].timestamps}
+                  values={Data[1].values}
+                  statusCode={Data[1].statusCode}
+                  messages={Data[1].messages}
+                />
+              </div>
+            </Grid>
           </Grid>
         </Container>
       </div>

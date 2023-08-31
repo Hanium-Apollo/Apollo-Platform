@@ -33,7 +33,12 @@ function ListItem({ ...props }: ItemProps) {
     setOpen(!isopen);
   };
   const handleSubmit = () => {
-    navigate("/monitor", { state: { repoName: props.deploy.stackName } });
+    navigate("/monitor", {
+      state: {
+        repoName: props.deploy.stackName,
+        serviceId: props.deploy.serviceId,
+      },
+    });
   };
   const Delete = async () => {
     if (props.deploy.stackType === "client") {

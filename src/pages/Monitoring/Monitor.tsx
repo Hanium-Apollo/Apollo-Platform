@@ -48,9 +48,9 @@ const Monitor = () => {
   return (
     <div className="monitor">
       <div className="text-block">
-        <div className="text">{repoName}awefwaefaewfaewfaewfaewf</div>
+        <div className="text">{repoName}</div>
       </div>
-      <div className="chart">
+      {/* <div className="chart">
         <Container>
           <Grid container spacing={2}>
             <Grid item xs={6} md={12}>
@@ -81,7 +81,7 @@ const Monitor = () => {
             </Grid>
           </Grid>
         </Container>
-      </div>
+      </div> */}
       <div>
         <Button css={"mhomebtn"} text={"home"} />
         <Button css={"mbackbtn"} text={"back"} />

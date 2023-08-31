@@ -35,7 +35,8 @@ const Monitor = () => {
     });
     soket.addEventListener("message", function (event) {
       console.log("Message from server ", event.data);
-      setData(event.data);
+      const parsedData = JSON.parse(event.data);
+      setData(parsedData);
     });
     soket.addEventListener("close", function (event) {
       console.log("close");
@@ -51,12 +52,12 @@ const Monitor = () => {
         <div className="text">{repoName}</div>
       </div>
       <div className="chart">
-        {Data[0].id && Data[1].id && (
+        {Data[0].label && Data[1].label && (
           <Container>
             <Grid container spacing={2}>
               <Grid item xs={6} md={12}>
                 <div className="Data-block">
-                  <div className="NameBlock">{Data[0].id}</div>
+                  <div className="NameBlock">{Data[0].label}</div>
                   <LineShapeChart
                     id={Data[0].id}
                     label={Data[0].label}
@@ -69,7 +70,7 @@ const Monitor = () => {
               </Grid>
               <Grid item xs={6} md={12}>
                 <div className="log-block">
-                  <div className="NameBlock">{Data[1].id}</div>
+                  <div className="NameBlock">{Data[1].label}</div>
                   <LineShapeChart
                     id={Data[1].id}
                     label={Data[1].label}

@@ -636,13 +636,13 @@ Resources:
             build:
               commands:
                 - echo "Building Docker image..."
-                - docker build -t ${GithubRepositoryName}:latest . 
+                - docker build -t api-ecr-repository:latest . 
             post_build:
               commands:
                 - echo "Tagging Docker image..."
-                - docker tag ${GithubRepositoryName}:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+                - docker tag api-ecr-repository:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/api-ecr-repository:latest
                 - echo "Pushing Docker image..."
-                - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/${GithubRepositoryName}:latest
+                - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/api-ecr-repository:latest
           artifacts:
             files:
               - appspec.yaml

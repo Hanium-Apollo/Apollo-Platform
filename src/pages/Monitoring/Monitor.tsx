@@ -27,7 +27,7 @@ const Monitor = () => {
   const [Data, setData] = React.useState<DataProps[]>([]);
   useEffect(() => {
     const soket = new WebSocket(
-      `${process.env.REACT_APP_SERVER_WEBSOCEKT}/api/cloudwatch` +
+      `${process.env.REACT_APP_SERVER_WEBSOCKET}/api/cloudwatch` +
         `?userId=${userId}&serviceId=${serviceId}`
     );
     soket.addEventListener("open", function (event) {
@@ -51,36 +51,38 @@ const Monitor = () => {
         <div className="text">{repoName}</div>
       </div>
       <div className="chart">
-        <Container>
-          <Grid container spacing={2}>
-            <Grid item xs={6} md={12}>
-              <div className="Data-block">
-                <div className="NameBlock">{Data[0].id}</div>
-                <LineShapeChart
-                  id={Data[0].id}
-                  label={Data[0].label}
-                  timestamps={Data[0].timestamps}
-                  values={Data[0].values}
-                  statusCode={Data[0].statusCode}
-                  messages={Data[0].messages}
-                />
-              </div>
+        {Data[0].id && Data[1].id && (
+          <Container>
+            <Grid container spacing={2}>
+              <Grid item xs={6} md={12}>
+                <div className="Data-block">
+                  <div className="NameBlock">{Data[0].id}</div>
+                  <LineShapeChart
+                    id={Data[0].id}
+                    label={Data[0].label}
+                    timestamps={Data[0].timestamps}
+                    values={Data[0].values}
+                    statusCode={Data[0].statusCode}
+                    messages={Data[0].messages}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={6} md={12}>
+                <div className="log-block">
+                  <div className="NameBlock">{Data[1].id}</div>
+                  <LineShapeChart
+                    id={Data[1].id}
+                    label={Data[1].label}
+                    timestamps={Data[1].timestamps}
+                    values={Data[1].values}
+                    statusCode={Data[1].statusCode}
+                    messages={Data[1].messages}
+                  />
+                </div>
+              </Grid>
             </Grid>
-            <Grid item xs={6} md={12}>
-              <div className="log-block">
-                <div className="NameBlock">{Data[1].id}</div>
-                <LineShapeChart
-                  id={Data[1].id}
-                  label={Data[1].label}
-                  timestamps={Data[1].timestamps}
-                  values={Data[1].values}
-                  statusCode={Data[1].statusCode}
-                  messages={Data[1].messages}
-                />
-              </div>
-            </Grid>
-          </Grid>
-        </Container>
+          </Container>
+        )}
       </div>
       <div>
         <Button css={"mhomebtn"} text={"home"} />

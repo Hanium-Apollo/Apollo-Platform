@@ -36,11 +36,13 @@ const LineShapeChart = (props: DataProps) => {
 
   useEffect(() => {
     // props.values가 변경될 때마다 데이터 업데이트
-    const newData = props.timestamps.map((timestamp, index) => ({
-      name: moment(timestamp).format("HH:mm"),
-      Bytes: props.values[index],
-    }));
-    setData(newData);
+    if (props.timestamps) {
+      const newData = props.timestamps.map((timestamp, index) => ({
+        name: moment(timestamp).format("HH:mm"),
+        Bytes: props.values[index],
+      }));
+      setData(newData);
+    }
   }, [props.timestamps, props.values]);
 
   return (

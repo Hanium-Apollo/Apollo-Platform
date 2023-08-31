@@ -413,6 +413,7 @@ Resources:
                 "view": "timeSeries",
                 "stacked": false,
                 "region": "${AWS::Region}"
+              }
             },
             {
               "type": "metric",
@@ -428,6 +429,7 @@ Resources:
                 "view": "timeSeries",
                 "stacked": false,
                 "region": "${AWS::Region}"
+              }
             },
             {
               "type": "metric",
@@ -443,6 +445,7 @@ Resources:
                 "view": "timeSeries",
                 "stacked": false,
                 "region": "${AWS::Region}"
+              }
             }
           ]
         }

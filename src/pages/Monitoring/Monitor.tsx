@@ -13,8 +13,6 @@ export interface DataProps {
   label: string;
   timestamps: string[];
   values: number[];
-  statusCode: string;
-  messages: string[];
 }
 
 const Monitor = () => {
@@ -36,6 +34,7 @@ const Monitor = () => {
     socket.addEventListener("message", function (event) {
       try {
         const parsedData = JSON.parse(event.data);
+        console.log(parsedData);
         setData(parsedData);
       } catch (error) {
         console.error("Error parsing data:", error);
@@ -52,21 +51,9 @@ const Monitor = () => {
     };
   }, [userId, serviceId]);
 
-  const listItems = Data.map((item, index) => (
-    <Grid item xs={6} md={12}>
-      <div className="Data-block">
-        <div className="NameBlock">{item.label}</div>
-        <LineShapeChart
-          id={item.id}
-          label={item.label}
-          timestamps={item.timestamps}
-          values={item.values}
-          statusCode={item.statusCode}
-          messages={item.messages}
-        />
-      </div>
-    </Grid>
-  ));
+  useEffect(() => {
+    console.log(Data);
+  }, [Data]);
 
   return (
     <div className="monitor">
@@ -74,11 +61,42 @@ const Monitor = () => {
         <div className="text">{repoName}</div>
       </div>
       <div className="chart">
-        <Container>
-          <Grid container spacing={2}>
-            {Data && listItems}
-          </Grid>
-        </Container>
+        {Data.length > 0 && (
+          <Container>
+            <Grid container spacing={2}>
+              <Grid item xs={6} md={12}>
+                <div className="Data-block">
+                  {Data[0].label && (
+                    <>
+                      <div className="NameBlock">{Data[0].label}</div>
+                      <LineShapeChart
+                        id={Data[0].id}
+                        label={Data[0].label}
+                        timestamps={Data[0].timestamps}
+                        values={Data[0].values}
+                      />
+                    </>
+                  )}
+                </div>
+              </Grid>
+              <Grid item xs={6} md={12}>
+                <div className="Data-block">
+                  {Data[1].label && (
+                    <>
+                      <div className="NameBlock">{Data[1].label}</div>
+                      <LineShapeChart
+                        id={Data[1].id}
+                        label={Data[1].label}
+                        timestamps={Data[1].timestamps}
+                        values={Data[1].values}
+                      />
+                    </>
+                  )}
+                </div>
+              </Grid>
+            </Grid>
+          </Container>
+        )}
       </div>
       <div>
         <Button css={"mhomebtn"} text={"home"} />

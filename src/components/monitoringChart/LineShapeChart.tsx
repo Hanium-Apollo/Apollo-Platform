@@ -14,20 +14,21 @@ import { DataProps } from "../../pages/Monitoring/Monitor";
 
 interface DataPoint {
   name: string;
-  Bytes: number;
+  Percent: number;
 }
 
 const LineShapeChart = (props: DataProps) => {
   const [data, setData] = useState<DataPoint[]>([]);
 
   const xAxisRef = useRef<SVGSVGElement>(null);
+  const [fontSize, setFontSize] = useState<number>(0);
 
   useEffect(() => {
     const handleResize = () => {
       if (xAxisRef.current) {
         const chartWidth = xAxisRef.current.getBoundingClientRect().width;
         const calculatedFontSize = chartWidth * 0.01; // 차트 너비의 1%를 폰트 크기로 설정
-        xAxisRef.current.style.fontSize = `${calculatedFontSize}px`;
+        setFontSize(calculatedFontSize);
       }
     };
 
@@ -41,37 +42,38 @@ const LineShapeChart = (props: DataProps) => {
 
   useEffect(() => {
     // props.values가 변경될 때마다 데이터 업데이트
+    console.log("Props: ", props.timestamps, props.values);
     if (props.timestamps) {
       const newData = props.timestamps.map((timestamp, index) => ({
         name: moment(timestamp).format("HH:mm"),
-        Bytes: props.values[index],
+        Percent: props.values[index],
       }));
       setData(newData);
     }
   }, [props.timestamps, props.values]);
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   return (
     <div className="chart-container">
       <ResponsiveContainer>
         <LineChart data={data}>
-          <XAxis
-            dataKey="name"
-            ref={xAxisRef}
-            tick={{ dy: 8 }}
-            reversed={true}
-          />
+          <XAxis dataKey="name" tick={{ dy: 8 }} reversed={true} />
           <YAxis tick={{ dy: 8 }} />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
           <Legend />
           <Line
             type="linear"
-            dataKey="Bytes"
+            dataKey="Percent"
             stroke="rgba(75,192,192,1)"
             strokeWidth={1}
           />
         </LineChart>
       </ResponsiveContainer>
+      <style>{`.recharts-x-axis { font-size: ${fontSize}px; }`}</style>
     </div>
   );
 };

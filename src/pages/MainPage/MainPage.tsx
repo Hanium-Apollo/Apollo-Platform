@@ -52,15 +52,12 @@ const Main = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     if (code && localStorage.getItem("action")) {
-      console.log(code);
       postAuthenticationService(code)
         .then((res) => {
-          console.log(res);
           localStorage.setItem("userInfo", JSON.stringify(res.data));
           navigate("/wait");
         })
         .catch((err) => {
-          console.log("here");
           console.log(err);
         });
     } else {
@@ -76,7 +73,6 @@ const Main = () => {
     if (accessToken && userId) {
       getRepoListService(userId)
         .then((response) => {
-          console.log(response.data);
           setRepoData(response.data);
         })
         .catch((error) => {

@@ -1,0 +1,849 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ECS Cluster and CodePipeline to Build from Github
+
+Parameters:
+  AWSRegion:
+    Type: String
+    Description: AWS Region
+  accountId:
+    Type: String
+    Description: AWS Account ID
+  GithubRepositoryName:
+    Type: String
+    Description: Github Repository Name
+  RepoLogin:
+    Type: String
+    Description: Github User Login
+  RepoLocation:
+    Type: String
+    Description: Github Repository URL
+  GithubToken:
+    Type: String
+    Description: Github OAuth Token
+
+Resources:
+  APIVpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.1.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: APIVpc
+
+  APIPublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.1.1.0/24
+      VpcId: !Ref APIVpc
+      AvailabilityZone: !Sub ${AWSRegion}a
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: API-public-subnet-a
+        - Key: Type
+          Value: Public
+
+  APIPublicSubnetC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.1.2.0/24
+      VpcId: !Ref APIVpc
+      AvailabilityZone: !Sub ${AWSRegion}c
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: API-public-subnet-c
+        - Key: Type
+          Value: Public
+
+  APIPrivatSubneteA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.1.10.0/24
+      VpcId: !Ref APIVpc
+      AvailabilityZone: !Sub ${AWSRegion}a
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: API-private-subnet-a
+        - Key: Type
+          Value: Isolated
+
+  APIPrivatSubneteC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.1.11.0/24
+      VpcId: !Ref APIVpc
+      AvailabilityZone: !Sub ${AWSRegion}c
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: API-private-subnet-c
+        - Key: Type
+          Value: Isolated
+
+  APIIgw:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: API-igw
+
+  APIVpcGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref APIVpc
+      InternetGatewayId: !Ref APIIgw
+
+  APINatGatewayEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  APINatGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt APINatGatewayEIP.AllocationId
+      SubnetId: !Ref APIPublicSubnetA
+
+  APIPublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref APIVpc
+      Tags:
+        - Key: Name
+          Value: API-public-route-table
+
+  APIPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: APIVpcGatewayAttachment
+    Properties:
+      RouteTableId: !Ref APIPublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref APIIgw
+
+  APIPublicSubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref APIPublicSubnetA
+      RouteTableId: !Ref APIPublicRouteTable
+
+  APIPublicSubnetCRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref APIPublicSubnetC
+      RouteTableId: !Ref APIPublicRouteTable
+
+  APIPrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref APIVpc
+      Tags:
+        - Key: Name
+          Value: API-private-route-table
+
+  APIPrivateRoute:
+    Type: AWS::EC2::Route
+    DependsOn: APIVpcGatewayAttachment
+    Properties:
+      RouteTableId: !Ref APIPrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref APINatGateway
+
+  APIPrivateSubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref APIPrivatSubneteA
+      RouteTableId: !Ref APIPrivateRouteTable
+
+  APIPrivateSubnetCRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref APIPrivatSubneteC
+      RouteTableId: !Ref APIPrivateRouteTable
+
+  APILoadBalancerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: API Load Balancer Security Group
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: -1
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: API-LB-SG
+      VpcId: !Ref APIVpc
+
+  APIWASSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: API WAS Security Group
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: -1
+      SecurityGroupIngress:
+        - Description: Allow all inbound traffic by default
+          FromPort: 8080
+          IpProtocol: tcp
+          ToPort: 8080
+          SourceSecurityGroupId: !Ref APILoadBalancerSecurityGroup
+      Tags:
+        - Key: Name
+          Value: API-WAS-SG
+      VpcId: !Ref APIVpc
+
+  APITargetGroupBlue:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: API-TargetGroupBlue
+      Port: 8080
+      Protocol: HTTP
+      VpcId: !Ref APIVpc
+      TargetType: ip
+
+  APITargetGroupGreen:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: API-TargetGroupGreen
+      Port: 8080
+      Protocol: HTTP
+      VpcId: !Ref APIVpc
+      TargetType: ip
+
+  APILoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: API-LoadBalanecer
+      Subnets:
+        - !Ref APIPublicSubnetA
+        - !Ref APIPublicSubnetC
+      SecurityGroups:
+        - !Ref APILoadBalancerSecurityGroup
+      Type: application
+      Tags:
+        - Key: Name
+          Value: API-LoadBalancer
+
+  APILoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref APILoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref APITargetGroupBlue
+
+  APIECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: api-ecr-repository
+
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: Apollo-Server-Cluster
+
+  MyECSTaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: MyECSTaskRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: MyECSTaskS3Policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: VisualEditor0
+                Effect: Allow
+                Action:
+                  - "s3:*"
+                Resource: "*"
+              - Sid: VisualEditor1
+                Effect: Allow
+                Action: "s3:*"
+                Resource: arn:aws:s3:::*
+
+  MyECSTaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ECSTaskExecutionRoleUnique
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: ECRTaskExcutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchGetImage
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "arn:aws:logs:*:*:*"
+
+  ECSBlueTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: "my-task-definition"
+      TaskRoleArn: !GetAtt MyECSTaskRole.Arn
+      ExecutionRoleArn: !GetAtt MyECSTaskExecutionRole.Arn
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      Memory: 3072
+      Cpu: 1024
+      ContainerDefinitions:
+        - Name: "my-container"
+          Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/api-ecr-repository:latest
+          PortMappings:
+            - ContainerPort: 8080
+
+  ECSGreenTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: "my-task-definition"
+      TaskRoleArn: !GetAtt MyECSTaskRole.Arn
+      ExecutionRoleArn: !GetAtt MyECSTaskExecutionRole.Arn
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      Memory: 3072
+      Cpu: 1024
+      ContainerDefinitions:
+        - Name: "my-container"
+          Image: !Sub ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/api-ecr-repository:latest
+          PortMappings:
+            - ContainerPort: 8080
+
+  ECSService:
+    Type: AWS::ECS::Service
+    DependsOn: APILoadBalancerListener
+    Properties:
+      ServiceName: Apollo-Server-Service
+      Cluster: !Ref ECSCluster
+      DesiredCount: 0
+      TaskDefinition: !Ref ECSBlueTaskDefinition
+      LaunchType: FARGATE
+      DeploymentController:
+        Type: CODE_DEPLOY
+      LoadBalancers:
+        - TargetGroupArn: !Ref APITargetGroupBlue
+          ContainerName: "my-container"
+          ContainerPort: 8080
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          SecurityGroups:
+            - !Ref APIWASSecurityGroup
+          Subnets:
+            - !Ref APIPrivatSubneteA
+            - !Ref APIPrivatSubneteC
+
+  CloudWatchDashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Properties:
+      DashboardName: !Ref GithubRepositoryName
+      DashboardBody: !Sub |
+        {
+          "widgets": [
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 0,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "AWS/ECS", "CPUUtilization", "ClusterName", "Apollo-Server-Cluster", "ServiceName", "Apollo-Server-Service" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}"
+              }
+            },
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 0,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "AWS/ECS", "MemoryUtilization", "ClusterName", "Apollo-Server-Cluster", "ServiceName", "Apollo-Server-Service" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}"
+              }
+            },
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 12,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "AWS/ECS", "RunningTaskCount", "ClusterName", "Apollo-Server-Cluster", "ServiceName", "Apollo-Server-Service" ],
+                  [ "AWS/ECS", "DesiredTaskCount", "ClusterName", "Apollo-Server-Cluster", "ServiceName", "Apollo-Server-Service" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}"
+              }
+            },
+            {
+              "type": "metric",
+              "x": 0,
+              "y": 18,
+              "width": 12,
+              "height": 6,
+              "properties": {
+                "metrics": [
+                  [ "AWS/ECS", "NetworkRxBytes", "ClusterName", "Apollo-Server-Cluster", "ServiceName", "Apollo-Server-Service" ],
+                  [ "AWS/ECS", "NetworkTxBytes", "ClusterName", "Apollo-Server-Cluster", "ServiceName", "Apollo-Server-Service" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "${AWS::Region}"
+              }
+            }
+          ]
+        }
+
+  CodeBuildServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: CodeBuildECRPolicies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "ecr:*"
+                Resource: "*"
+        - PolicyName: CodeBuildS3Policies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "s3:*"
+                Resource: "*"
+        - PolicyName: CodeBuildCloudWatchLogsPolicies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                Resource: "*"
+        - PolicyName: CodeBuildECSPolicies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "ecs:*"
+                Resource: "*"
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: LambdaExecutionRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaBasicExecutionRole
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ecs:*
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - codedeploy:*
+                Resource: "*"
+
+  MyLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      FunctionName: Apollo-Server-Function
+      Runtime: nodejs14.x
+      Code:
+        ZipFile: |
+          const AWS = require("aws-sdk");
+          const ecs = new AWS.ECS();
+          const codedeploy = new AWS.CodeDeploy();
+
+          exports.handler = async (event) => {
+            const deploymentId = event.DeploymentId;
+            const lifecycleEventHookExecutionId = event.LifecycleEventHookExecutionId;
+
+            const params = {
+              cluster: "Apollo-Server-Cluster",
+              service: "Apollo-Server-Service",
+              desiredCount: 1
+            };
+
+            try {
+              const data = await ecs.updateService(params).promise();
+              console.log("Service updated successfully", data);
+              await notifyCodeDeploySuccess(deploymentId, lifecycleEventHookExecutionId);
+              return {
+                statusCode: 200,
+                body: JSON.stringify(data)
+              };
+            } catch (err) {
+              console.log("Error", err);
+              await notifyCodeDeployFailure(deploymentId, lifecycleEventHookExecutionId);
+              return {
+                statusCode: 500,
+                body: JSON.stringify(err)
+              };
+            }
+          };
+
+          async function notifyCodeDeploySuccess(deploymentId, lifecycleEventHookExecutionId) {
+            const params = {
+              deploymentId: deploymentId,
+              lifecycleEventHookExecutionId: lifecycleEventHookExecutionId,
+              status: "Succeeded"
+            };
+            return codedeploy.putLifecycleEventHookExecutionStatus(params).promise();
+          }
+
+          async function notifyCodeDeployFailure(deploymentId, lifecycleEventHookExecutionId) {
+            const params = {
+              deploymentId: deploymentId,
+              lifecycleEventHookExecutionId: lifecycleEventHookExecutionId,
+              status: "Failed"
+            };
+            return codedeploy.putLifecycleEventHookExecutionStatus(params).promise();
+          }
+
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: Apollo-Server-Build
+      Description: Apollo server build project
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      Source:
+        Type: CODEPIPELINE
+        Location: !Ref RepoLocation
+        BuildSpec: !Sub |
+          version: 0.2
+          phases:
+            install:
+              commands:
+                - echo "Creating appspec.yaml file..."
+                - |
+                  cat <<EOT >> appspec.yaml
+                  version: 0.0
+                  Resources:
+                    - TargetService:
+                        Type: AWS::ECS::Service
+                        Properties:
+                          TaskDefinition: $ECS_BLUE_TASK_DEFINITION
+                          LoadBalancerInfo:
+                            ContainerName: my-container
+                            ContainerPort: 8080
+                          PlatformVersion: LATEST
+                          NetworkConfiguration:
+                            AwsvpcConfiguration:
+                              Subnets:
+                                - $API_PRIVATE_SUBNET_A
+                                - $API_PRIVATE_SUBNET_C
+                              SecurityGroups:
+                                - $API_WAS_SECURITY_GROUP
+                              AssignPublicIp: ENABLED
+                  Hooks:
+                    - BeforeInstall: $LAMBDA_FUNCTION
+                  EOT
+                - echo "Creating taskdef.json file..."
+                - aws ecs describe-task-definition --task-definition my-task-definition --query taskDefinition > taskdef.json
+            pre_build:
+              commands:
+                - echo Logging in to Amazon ECR...
+                - aws ecr get-login-password --region ${AWSRegion} | docker login --username AWS --password-stdin ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com
+            build:
+              commands:
+                - echo "Building Docker image..."
+                - docker build -t api-ecr-repository:latest . 
+            post_build:
+              commands:
+                - echo "Tagging Docker image..."
+                - docker tag api-ecr-repository:latest ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/api-ecr-repository:latest
+                - echo "Pushing Docker image..."
+                - docker push ${accountId}.dkr.ecr.${AWSRegion}.amazonaws.com/api-ecr-repository:latest
+          artifacts:
+            files:
+              - appspec.yaml
+              - taskdef.json
+            name: BuildOutput
+      Artifacts:
+        Type: CODEPIPELINE
+        Name: BuildOutput
+      Environment:
+        Type: "LINUX_CONTAINER"
+        ComputeType: "BUILD_GENERAL1_SMALL"
+        Image: "aws/codebuild/standard:4.0"
+        PrivilegedMode: true
+        EnvironmentVariables:
+          - Name: ECS_BLUE_TASK_DEFINITION
+            Value: !Ref ECSBlueTaskDefinition
+          - Name: API_PRIVATE_SUBNET_A
+            Value: !Ref APIPrivatSubneteA
+          - Name: API_PRIVATE_SUBNET_C
+            Value: !Ref APIPrivatSubneteC
+          - Name: API_WAS_SECURITY_GROUP
+            Value: !Ref APIWASSecurityGroup
+          - Name: LAMBDA_FUNCTION
+            Value: !Ref MyLambdaFunction
+
+  CodeDeployServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: CodeDeployServiceRole
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+                - codedeploy.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: EcsCodeDeployPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              Effect: Allow
+              Action:
+                - elasticloadbalancing:*
+                - autoscaling:*
+                - ecs:*
+                - codedeploy:*
+                - log:*
+                - lambda:*
+                - s3:*
+                - iam:PassRole
+              Resource: "*"
+
+  CodeDeployApplication:
+    Type: AWS::CodeDeploy::Application
+    Properties:
+      ApplicationName: Apollo-Server-Application
+      ComputePlatform: ECS
+
+  CodeDeployDeploymentGroup:
+    Type: AWS::CodeDeploy::DeploymentGroup
+    Properties:
+      ApplicationName: !Ref CodeDeployApplication
+      ServiceRoleArn: !GetAtt CodeDeployServiceRole.Arn
+      DeploymentGroupName: Apollo-server-DeploymentGroup
+      DeploymentConfigName: CodeDeployDefault.ECSAllAtOnce
+      DeploymentStyle:
+        DeploymentType: BLUE_GREEN
+        DeploymentOption: WITH_TRAFFIC_CONTROL
+      BlueGreenDeploymentConfiguration:
+        TerminateBlueInstancesOnDeploymentSuccess:
+          Action: TERMINATE
+          TerminationWaitTimeInMinutes: 5
+        DeploymentReadyOption:
+          ActionOnTimeout: CONTINUE_DEPLOYMENT
+      LoadBalancerInfo:
+        TargetGroupPairInfoList:
+          - ProdTrafficRoute:
+              ListenerArns:
+                - !Ref APILoadBalancerListener
+            TargetGroups:
+              - Name: API-TargetGroupBlue
+              - Name: API-TargetGroupGreen
+      ECSServices:
+        - ClusterName: Apollo-Server-Cluster
+          ServiceName: Apollo-Server-Service
+    Metadata:
+      DummyDependency: !Ref ECSService
+
+  CodePipelineServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: CodePipelineBasicPermissions
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "codebuild:*"
+                  - "codedeploy:*"
+                  - "cloudformation:*"
+                  - "logs:*"
+                  - "ecs:*"
+                Resource: "*"
+        - PolicyName: CodePipelineS3BucketAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "s3:*"
+                Resource: "*"
+        - PolicyName: PassRolePermission
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "iam:PassRole"
+                Resource: "*"
+
+  CodePipelineArtifactStore:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: apollo-server-artifacts
+      VersioningConfiguration:
+        Status: Enabled
+
+  CodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: Apollo-Server-Pipeline
+      RoleArn: !GetAtt CodePipelineServiceRole.Arn
+      ArtifactStore:
+        Type: S3
+        Location: !Ref CodePipelineArtifactStore
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: SourceAction
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              OutputArtifacts:
+                - Name: SourceOutput
+              Configuration:
+                Owner: !Ref RepoLogin
+                Repo: !Ref GithubRepositoryName
+                Branch: main
+                OAuthToken: !Ref GithubToken
+              RunOrder: 1
+        - Name: Build
+          Actions:
+            - Name: BuildAction
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: 1
+                Provider: CodeBuild
+              InputArtifacts:
+                - Name: SourceOutput
+              OutputArtifacts:
+                - Name: BuildOutput
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+              RunOrder: 1
+        - Name: Deploy
+          Actions:
+            - Name: DeployAction
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Version: 1
+                Provider: CodeDeployToECS
+              InputArtifacts:
+                - Name: BuildOutput
+              Configuration:
+                ApplicationName: !Ref CodeDeployApplication
+                DeploymentGroupName: !Ref CodeDeployDeploymentGroup
+                TaskDefinitionTemplateArtifact: BuildOutput
+                AppSpecTemplateArtifact: BuildOutput
+              RunOrder: 1
+
+Outputs:
+  LoadBalancerDNSName:
+    Description: "DNS Name of the Application Load Balancer"
+    Value: !GetAtt APILoadBalancer.DNSName
+    Export:
+      Name: LoadBalancerDNSName

@@ -1,0 +1,250 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: S3 Bucket and CodePipeline to Build from Github
+
+Parameters:
+  GithubToken:
+    Type: String
+    Description: Github OAuth Token
+  RepoLocation:
+    Type: String
+    Description: Github Repository URL
+  UserLogin:
+    Type: String
+    Description: Github User Login
+  RepoName:
+    Type: String
+    Description: Github Repository Name
+  region:
+    Type: String
+    Description: AWS Region
+
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: apollo-client-bucket
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+      WebsiteConfiguration:
+        IndexDocument: index.html
+    DeletionPolicy: Retain
+
+  # CloudFrontOAI:
+  #   Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+  #   Properties:
+  #     CloudFrontOriginAccessIdentityConfig:
+  #       Comment: "Allows CloudFront to reach the bucket"
+
+  MyBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref MyS3Bucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: "*"
+            Action: "s3:GetObject"
+            Resource: !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
+          # - Sid: AllowCloudFront
+          #   Effect: Allow
+          #   Principal:
+          #     Service: cloudfront.amazonaws.com
+          #   Action: "s3:GetObject"
+          #   Resource: !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
+          # - Sid: AllowCloudFrontOAI
+          #   Effect: Allow
+          #   Principal:
+          #     CanonicalUser: !GetAtt CloudFrontOAI.S3CanonicalUserId
+          #   Action: "s3:GetObject"
+          #   Resource: !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
+
+  # MyCloudFrontDistribution:
+  #   Type: AWS::CloudFront::Distribution
+  #   Properties:
+  #     DistributionConfig:
+  #       Enabled: true
+  #       DefaultRootObject: index.html
+  #       HttpVersion: http2
+  #       PriceClass: PriceClass_100
+  #       ViewerCertificate:
+  #         CloudFrontDefaultCertificate: "true"
+  #       Origins:
+  #         - DomainName: !GetAtt MyS3Bucket.DomainName
+  #           Id: !Ref MyS3Bucket
+  #           S3OriginConfig:
+  #             OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${CloudFrontOAI}
+  #           # CustomOriginConfig:
+  #           #   HTTPPort: 80
+  #           #   HTTPSPort: 443
+  #           #   OriginProtocolPolicy: http-only
+  #       DefaultCacheBehavior:
+  #         TargetOriginId: !Ref MyS3Bucket
+  #         ForwardedValues:
+  #           QueryString: "false"
+  #           Cookies:
+  #             Forward: none
+  #         ViewerProtocolPolicy: redirect-to-https
+  #         AllowedMethods:
+  #           - GET
+  #           - HEAD
+
+  CodeBuildServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: CodeBuildS3Access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "s3:*"
+                  - "cloudfront:*"
+                  - "logs:*"
+                Resource:
+                  - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket]]
+                  - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
+        - PolicyName: CodeBuildCloudWatchLogsAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                Resource: "*"
+
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: Apollo-Client-Build
+      Description: Apollo client build project
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      Source:
+        Type: GITHUB
+        Location: !Ref RepoLocation
+        BuildSpec: !Sub |
+          version: 0.2
+          phases:
+            install:
+              runtime-versions:
+                nodejs: 12
+            pre_build:
+              commands:
+                - echo "Installing..."
+                - npm install
+            build:
+              commands:
+                - echo "building project..."
+                - npm run build
+            post_build:
+              commands:
+                - echo "uploading build artifact to S3..."
+                - aws s3 sync build s3://apollo-client-bucket --delete
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:4.0
+      Artifacts:
+        Type: S3
+        Location: !Ref MyS3Bucket
+        Path: output/
+        Packaging: NONE
+
+  CodePipelineServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: CodePipelineS3Access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "s3:*"
+                Resource:
+                  - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket]]
+                  - !Join ["", ["arn:aws:s3:::", !Ref MyS3Bucket, "/*"]]
+        - PolicyName: CodePipelineCodeBuildAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "codebuild:*"
+                Resource: !GetAtt CodeBuildProject.Arn
+
+  MyPipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: Apollo-Client-Pipeline
+      RoleArn: !GetAtt CodePipelineServiceRole.Arn
+      ArtifactStore:
+        Type: S3
+        Location: apollo-client-bucket
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: SourceAction
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: 1
+                Provider: GitHub
+              OutputArtifacts:
+                - Name: SourceOutput
+              Configuration:
+                Owner: !Ref UserLogin
+                Repo: !Ref RepoName
+                Branch: main
+                OAuthToken: !Ref GithubToken
+              RunOrder: 1
+        - Name: Build
+          Actions:
+            - Name: BuildAction
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: 1
+                Provider: CodeBuild
+              InputArtifacts:
+                - Name: SourceOutput
+              OutputArtifacts:
+                - Name: BuildOutput
+              Configuration:
+                ProjectName: !Ref CodeBuildProject
+              RunOrder: 1
+# Outputs:
+#   CloudFrontURL:
+#     Description: CloudFront URL
+#     Value: !Sub "https://${MyCloudFrontDistribution.DomainName}"
+
+Outputs:
+  S3WebsiteURL:
+    Description: S3 Website URL
+    Value: !Sub "http://${MyS3Bucket}.s3-website.${region}.amazonaws.com"

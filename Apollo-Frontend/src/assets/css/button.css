@@ -1,0 +1,148 @@
+@font-face {
+  font-family: "ONE-Mobile-Bold";
+  src: url(../fonts/ONE-Mobile-Bold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "ONE-Mobile-Regular";
+  src: url(../fonts/ONE-Mobile-Regular.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Inter";
+  src: url(../fonts/Inter-Regular.ttf) format("truetype");
+}
+.fhomebtn {
+  margin-top: 5%;
+  width: 17%;
+  height: 55px;
+  background-color: gray;
+  opacity: 1;
+  color: white;
+  font-family: ONE-Mobile-Bold;
+  font-size: 1.8vw;
+  text-align: center;
+  border-radius: 1000px;
+  border: none;
+  overflow: hidden;
+  @media (max-width: 600px) {
+    width: 22%;
+    margin-top: 10%;
+    font-size: 2.5vw;
+    height: 40px;
+  }
+}
+
+.mhomebtn,
+.mbackbtn {
+  width: 15%;
+  margin-top: 5%;
+  height: 55px;
+  background-color: gray;
+  opacity: 1;
+  color: white;
+  font-family: ONE-Mobile-Bold;
+  font-size: 1.7vw;
+  text-align: center;
+  border-radius: 1000px;
+  border: none;
+  overflow: hidden;
+
+  @media (max-width: 600px) {
+    width: 20%;
+    margin-top: 10%;
+    font-size: 2.5vw;
+    height: 40px;
+  }
+}
+.mbackbtn {
+  margin-left: 2%;
+}
+.mhomebtn {
+  margin-right: 2%;
+}
+.fhomebtn:hover,
+.mbackbtn:hover,
+.mhomebtn:hover {
+  background-color: black;
+}
+.login:hover {
+  border: 1px solid gray;
+}
+
+.login {
+  background-color: black;
+  opacity: 1;
+  margin-top: 15%;
+  color: white;
+  font-family: Inter;
+  font-weight: bold;
+  font-size: 40px;
+  text-align: center;
+  border-radius: 20px;
+  border: none;
+  padding: 20px 40px 20px 40px;
+  white-space: nowrap;
+
+  @media (max-width: 900px) {
+    font-size: 30px;
+    padding: 15px 30px 15px 30px;
+  }
+  @media (max-width: 600px) {
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+  }
+}
+
+.github {
+  width: 50px;
+  margin-right: 20px;
+  @media (max-width: 900px) {
+    width: 40px;
+    margin-right: 15px;
+  }
+  @media (max-width: 600px) {
+    width: 30px;
+    margin-right: 10px;
+  }
+}
+
+.selectbtn {
+  width: 14%;
+  height: 40px;
+  background-color: gray;
+  opacity: 1;
+  color: white;
+  font-family: ONE-Mobile-Bold;
+  font-size: 1vw;
+  text-align: center;
+  border: none;
+  overflow: hidden;
+  border-top-right-radius: 1000px;
+  border-bottom-right-radius: 1000px;
+}
+.selectbtn:hover {
+  background-color: black;
+}
+
+.deploybtn1,
+.deploybtn2 {
+  width: 10%;
+  height: 40px;
+  background-color: gray;
+  opacity: 1;
+  color: white;
+  font-family: ONE-Mobile-Bold;
+  font-size: 1vw;
+  text-align: center;
+  border: none;
+  overflow: hidden;
+}
+.deploybtn2 {
+  border-top-right-radius: 1000px;
+  border-bottom-right-radius: 1000px;
+}
+
+.deploybtn1:hover,
+.deploybtn2:hover {
+  background-color: black;
+}
